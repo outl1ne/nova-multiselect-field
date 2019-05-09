@@ -14,6 +14,7 @@
         :close-on-select="false"
         :clear-on-select="false"
         :multiple="true"
+        :max="field.max"
       ></multiselect>
     </template>
   </default-field>

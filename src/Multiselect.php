@@ -16,4 +16,9 @@ class Multiselect extends Field
             })->values()->all(),
         ]);
     }
+
+    public function max($max)
+    {
+        return $this->withMeta(['max' => $max]);
+    }
 }
