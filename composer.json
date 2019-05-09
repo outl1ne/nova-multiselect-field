@@ -1,5 +1,5 @@
 {
-  "name": "optimistdigital/multiselect-field",
+  "name": "optimistdigital/nova-multiselect-field",
   "description": "A multiple select field for Laravel Nova.",
   "keywords": [
     "laravel",
