@@ -7,6 +7,18 @@
     "multiselect",
     "select"
   ],
+  "authors": [
+    {
+      "name": "Tarvo Reinpalu",
+      "email": "tarvoreinpalu@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Optimist Digital",
+      "email": "info@optimistdigital.com",
+      "role": "Maintainer"
+    }
+  ],
   "license": "MIT",
   "require": {
     "php": ">=7.1.0"
