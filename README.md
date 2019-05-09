@@ -2,6 +2,14 @@
 
 This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova's arsenal of fields.
 
+## Screenshots
+
+![Detail View](docs/detail.png)
+
+![Form View](docs/form.png)
+
+![Index View](docs/index.png)
+
 ## Installation
 
 Install the package in a Laravel Nova project via Composer:
@@ -47,7 +55,7 @@ Possible options you can pass to the field using the option name as a function, 
 | Option         | type   | default    | description                                                                                            |
 | -------------- | ------ | ---------- | ------------------------------------------------------------------------------------------------------ |
 | `options`      | Array  | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                          |
-| `placeholder`  | String | Field name | The placeholder string displayed when the field is empty.                                              |
+| `placeholder`  | String | Field name | The placeholder string for the input.                                                                  |
 | `max`          | Number | Infinite   | The maximum number of options a user can select.                                                       |
 | `optionsLimit` | Number | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching. |
 
