@@ -1,2 +1,10 @@
 // Nova Tool CSS
 @import '~vue-multiselect/dist/vue-multiselect.min.css';
+
+.multiselect {
+  > .multiselect__tags {
+    border-color: var(\-\-60);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  }
+}
