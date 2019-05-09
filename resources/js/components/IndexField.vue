@@ -8,7 +8,7 @@ export default {
 
   computed: {
     value() {
-      if (!this.field.value) return '';
+      if (!this.field.value) return '-';
       return this.field.value
         .split(SEPARATOR)
         .map(val => this.field.options.find(opt => String(opt.value) === val))
