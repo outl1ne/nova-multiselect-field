@@ -43,7 +43,7 @@ export default {
       if (this.field.value) {
         const selectedValues = this.field.value.split(SEPARATOR);
         this.value = selectedValues
-          .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
+          .map(val => this.field.options.find(opt => String(opt.value) === val))
           .filter(val => !!val);
       } else {
         this.value = [];
