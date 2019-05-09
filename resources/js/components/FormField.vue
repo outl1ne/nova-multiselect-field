@@ -24,7 +24,6 @@
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import Multiselect from 'vue-multiselect';
-import SEPARATOR from '../separator';
 
 export default {
   components: { Multiselect },
@@ -53,9 +52,11 @@ export default {
   methods: {
     setInitialValue() {
       if (this.field.value) {
-        const selectedValues = this.field.value.split(SEPARATOR);
-        this.value = selectedValues
-          .map(val => this.field.options.find(opt => String(opt.value) === val))
+        const valuesArray = JSON.parse(this.field.value);
+        if (!Array.isArray(valuesArray)) return (this.value = []);
+
+        this.value = valuesArray
+          .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
           .filter(val => !!val);
       } else {
         this.value = [];
@@ -63,8 +64,9 @@ export default {
     },
 
     fill(formData) {
-      const value = this.value && this.value.length ? this.value.map(v => v.value).join(SEPARATOR) : '';
-      formData.append(this.field.attribute, value);
+      if (this.value && this.value.length) {
+        formData.append(this.field.attribute, JSON.stringify(this.value.map(v => v.value)));
+      }
     },
 
     handleChange(value) {

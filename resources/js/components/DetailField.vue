@@ -15,17 +15,18 @@
 </template>
 
 <script>
-import SEPARATOR from '../separator';
-
 export default {
   props: ['resource', 'resourceName', 'resourceId', 'field'],
 
   computed: {
     values() {
       if (!this.field.value) return;
-      return this.field.value
-        .split(SEPARATOR)
-        .map(val => this.field.options.find(opt => String(opt.value) === val))
+
+      const valuesArray = JSON.parse(this.field.value);
+      if (!Array.isArray(valuesArray)) return;
+
+      return valuesArray
+        .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
         .filter(val => !!val)
         .map(val => val.label);
     },
