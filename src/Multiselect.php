@@ -21,4 +21,14 @@ class Multiselect extends Field
     {
         return $this->withMeta(['max' => $max]);
     }
+
+    public function placeholder($placeholder)
+    {
+        return $this->withMeta(['placeholder' => $placeholder]);
+    }
+
+    public function optionsLimit($optionsLimit)
+    {
+        return $this->withMeta(['optionsLimit' => $optionsLimit]);
+    }
 }

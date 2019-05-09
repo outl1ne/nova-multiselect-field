@@ -10,11 +10,12 @@
         :value="selected"
         :options="options"
         :class="errorClasses"
-        :placeholder="field.name"
+        :placeholder="field.placeholder || field.name"
         :close-on-select="false"
         :clear-on-select="false"
         :multiple="true"
-        :max="field.max"
+        :max="field.max || null"
+        :optionsLimit="field.optionsLimit || 1000"
       ></multiselect>
     </template>
   </default-field>
