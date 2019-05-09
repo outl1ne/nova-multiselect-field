@@ -3,8 +3,10 @@
     <template slot="field">
       <multiselect
         @input="handleChange"
+        @open="() => repositionDropdown(true)"
         track-by="value"
         label="label"
+        ref="multiselect"
         :value="selected"
         :options="options"
         :class="errorClasses"
@@ -28,6 +30,14 @@ export default {
   mixins: [FormField, HandlesValidationErrors],
 
   props: ['resourceName', 'resourceId', 'field'],
+
+  mounted() {
+    window.addEventListener('scroll', this.repositionDropdown);
+  },
+
+  destroyed() {
+    window.removeEventListener('scroll', this.repositionDropdown);
+  },
 
   computed: {
     selected() {
@@ -57,6 +67,24 @@ export default {
 
     handleChange(value) {
       this.value = value;
+      this.$nextTick(() => this.repositionDropdown());
+    },
+
+    repositionDropdown(onOpen = false) {
+      const ms = this.$refs.multiselect;
+      const el = this.$el.children[1].children[0];
+
+      const handlePositioning = () => {
+        const { top, height } = el.getBoundingClientRect();
+        if (onOpen) ms.$refs.list.scrollTop = 0;
+        ms.$refs.list.style.width = `${el.clientWidth}px`;
+        ms.$refs.list.style.position = 'fixed';
+        ms.$refs.list.style.bottom = 'auto';
+        ms.$refs.list.style.top = `${top + height}px`;
+      };
+
+      if (onOpen) this.$nextTick(handlePositioning);
+      else handlePositioning();
     },
   },
 };
