@@ -20,8 +20,7 @@
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import Multiselect from 'vue-multiselect';
-
-const SEPARATOR = '|,|';
+import SEPARATOR from '../separator';
 
 export default {
   components: { Multiselect },
