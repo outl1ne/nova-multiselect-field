@@ -20,7 +20,7 @@ composer require optimistdigital/nova-multiselect-field
 
 ## Usage
 
-The field is used similarly to Nova's native Select field.
+The field is used similarly to Nova's native Select field. The field type in the database should be text-based (ie `string`, `text` or `varchar`), selected values are stored as a separated list of values.
 
 ```php
 use OptimistDigital\MultiselectField\Multiselect;
@@ -61,8 +61,8 @@ Possible options you can pass to the field using the option name as a function, 
 
 ## Credits
 
--   [Tarvo Reinpalu](https://github.com/Tarpsvo)
--   [shentao/vue-multiselect](https://vue-multiselect.js.org)
+- [Tarvo Reinpalu](https://github.com/Tarpsvo)
+- [shentao/vue-multiselect](https://vue-multiselect.js.org)
 
 ## License
 
