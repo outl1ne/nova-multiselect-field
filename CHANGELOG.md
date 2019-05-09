@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0]
 
+Initial release.
+
 ### Added
 
-- Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
+-   Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
 
-[1.0.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/...1.0.0
+[1.0.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/f0356c8395ddabcacbc2b1ee72558623b04194e1...1.0.0
