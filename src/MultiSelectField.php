@@ -1,15 +1,15 @@
 <?php
 
-namespace Optimistdigital\MultiSelectField;
+namespace Optimistdigital\MultiselectField;
 
 use Laravel\Nova\Fields\Field;
 
-class MultiSelectField extends Field
+class MultiselectField extends Field
 {
     /**
      * The field's component.
      *
      * @var string
      */
-    public $component = 'multi-select-field';
+    public $component = 'multiselect-field';
 }

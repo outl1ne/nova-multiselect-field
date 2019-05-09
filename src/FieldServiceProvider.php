@@ -1,6 +1,6 @@
 <?php
 
-namespace Optimistdigital\MultiSelectField;
+namespace Optimistdigital\MultiselectField;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
@@ -16,8 +16,8 @@ class FieldServiceProvider extends ServiceProvider
     public function boot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('multi-select-field', __DIR__.'/../dist/js/field.js');
-            Nova::style('multi-select-field', __DIR__.'/../dist/css/field.css');
+            Nova::script('multiselect-field', __DIR__ . '/../dist/js/field.js');
+            Nova::style('multiselect-field', __DIR__ . '/../dist/css/field.css');
         });
     }
 
