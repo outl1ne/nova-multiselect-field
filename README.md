@@ -52,12 +52,13 @@ public function fields(Request $request)
 
 Possible options you can pass to the field using the option name as a function, ie `->placeholder('Choose peanuts')`.
 
-| Option         | type   | default    | description                                                                                            |
-| -------------- | ------ | ---------- | ------------------------------------------------------------------------------------------------------ |
-| `options`      | Array  | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                          |
-| `placeholder`  | String | Field name | The placeholder string for the input.                                                                  |
-| `max`          | Number | Infinite   | The maximum number of options a user can select.                                                       |
-| `optionsLimit` | Number | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching. |
+| Option                        | type     | default    | description                                                                                                                                                                  |
+| ----------------------------- | -------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `options`                     | Array    | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                |
+| `placeholder`                 | String   | Field name | The placeholder string for the input.                                                                                                                                        |
+| `max`                         | Number   | Infinite   | The maximum number of options a user can select.                                                                                                                             |
+| `optionsLimit`                | Number   | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
+| `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 
 ## Credits
 
