@@ -8,6 +8,8 @@ class Multiselect extends Field
 {
     public $component = 'multiselect-field';
 
+    protected $pageResponseResolveCallback;
+
     public function options($options)
     {
         return $this->withMeta([
@@ -30,5 +32,19 @@ class Multiselect extends Field
     public function optionsLimit($optionsLimit)
     {
         return $this->withMeta(['optionsLimit' => $optionsLimit]);
+    }
+
+    public function resolveResponseValue($value)
+    {
+        $parsedValue = isset($value) ? json_decode($value) : null;
+        return is_callable($this->pageResponseResolveCallback)
+            ? call_user_func($this->pageResponseResolveCallback, $parsedValue)
+            : $parsedValue;
+    }
+
+    public function resolveForPageResponseUsing(callable $resolveCallback)
+    {
+        $this->pageResponseResolveCallback = $resolveCallback;
+        return $this;
     }
 }
