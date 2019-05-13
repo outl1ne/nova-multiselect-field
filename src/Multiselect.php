@@ -34,11 +34,11 @@ class Multiselect extends Field
         return $this->withMeta(['optionsLimit' => $optionsLimit]);
     }
 
-    public function resolveResponseValue($value)
+    public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? json_decode($value) : null;
         return is_callable($this->pageResponseResolveCallback)
-            ? call_user_func($this->pageResponseResolveCallback, $parsedValue)
+            ? call_user_func($this->pageResponseResolveCallback, $parsedValue, $templateModel)
             : $parsedValue;
     }
 
