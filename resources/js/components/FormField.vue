@@ -78,7 +78,6 @@ export default {
       const ms = this.$refs.multiselect;
       const el = this.$el.children[1].children[0];
 
-
       const handlePositioning = () => {
         const { top, height, bottom } = el.getBoundingClientRect();
         if (onOpen) ms.$refs.list.scrollTop = 0;
