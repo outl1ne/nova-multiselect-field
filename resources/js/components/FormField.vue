@@ -78,13 +78,24 @@ export default {
       const ms = this.$refs.multiselect;
       const el = this.$el.children[1].children[0];
 
+
       const handlePositioning = () => {
-        const { top, height } = el.getBoundingClientRect();
+        const { top, height, bottom } = el.getBoundingClientRect();
         if (onOpen) ms.$refs.list.scrollTop = 0;
-        ms.$refs.list.style.width = `${el.clientWidth}px`;
-        ms.$refs.list.style.position = 'fixed';
-        ms.$refs.list.style.bottom = 'auto';
-        ms.$refs.list.style.top = `${top + height}px`;
+
+        const fromBottom = (window.innerHeight || document.documentElement.clientHeight) - bottom;
+
+        if (fromBottom < 300) {
+          ms.$refs.list.style.width = `${el.clientWidth}px`;
+          ms.$refs.list.style.position = 'fixed';
+          ms.$refs.list.style.top = 'auto';
+          ms.$refs.list.style.bottom = `${fromBottom + height}px`;
+        } else {
+          ms.$refs.list.style.width = `${el.clientWidth}px`;
+          ms.$refs.list.style.position = 'fixed';
+          ms.$refs.list.style.bottom = 'auto';
+          ms.$refs.list.style.top = `${top + height}px`;
+        }
       };
 
       if (onOpen) this.$nextTick(handlePositioning);
