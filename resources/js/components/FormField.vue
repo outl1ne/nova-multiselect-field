@@ -84,14 +84,13 @@ export default {
 
         const fromBottom = (window.innerHeight || document.documentElement.clientHeight) - bottom;
 
+        ms.$refs.list.style.position = 'fixed';
+        ms.$refs.list.style.width = `${el.clientWidth}px`;
+
         if (fromBottom < 300) {
-          ms.$refs.list.style.width = `${el.clientWidth}px`;
-          ms.$refs.list.style.position = 'fixed';
           ms.$refs.list.style.top = 'auto';
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
         } else {
-          ms.$refs.list.style.width = `${el.clientWidth}px`;
-          ms.$refs.list.style.position = 'fixed';
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${top + height}px`;
         }
