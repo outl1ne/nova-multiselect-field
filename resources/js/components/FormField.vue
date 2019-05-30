@@ -66,6 +66,10 @@ export default {
     fill(formData) {
       if (this.value && this.value.length) {
         formData.append(this.field.attribute, JSON.stringify(this.value.map(v => v.value)));
+      } else {
+        // if (this.field.nullable) {
+          formData.append(this.field.attribute, null)
+        // }
       }
     },
 
