@@ -64,13 +64,14 @@ export default {
     },
 
     fill(formData) {
+      let value;
       if (this.value && this.value.length) {
-        formData.append(this.field.attribute, JSON.stringify(this.value.map(v => v.value)));
+        value = JSON.stringify(this.value.map(v => v.value));
       } else {
-        // if (this.field.nullable) {
-          formData.append(this.field.attribute, null)
-        // }
+        value = this.field.nullable ? '' : JSON.stringify([]);
       }
+
+      formData.append(this.field.attribute, value);
     },
 
     handleChange(value) {

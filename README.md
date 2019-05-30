@@ -59,6 +59,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `max`                         | Number   | Infinite   | The maximum number of options a user can select.                                                                                                                             |
 | `optionsLimit`                | Number   | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
 | `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
+| `nullable`                    | Boolean  | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 
 ## Credits
 
