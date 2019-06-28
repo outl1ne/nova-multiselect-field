@@ -52,7 +52,10 @@ export default {
   methods: {
     setInitialValue() {
       if (this.field.value) {
-        const valuesArray = JSON.parse(this.field.value);
+        const valuesArray = Array.isArray(this.field.value)
+          ? this.field.value
+          : JSON.parse(this.field.value);
+          
         if (!Array.isArray(valuesArray)) return (this.value = []);
 
         this.value = valuesArray
