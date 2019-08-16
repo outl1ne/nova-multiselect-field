@@ -52,15 +52,12 @@ export default {
   methods: {
     setInitialValue() {
       if (this.field.value) {
-        const valuesArray = Array.isArray(this.field.value)
-          ? this.field.value
-          : JSON.parse(this.field.value);
-          
+        const valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
         if (!Array.isArray(valuesArray)) return (this.value = []);
 
         this.value = valuesArray
           .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
-          .filter(val => !!val);
+          .filter(Boolean);
       } else {
         this.value = [];
       }
@@ -84,7 +81,7 @@ export default {
 
     repositionDropdown(onOpen = false) {
       const ms = this.$refs.multiselect;
-      const el = this.$el.children[1].children[0];
+      const el = ms.$el;
 
       const handlePositioning = () => {
         const { top, height, bottom } = el.getBoundingClientRect();
@@ -98,9 +95,11 @@ export default {
         if (fromBottom < 300) {
           ms.$refs.list.style.top = 'auto';
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
+          ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
         } else {
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${top + height}px`;
+          ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
         }
       };
 
