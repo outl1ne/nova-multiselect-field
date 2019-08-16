@@ -52,8 +52,13 @@ export default {
   methods: {
     setInitialValue() {
       if (this.field.value) {
-        const valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
-        if (!Array.isArray(valuesArray)) return (this.value = []);
+        let valuesArray;
+        try {
+          valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
+          if (!Array.isArray(valuesArray)) return (this.value = []);
+        } catch (e) {
+          return (this.value = []);
+        }
 
         this.value = valuesArray
           .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
