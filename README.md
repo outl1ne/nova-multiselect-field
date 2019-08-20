@@ -20,7 +20,7 @@ composer require optimistdigital/nova-multiselect-field
 
 ## Usage
 
-The field is used similarly to Nova's native Select field. The field type in the database should be text-based (ie `string`, `text` or `varchar`), selected values are stored as a JSON array.
+The field is used similarly to Nova's native Select field. The field type in the database should be text-based (ie `string`, `text` or `varchar`), selected values are stored as a stringified JSON array.
 
 ```php
 use OptimistDigital\MultiselectField\Multiselect;
