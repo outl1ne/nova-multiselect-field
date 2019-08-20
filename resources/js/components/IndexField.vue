@@ -10,7 +10,7 @@ export default {
     value() {
       if (!this.field.value) return '-';
 
-      const valuesArray = JSON.parse(this.field.value);
+      const valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
       if (!Array.isArray(valuesArray)) return '-';
 
       const values = valuesArray
