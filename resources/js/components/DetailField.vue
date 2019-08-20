@@ -22,7 +22,7 @@ export default {
     values() {
       if (!this.field.value) return;
 
-      const valuesArray = JSON.parse(this.field.value);
+      const valuesArray = Array.isArray(this.field.value) ? this.field.values : JSON.parse(this.field.value);
       if (!Array.isArray(valuesArray) || !valuesArray.length) return;
 
       return valuesArray
