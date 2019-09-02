@@ -11,7 +11,7 @@
         :options="options"
         :class="errorClasses"
         :placeholder="field.placeholder || field.name"
-        :close-on-select="false"
+        :close-on-select="field.max === 1"
         :clear-on-select="false"
         :multiple="true"
         :max="field.max || null"
