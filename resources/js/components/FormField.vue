@@ -61,7 +61,13 @@ export default {
             valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
             if (!Array.isArray(valuesArray)) return (this.value = []);
           } else {
-            if (!!this.field.value) valuesArray = [this.field.value];
+            // Handle DB values being arrays for backwards compatibility
+            try {
+              const currentValue = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
+              if (currentValue) valuesArray = Array.isArray(currentValue) ? currentValue : [currentValue];
+            } catch (e) {
+              valuesArray = [this.field.value];
+            }
           }
         } catch (e) {
           return (this.value = []);
