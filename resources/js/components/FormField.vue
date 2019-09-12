@@ -47,9 +47,6 @@ export default {
     options() {
       return this.field.options || [];
     },
-    isMultiSelect() {
-      return this.field.max === void 0 || this.field.max > 1;
-    },
   },
 
   methods: {
@@ -57,18 +54,8 @@ export default {
       if (this.field.value) {
         let valuesArray;
         try {
-          if (this.isMultiSelect) {
-            valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
-            if (!Array.isArray(valuesArray)) return (this.value = []);
-          } else {
-            // Handle DB values being arrays for backwards compatibility
-            try {
-              const currentValue = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
-              if (currentValue) valuesArray = Array.isArray(currentValue) ? currentValue : [currentValue];
-            } catch (e) {
-              valuesArray = [this.field.value];
-            }
-          }
+          valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
+          if (!Array.isArray(valuesArray)) return (this.value = []);
         } catch (e) {
           return (this.value = []);
         }
@@ -82,22 +69,14 @@ export default {
     },
 
     fill(formData) {
-      // Save as array
-      if (this.isMultiSelect) {
-        let value;
-        if (this.value && this.value.length) {
-          value = JSON.stringify(this.value.map(v => v.value));
-        } else {
-          value = this.field.nullable ? '' : JSON.stringify([]);
-        }
-
-        return formData.append(this.field.attribute, value);
+      let value;
+      if (this.value && this.value.length) {
+        value = JSON.stringify(this.value.map(v => v.value));
+      } else {
+        value = this.field.nullable ? '' : JSON.stringify([]);
       }
 
-      // Save as single value
-      if (this.value && this.value.length === 1) {
-        formData.append(this.field.attribute, this.value[0].value);
-      }
+      return formData.append(this.field.attribute, value);
     },
 
     handleChange(value) {
