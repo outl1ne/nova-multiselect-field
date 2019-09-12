@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 10-09-2019
+
+### Added
+
+- Added `saveAsJSON` option which allows the field to save the value as a SQL JSON array
+- Added translation option
+
+### Changed
+
+- Undo saving value as not an array when the field max is set to 1
+
 ## [1.2.0] - 10-09-2019
 
 ### Changed
@@ -66,6 +77,7 @@ Initial release.
 
 - Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
 
+[1.3.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.1.6...1.2.0
 [1.1.6]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.1.5...1.1.6
 [1.1.5]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.1.4...1.1.5
