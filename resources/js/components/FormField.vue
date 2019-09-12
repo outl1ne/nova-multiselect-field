@@ -48,7 +48,7 @@ export default {
       return this.field.options || [];
     },
     isMultiSelect() {
-      return !!this.field.max && this.field.max > 1;
+      return this.field.max === void 0 || this.field.max > 1;
     },
   },
 
