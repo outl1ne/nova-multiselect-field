@@ -1,0 +1,12 @@
+{
+  "novaMultiselect.maxElements": "Max of :max selected.",
+  "novaMultiselect.noResult": "No results found.",
+  "novaMultiselect.noOptions": "List is empty.",
+  "novaMultiselect.limitText": "and :count more",
+  "novaMultiselect.selectLabel": "Press enter to select",
+  "novaMultiselect.selectGroupLabel": "Press enter to select group",
+  "novaMultiselect.selectedLabel": "Selected",
+  "novaMultiselect.deselectLabel": "Press enter to remove",
+  "novaMultiselect.deselectGroupLabel": "Press enter to deselect group",
+  "novaMultiselect.placeholder": "Select option(s)"
+}

@@ -62,6 +62,16 @@ Possible options you can pass to the field using the option name as a function, 
 | `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 | `nullable`                    | Boolean  | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 
+## Localization
+
+The translations file can be published by using the following publish command:
+
+```bash
+php artisan vendor:publish --provider="OptimistDigital\MultiselectField\FieldServiceProvider" --tag="translations"
+```
+
+You can then edit the strings to your liking.
+
 ## Credits
 
 - [Tarvo Reinpalu](https://github.com/Tarpsvo)

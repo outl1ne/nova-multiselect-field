@@ -16,7 +16,25 @@
         :multiple="true"
         :max="field.max || null"
         :optionsLimit="field.optionsLimit || 1000"
-      ></multiselect>
+        :limitText="count => __('novaMultiselect.limitText', { count })"
+        :selectLabel="__('novaMultiselect.selectLabel')"
+        :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
+        :selectedLabel="__('novaMultiselect.selectedLabel')"
+        :deselectLabel="__('novaMultiselect.deselectLabel')"
+        :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
+      >
+        <template slot="maxElements">
+          {{ __('novaMultiselect.maxElements', { max: field.max }) }}
+        </template>
+
+        <template slot="noResult">
+          {{ __('novaMultiselect.noResult') }}
+        </template>
+
+        <template slot="noOptions">
+          {{ __('novaMultiselect.noOptions') }}
+        </template>
+      </multiselect>
     </template>
   </default-field>
 </template>
