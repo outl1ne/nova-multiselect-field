@@ -83,7 +83,7 @@ class Multiselect extends Field
 
     public function resolveResponseValue($value, $templateModel)
     {
-        $parsedValue = isset($value) ? json_decode($value) : null;
+        $parsedValue = isset($value) ? $this->saveAsJSON ? $value : json_decode($value) : null;
         return is_callable($this->pageResponseResolveCallback)
             ? call_user_func($this->pageResponseResolveCallback, $parsedValue, $templateModel)
             : $parsedValue;
