@@ -20,7 +20,7 @@ class FieldServiceProvider extends ServiceProvider
         $translationsFilePath = resource_path('lang/vendor/nova-multiselect/en.json');
         $this->publishes([$localTranslationsFilePath => $translationsFilePath,], 'translations');
 
-        Nova::Translations($localTranslationsFilePath);
+        Nova::translations($localTranslationsFilePath);
         if (file_exists($translationsFilePath)) Nova::translations($translationsFilePath);
     }
 
