@@ -1,6 +1,12 @@
 # Nova Multiselect
 
-This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova's arsenal of fields.
+This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova's arsenal of fields.'
+
+## Requirements
+
+- Laravel Nova ^2.0.11
+
+For Nova version earlier than 2.0.11 please use `nova-multiselect-field` version `1.1.6` or earlier.
 
 ## Screenshots
 

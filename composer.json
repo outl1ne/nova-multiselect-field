@@ -21,7 +21,8 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.1.0"
+    "php": ">=7.1.0",
+    "laravel/nova": "^2.0.11"
   },
   "autoload": {
     "psr-4": {
@@ -39,5 +40,11 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ]
 }
