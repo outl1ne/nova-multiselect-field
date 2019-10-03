@@ -8,6 +8,8 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 For Nova version earlier than 2.0.11 please use `nova-multiselect-field` version `1.1.6` or earlier.
 
+This restriction is due to `Nova::translatable()` method being added in 2.0.11, which allows this package to be localized.
+
 ## Screenshots
 
 ![Detail View](docs/detail.png)
