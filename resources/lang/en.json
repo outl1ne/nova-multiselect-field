@@ -8,5 +8,6 @@
   "novaMultiselect.selectedLabel": "Selected",
   "novaMultiselect.deselectLabel": "Press enter to remove",
   "novaMultiselect.deselectGroupLabel": "Press enter to deselect group",
-  "novaMultiselect.placeholder": "Select option(s)"
+  "novaMultiselect.placeholder": "Select option(s)",
+  "novaMultiselect.nItemsSelected": ":count items selected"
 }

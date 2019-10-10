@@ -21,7 +21,7 @@ export default {
       const joinedValues = values.join(', ');
       if (joinedValues.length <= 40) return joinedValues;
 
-      return `${values.length} items selected`;
+      return this.__('novaMultiselect.nItemsSelected', { count: values.length });
     },
   },
 };
