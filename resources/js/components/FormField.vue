@@ -41,12 +41,13 @@
 
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova';
+import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
 
 export default {
   components: { Multiselect },
 
-  mixins: [FormField, HandlesValidationErrors],
+  mixins: [FormField, HandlesValidationErrors, HandlesFieldValue],
 
   props: ['resourceName', 'resourceId', 'field'],
 
@@ -69,15 +70,9 @@ export default {
 
   methods: {
     setInitialValue() {
-      if (this.field.value) {
-        let valuesArray;
-        try {
-          valuesArray = Array.isArray(this.field.value) ? this.field.value : JSON.parse(this.field.value);
-          if (!Array.isArray(valuesArray)) return (this.value = []);
-        } catch (e) {
-          return (this.value = []);
-        }
+      const valuesArray = this.getInitialFieldValuesArray();
 
+      if (valuesArray) {
         this.value = valuesArray
           .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
           .filter(Boolean);
