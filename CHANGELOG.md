@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5] - 14-10-2019
+
+### Changed
+
+- Fix loading and registering translation files
+
 ## [1.3.4] - 10-10-2019
 
 ### Changed
@@ -103,6 +109,7 @@ Initial release.
 
 - Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
 
+[1.3.5]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.4...1.3.5
 [1.3.4]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.3...1.3.4
 [1.3.3]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.2...1.3.3
 [1.3.2]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.1...1.3.2
