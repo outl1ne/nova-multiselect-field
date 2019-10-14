@@ -26,9 +26,12 @@ class FieldServiceProvider extends ServiceProvider
             }
 
             // Load project translation files
-            $projectTranslationFiles = File::files(resource_path('lang/vendor/nova-multiselect'));
-            foreach ($projectTranslationFiles as $file) {
-                Nova::translations($file->getPathName());
+            $projectTransFilesPath = resource_path('lang/vendor/nova-multiselect');
+            if (File::exists($projectTransFilesPath)) {
+                $projectTranslationFiles = File::files(resource_path('lang/vendor/nova-multiselect'));
+                foreach ($projectTranslationFiles as $file) {
+                    Nova::translations($file->getPathName());
+                }
             }
         }
     }
