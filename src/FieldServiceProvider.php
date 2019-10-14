@@ -5,6 +5,7 @@ namespace OptimistDigital\MultiselectField;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\File;
 
 class FieldServiceProvider extends ServiceProvider
 {
@@ -15,14 +16,20 @@ class FieldServiceProvider extends ServiceProvider
             Nova::style('multiselect-field', __DIR__ . '/../dist/css/multiselect-field.css');
         });
 
-
-        $localTranslationsFilePath = __DIR__ . '/../resources/lang/en.json';
-        $translationsFilePath = resource_path('lang/vendor/nova-multiselect/en.json');
-        $this->publishes([$localTranslationsFilePath => $translationsFilePath,], 'translations');
+        $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-multiselect')], 'translations');
 
         if (method_exists('Nova', 'translations')) {
-            Nova::translations($localTranslationsFilePath);
-            if (file_exists($translationsFilePath)) Nova::translations($translationsFilePath);
+            // Load local translation files
+            $localTranslationFiles = File::files(__DIR__ . '/../resources/lang');
+            foreach ($localTranslationFiles as $file) {
+                Nova::translations($file->getPathName());
+            }
+
+            // Load project translation files
+            $projectTranslationFiles = File::files(resource_path('lang/vendor/nova-multiselect'));
+            foreach ($projectTranslationFiles as $file) {
+                Nova::translations($file->getPathName());
+            }
         }
     }
 
