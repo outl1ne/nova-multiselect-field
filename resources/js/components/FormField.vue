@@ -50,7 +50,7 @@
           </vue-draggable>
         </div>
 
-        <div class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer" @click="reorderMode = !reorderMode">
+        <div v-if="field.reorderable" class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim" @click="reorderMode = !reorderMode">
           {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
         </div>
       </div>

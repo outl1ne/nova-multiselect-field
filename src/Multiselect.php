@@ -81,6 +81,17 @@ class Multiselect extends Field
         return $this->withMeta(['optionsLimit' => $optionsLimit]);
     }
 
+    /**
+     * Enables or disables reordering of the field values.
+     *
+     * @param bool $reorderable
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function reorderable($reorderable = true)
+    {
+        return $this->withMeta(['reorderable' => $reorderable]);
+    }
+
     public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? $this->saveAsJSON ? $value : json_decode($value) : null;
