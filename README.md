@@ -23,6 +23,8 @@ This restriction is due to `Nova::translatable()` method being added in 2.0.11, 
 
 ![Index View](docs/index.png)
 
+![Reorder GIF](docs/reorder.gif)
+
 ## Installation
 
 Install the package in a Laravel Nova project via Composer:
