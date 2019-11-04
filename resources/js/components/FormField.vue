@@ -1,40 +1,59 @@
 <template>
   <default-field :field="field" :errors="errors">
     <template slot="field">
-      <multiselect
-        @input="handleChange"
-        @open="() => repositionDropdown(true)"
-        track-by="value"
-        label="label"
-        ref="multiselect"
-        :value="selected"
-        :options="options"
-        :class="errorClasses"
-        :placeholder="field.placeholder || field.name"
-        :close-on-select="field.max === 1"
-        :clear-on-select="false"
-        :multiple="true"
-        :max="field.max || null"
-        :optionsLimit="field.optionsLimit || 1000"
-        :limitText="count => __('novaMultiselect.limitText', { count })"
-        :selectLabel="__('novaMultiselect.selectLabel')"
-        :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
-        :selectedLabel="__('novaMultiselect.selectedLabel')"
-        :deselectLabel="__('novaMultiselect.deselectLabel')"
-        :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
-      >
-        <template slot="maxElements">
-          {{ __('novaMultiselect.maxElements', { max: field.max }) }}
-        </template>
+      <div class="flex flex-col">
+        <!-- Multi select field -->
+        <multiselect
+          v-if="!reorderMode"
+          @input="handleChange"
+          @open="() => repositionDropdown(true)"
+          track-by="value"
+          label="label"
+          ref="multiselect"
+          :value="selected"
+          :options="options"
+          :class="errorClasses"
+          :placeholder="field.placeholder || field.name"
+          :close-on-select="field.max === 1"
+          :clear-on-select="false"
+          :multiple="true"
+          :max="field.max || null"
+          :optionsLimit="field.optionsLimit || 1000"
+          :limitText="count => __('novaMultiselect.limitText', { count })"
+          :selectLabel="__('novaMultiselect.selectLabel')"
+          :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
+          :selectedLabel="__('novaMultiselect.selectedLabel')"
+          :deselectLabel="__('novaMultiselect.deselectLabel')"
+          :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
+        >
+          <template slot="maxElements">
+            {{ __('novaMultiselect.maxElements', { max: field.max }) }}
+          </template>
 
-        <template slot="noResult">
-          {{ __('novaMultiselect.noResult') }}
-        </template>
+          <template slot="noResult">
+            {{ __('novaMultiselect.noResult') }}
+          </template>
 
-        <template slot="noOptions">
-          {{ __('novaMultiselect.noOptions') }}
-        </template>
-      </multiselect>
+          <template slot="noOptions">
+            {{ __('novaMultiselect.noOptions') }}
+          </template>
+        </multiselect>
+
+        <!-- Reorder mode field -->
+        <div v-if="reorderMode" class="form-input-bordered py-1">
+          <vue-draggable tag="ul" v-model="value" class="flex flex-col pl-0" style="list-style: none; margin-top: 5px;">
+            <transition-group>
+              <li v-for="s in selected" :key="s" class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
+                {{ s.label }}
+              </li>
+            </transition-group>
+          </vue-draggable>
+        </div>
+
+        <div class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer" @click="reorderMode = !reorderMode">
+          {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
+        </div>
+      </div>
     </template>
   </default-field>
 </template>
@@ -43,13 +62,18 @@
 import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
+import VueDraggable from 'vuedraggable';
 
 export default {
-  components: { Multiselect },
+  components: { Multiselect, VueDraggable },
 
   mixins: [FormField, HandlesValidationErrors, HandlesFieldValue],
 
   props: ['resourceName', 'resourceId', 'field'],
+
+  data: () => ({
+    reorderMode: false,
+  }),
 
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
@@ -99,6 +123,8 @@ export default {
 
     repositionDropdown(onOpen = false) {
       const ms = this.$refs.multiselect;
+      if (!ms) return;
+
       const el = ms.$el;
 
       const handlePositioning = () => {
@@ -127,3 +153,21 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.reorder__tag {
+  background: #41b883;
+  border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.25s ease;
+  margin-bottom: 5px;
+
+  &:hover {
+    cursor: pointer;
+    background: #3dab7a;
+    transition-duration: 0.05s;
+  }
+}
+</style>
