@@ -18,4 +18,9 @@ export default {
       }
     },
   },
+  computed: {
+    isMultiselect() {
+      return !this.field.singleSelect;
+    },
+  },
 };

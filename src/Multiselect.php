@@ -92,6 +92,19 @@ class Multiselect extends Field
         return $this->withMeta(['reorderable' => $reorderable]);
     }
 
+    /**
+     * Enables the field to be used as a single select.
+     *
+     * This forces the value saved to be a single value and not an array.
+     *
+     * @param bool $singleSelect
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function singleSelect($singleSelect = true)
+    {
+        return $this->withMeta(['singleSelect' => $singleSelect]);
+    }
+
     public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? $this->saveAsJSON ? $value : json_decode($value) : null;

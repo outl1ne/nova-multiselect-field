@@ -14,9 +14,9 @@
           :options="options"
           :class="errorClasses"
           :placeholder="field.placeholder || field.name"
-          :close-on-select="field.max === 1"
+          :close-on-select="field.max === 1 || !isMultiselect"
           :clear-on-select="false"
-          :multiple="true"
+          :multiple="isMultiselect"
           :max="field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limitText="count => __('novaMultiselect.limitText', { count })"
@@ -94,26 +94,34 @@ export default {
 
   methods: {
     setInitialValue() {
-      const valuesArray = this.getInitialFieldValuesArray();
+      if (this.isMultiselect) {
+        const valuesArray = this.getInitialFieldValuesArray();
 
-      if (valuesArray) {
-        this.value = valuesArray
-          .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
-          .filter(Boolean);
+        if (valuesArray) {
+          this.value = valuesArray
+            .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
+            .filter(Boolean);
+        } else {
+          this.value = [];
+        }
       } else {
-        this.value = [];
+        this.value = this.field.value;
       }
     },
 
     fill(formData) {
-      let value;
-      if (this.value && this.value.length) {
-        value = JSON.stringify(this.value.map(v => v.value));
-      } else {
-        value = this.field.nullable ? '' : JSON.stringify([]);
-      }
+      if (this.isMultiselect) {
+        let value;
+        if (this.value && this.value.length) {
+          value = JSON.stringify(this.value.map(v => v.value));
+        } else {
+          value = this.field.nullable ? '' : JSON.stringify([]);
+        }
 
-      return formData.append(this.field.attribute, value);
+        formData.append(this.field.attribute, value);
+      } else {
+        formData.append(this.field.attribute, (this.value && this.value.value) || '');
+      }
     },
 
     handleChange(value) {
