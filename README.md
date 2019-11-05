@@ -13,6 +13,7 @@ This restriction is due to `Nova::translatable()` method being added in 2.0.11, 
 ## Features
 
 - Multiselect w/ search
+- Single select w/ search
 - Reordering functionality with drag & drop
 
 ## Screenshots
