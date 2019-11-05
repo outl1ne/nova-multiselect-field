@@ -105,7 +105,7 @@ export default {
           this.value = [];
         }
       } else {
-        this.value = this.field.value;
+        this.value = this.field.options.find(opt => String(opt.value) === String(this.field.value));
       }
     },
 
