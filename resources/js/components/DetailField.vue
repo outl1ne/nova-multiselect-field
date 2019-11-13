@@ -1,17 +1,7 @@
 <template>
   <panel-item :field="field">
     <template slot="value">
-      <div v-if="isMultiselect">
-        <div class="relative rounded-t-lg rounded-b-lg shadow bg-30 border border-60" :class="containerClass" style="background-clip: border-box;" v-if="values">
-          <div class="bg-white overflow-hidden rounded-b-lg rounded-t-lg">
-            <div class="border-b border-50 cursor-text font-mono text-sm py-2 px-4" v-for="(value, i) of values" :key="i">
-              {{ value }}
-            </div>
-          </div>
-        </div>
-
-        <div v-else>—</div>
-      </div>
+      <nova-multiselect-detail-field-value v-if="isMultiselect" :values="values" />
 
       <div v-else>
         {{ (value && value.label) || '—' }}
@@ -35,15 +25,12 @@ export default {
 
       return valuesArray
         .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
-        .filter(val => !!val)
+        .filter(Boolean)
         .map(val => val.label);
     },
     value() {
       return this.field.options.find(opt => String(opt.value) === String(this.field.value));
     },
-    containerClass() {
-        return this.field.containerClass || [];
-    }
   },
 };
 </script>

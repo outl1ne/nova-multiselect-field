@@ -80,7 +80,6 @@ Possible options you can pass to the field using the option name as a function, 
 | `nullable`                    | Boolean  | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 | `reorderable`                 | Boolean  | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
 | `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
-| `containerClass`              | String/Array    | []         | Sets the container class for the elements in detail view.                                                                                                                |
 
 ## Localization
 
@@ -91,6 +90,44 @@ php artisan vendor:publish --provider="OptimistDigital\MultiselectField\FieldSer
 ```
 
 You can then edit the strings to your liking.
+
+## Overwriting the detail field
+
+You can overwrite the detail view value component to customize it as you see fit.
+
+Create a new component for `NovaMultiselectDetailFieldValue` and register it in your `app.js`. It accepts one prop, `values`, which is an array of the selected labels.
+
+```js
+// in NovaMultiselectDetailFieldValue.vue
+
+<template>
+  <div class="relative rounded-lg bg-white shadow border border-60" v-if="values">
+    <div class="overflow-hidden rounded-b-lg rounded-t-lg">
+      <div class="border-b border-50 cursor-text font-mono text-sm py-2 px-4" v-for="(value, i) of values" :key="i">
+        {{ value }}
+      </div>
+    </div>
+  </div>
+
+  <div v-else>—</div>
+</template>
+
+<script>
+export default {
+  props: ['values'],
+};
+</script>
+```
+
+```js
+// in app.js
+
+import NovaMultiselectDetailFieldValue from './NovaMultiselectDetailFieldValue';
+
+Nova.booting((Vue, router, store) => {
+  Vue.component('nova-multiselect-detail-field-value', NovaMultiselectDetailFieldValue);
+});
+```
 
 ## Credits
 
