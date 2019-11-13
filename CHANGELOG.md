@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 13-11-2019
+
+### Added
+
+- Added option to overwrite the detail field value component (`NovaMultiselectDetailFieldValue`)
+
 ## [1.5.0] - 05-11-2019
 
 ### Added
@@ -122,6 +128,7 @@ Initial release.
 
 - Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
 
+[1.6.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.5...1.4.0
 [1.3.5]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.3.4...1.3.5
