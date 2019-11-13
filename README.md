@@ -80,6 +80,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `nullable`                    | Boolean  | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 | `reorderable`                 | Boolean  | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
 | `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
+| `containerClass`              | String/Array    | []         | Sets the container class for the elements in detail view.                                                                                                                |
 
 ## Localization
 

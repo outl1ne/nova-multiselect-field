@@ -71,6 +71,21 @@ class Multiselect extends Field
     }
 
     /**
+     * Sets the container class for the elements.
+     *
+     * @param string|array $class
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function containerClass($class)
+    {
+        if(is_array($class)) {
+            $class = implode(' ', $class);
+        }
+
+        return $this->withMeta(['containerClass' => $class]);
+    }
+
+    /**
      * Sets the maximum number of options displayed at once.
      *
      * @param int $optionsLimit

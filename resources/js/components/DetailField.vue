@@ -2,7 +2,7 @@
   <panel-item :field="field">
     <template slot="value">
       <div v-if="isMultiselect">
-        <div class="relative rounded-t-lg rounded-b-lg shadow bg-30 border border-60" style="background-clip: border-box;" v-if="values">
+        <div class="relative rounded-t-lg rounded-b-lg shadow bg-30 border border-60" :class="containerClass" style="background-clip: border-box;" v-if="values">
           <div class="bg-white overflow-hidden rounded-b-lg rounded-t-lg">
             <div class="border-b border-50 cursor-text font-mono text-sm py-2 px-4" v-for="(value, i) of values" :key="i">
               {{ value }}
@@ -41,6 +41,9 @@ export default {
     value() {
       return this.field.options.find(opt => String(opt.value) === String(this.field.value));
     },
+    containerClass() {
+        return this.field.containerClass || [];
+    }
   },
 };
 </script>
