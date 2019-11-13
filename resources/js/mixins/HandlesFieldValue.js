@@ -17,6 +17,10 @@ export default {
         return void 0;
       }
     },
+
+    getValueFromOptions(value) {
+      return this.field.options.find(opt => String(opt.value) === String(value));
+    },
   },
   computed: {
     isMultiselect() {

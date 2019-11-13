@@ -50,7 +50,11 @@
           </vue-draggable>
         </div>
 
-        <div v-if="field.reorderable" class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim" @click="reorderMode = !reorderMode">
+        <div
+          v-if="field.reorderable"
+          class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
+          @click="reorderMode = !reorderMode"
+        >
           {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
         </div>
       </div>
@@ -96,16 +100,9 @@ export default {
     setInitialValue() {
       if (this.isMultiselect) {
         const valuesArray = this.getInitialFieldValuesArray();
-
-        if (valuesArray) {
-          this.value = valuesArray
-            .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
-            .filter(Boolean);
-        } else {
-          this.value = [];
-        }
+        this.value = valuesArray && valuesArray.length ? valuesArray.map(this.getValueFromOptions).filter(Boolean) : [];
       } else {
-        this.value = this.field.options.find(opt => String(opt.value) === String(this.field.value));
+        this.value = this.getValueFromOptions(this.field.value);
       }
     },
 

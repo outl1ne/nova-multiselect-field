@@ -14,11 +14,11 @@ export default {
     value() {
       if (this.isMultiselect) {
         const valuesArray = this.getInitialFieldValuesArray();
-        if (!valuesArray) return '-';
+        if (!valuesArray || !valuesArray.length) return '—';
 
         const values = valuesArray
-          .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
-          .filter(val => !!val)
+          .map(this.getValueFromOptions)
+          .filter(Boolean)
           .map(val => val.label);
 
         const joinedValues = values.join(', ');

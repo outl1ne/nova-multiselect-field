@@ -21,15 +21,15 @@ export default {
   computed: {
     values() {
       const valuesArray = this.getInitialFieldValuesArray();
-      if (!valuesArray) return;
+      if (!valuesArray || !valuesArray.length) return;
 
       return valuesArray
-        .map(val => this.field.options.find(opt => String(opt.value) === String(val)))
+        .map(this.getValueFromOptions)
         .filter(Boolean)
         .map(val => val.label);
     },
     value() {
-      return this.field.options.find(opt => String(opt.value) === String(this.field.value));
+      return this.getValueFromOptions(this.field.value);
     },
   },
 };
