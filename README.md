@@ -95,7 +95,7 @@ You can then edit the strings to your liking.
 
 You can overwrite the detail view value component to customize it as you see fit.
 
-Create a new component for `NovaMultiselectDetailFieldValue` and register it in your `app.js`. It accepts one prop, `values`, which is an array of the selected labels.
+Create a new component for `NovaMultiselectDetailFieldValue` and register it in your `app.js`. The component receives two props: `field` and `values`. The `values` prop is an array of selected labels.
 
 ```js
 // in NovaMultiselectDetailFieldValue.vue
@@ -114,7 +114,7 @@ Create a new component for `NovaMultiselectDetailFieldValue` and register it in 
 
 <script>
 export default {
-  props: ['values'],
+  props: ['field', 'values'],
 };
 </script>
 ```

@@ -1,7 +1,7 @@
 <template>
   <panel-item :field="field">
     <template slot="value">
-      <nova-multiselect-detail-field-value v-if="isMultiselect" :values="values" />
+      <nova-multiselect-detail-field-value v-if="isMultiselect" :field="field" :values="values" />
 
       <div v-else>
         {{ (value && value.label) || '—' }}

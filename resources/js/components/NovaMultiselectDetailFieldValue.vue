@@ -12,6 +12,6 @@
 
 <script>
 export default {
-  props: ['values'],
+  props: ['field', 'values'],
 };
 </script>
