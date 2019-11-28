@@ -36,7 +36,6 @@ class Multiselect extends Field
         return $this->isCountable($options) && ! Arr::isAssoc($options) && method_exists($options[0], $options[1]);
     }
 
-
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
         if ($request->exists($requestAttribute)) {
