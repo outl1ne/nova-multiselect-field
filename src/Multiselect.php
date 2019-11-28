@@ -30,6 +30,12 @@ class Multiselect extends Field
             })->values()->all(),
         ]);
     }
+    
+    protected function isCallableArray($options)
+    {
+        return $this->isCountable($options) && ! Arr::isAssoc($options) && method_exists($options[0], $options[1]);
+    }
+
 
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
