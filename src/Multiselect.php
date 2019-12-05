@@ -20,9 +20,7 @@ class Multiselect extends Field
      **/
     public function options($options = [])
     {
-        if (is_callable($options)) {
-            $options = call_user_func($options);
-        }
+        if (is_callable($options)) $options = call_user_func($options);
 
         return $this->withMeta([
             'options' => collect($options)->map(function ($label, $value) {

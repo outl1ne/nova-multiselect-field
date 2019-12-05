@@ -72,17 +72,17 @@ public function fields(Request $request)
 
 Possible options you can pass to the field using the option name as a function, ie `->placeholder('Choose peanuts')`.
 
-| Option                        | type     | default    | description                                                                                                                                                                  |
-| ----------------------------- | -------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `options`                     | Array    | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                |
-| `placeholder`                 | String   | Field name | The placeholder string for the input.                                                                                                                                        |
-| `max`                         | Number   | Infinite   | The maximum number of options a user can select.                                                                                                                             |
-| `singleSelect`                | Boolean  | false      | Makes the field act as a single select which also means the saved value will not be an array.                                                                                |
-| `saveAsJSON`                  | Boolean  | false      | When you have a SQL JSON column, you can force the field to save the values as JSON. By default, values are saved as a stringified array.                                    |
-| `optionsLimit`                | Number   | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
-| `nullable`                    | Boolean  | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
-| `reorderable`                 | Boolean  | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
-| `resolveForPageResponseUsing` | Callable | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
+| Option                        | type            | default    | description                                                                                                                                                                  |
+| ----------------------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `options`                     | Array\|callable | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                |
+| `placeholder`                 | String          | Field name | The placeholder string for the input.                                                                                                                                        |
+| `max`                         | Number          | Infinite   | The maximum number of options a user can select.                                                                                                                             |
+| `singleSelect`                | Boolean         | false      | Makes the field act as a single select which also means the saved value will not be an array.                                                                                |
+| `saveAsJSON`                  | Boolean         | false      | When you have a SQL JSON column, you can force the field to save the values as JSON. By default, values are saved as a stringified array.                                    |
+| `optionsLimit`                | Number          | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
+| `nullable`                    | Boolean         | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
+| `reorderable`                 | Boolean         | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
+| `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 
 ## Localization
 
