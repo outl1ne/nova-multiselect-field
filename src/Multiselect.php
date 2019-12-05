@@ -15,16 +15,25 @@ class Multiselect extends Field
     /**
      * Sets the options available for select.
      *
-     * @param array $options
+     * @param  array|\Closure|\Illuminate\Support\Collection
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
     public function options($options = [])
     {
+        if (is_callable($options) || $this->isCallableArray($options)) {
+            $options = $options();
+        }
+
         return $this->withMeta([
             'options' => collect($options)->map(function ($label, $value) {
                 return is_array($label) ? $label + ['value' => $value] : ['label' => $label, 'value' => $value];
             })->values()->all(),
         ]);
+    }
+    
+    protected function isCallableArray($options)
+    {
+        return $this->isCountable($options) && ! Arr::isAssoc($options) && method_exists($options[0], $options[1]);
     }
 
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
