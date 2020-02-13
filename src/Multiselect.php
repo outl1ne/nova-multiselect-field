@@ -33,7 +33,7 @@ class Multiselect extends Field
     {
         $value = $request[$requestAttribute] ?? null;
         if (empty($value)) {
-            $model->{$attribute} = ($this->nullable) ? null : [];
+            $model->{$attribute} = ($this->nullable) ? null : $this->saveAsJSON ? [] : json_encode([]);
         } else {
             $model->{$attribute} = $this->saveAsJSON === true ? $value : json_encode($value);
         }
