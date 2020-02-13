@@ -108,14 +108,13 @@ export default {
 
     fill(formData) {
       if (this.isMultiselect) {
-        let value;
         if (this.value && this.value.length) {
-          value = JSON.stringify(this.value.map(v => v.value));
+          this.value.forEach((v, i) => {
+            formData.append(`${this.field.attribute}[${i}]`, v.value);
+          });
         } else {
-          value = this.field.nullable ? '' : JSON.stringify([]);
+          formData.append(this.field.attribute, '');
         }
-
-        formData.append(this.field.attribute, value);
       } else {
         formData.append(this.field.attribute, (this.value && this.value.value) || '');
       }

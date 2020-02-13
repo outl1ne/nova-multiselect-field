@@ -31,10 +31,11 @@ class Multiselect extends Field
 
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if ($request->exists($requestAttribute)) {
-            $model->{$attribute} = $this->saveAsJSON === true
-                ? json_decode($request[$requestAttribute], true)
-                : $request[$requestAttribute];
+        $value = $request[$requestAttribute] ?? null;
+        if (empty($value)) {
+            $model->{$attribute} = ($this->nullable) ? null : [];
+        } else {
+            $model->{$attribute} = $this->saveAsJSON === true ? $value : json_encode($value);
         }
     }
 
