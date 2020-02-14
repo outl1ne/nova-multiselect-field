@@ -29,16 +29,23 @@ class Multiselect extends Field
         ]);
     }
 
+    protected function resolveAttribute($resource, $attribute)
+    {
+        $singleSelect = $this->meta['singleSelect'] ?? false;
+        $value = data_get($resource, str_replace('->', '.', $attribute));
+        if ($singleSelect) return json_decode($value);
+        return $this->saveAsJSON ? $value : (is_array($value) ? $value : json_decode($value));
+    }
+
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
         $singleSelect = $this->meta['singleSelect'] ?? false;
-        $value = $request[$requestAttribute] ?? null;
+        $value = $request->input($requestAttribute) ?? null;
 
-        if (empty($value)) {
-            $emptyValue = $singleSelect ? '' : [];
-            $model->{$attribute} = ($this->nullable) ? null : ($this->saveAsJSON ? $emptyValue : json_encode($emptyValue));
+        if ($singleSelect) {
+            $model->{$attribute} = $value;
         } else {
-            $model->{$attribute} = $this->saveAsJSON === true ? $value : is_array($value) ? json_encode($value) : $value;
+            $model->{$attribute} = $this->saveAsJSON ? $value : json_encode($value);
         }
     }
 
@@ -113,7 +120,7 @@ class Multiselect extends Field
 
     public function resolveResponseValue($value, $templateModel)
     {
-        $parsedValue = isset($value) ? $this->saveAsJSON ? $value : json_decode($value) : null;
+        $parsedValue = isset($value) ? ($this->saveAsJSON ? $value : json_decode($value)) : null;
         return is_callable($this->pageResponseResolveCallback)
             ? call_user_func($this->pageResponseResolveCallback, $parsedValue, $templateModel)
             : $parsedValue;
