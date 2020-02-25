@@ -34,7 +34,9 @@ class Multiselect extends Field
         $singleSelect = $this->meta['singleSelect'] ?? false;
         $value = data_get($resource, str_replace('->', '.', $attribute));
         if ($singleSelect) return json_decode($value);
-        return $this->saveAsJSON ? $value : (is_array($value) ? $value : json_decode($value));
+
+        if ($this->saveAsJSON) return $value;
+        return is_array($value) || is_object($value) ? (array) $value : json_decode($value);
     }
 
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
