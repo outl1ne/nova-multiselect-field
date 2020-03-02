@@ -60,12 +60,29 @@ public function fields(Request $request)
         ])
 
         // Optional:
-        ->placeholder('Choose football teams')
-        ->max(4)
-        ->optionsLimit(5)
-        ->reorderable()
+        ->placeholder('Choose football teams') // Placeholder text
+        ->max(4) // Maximum number of items the user can choose
+        ->saveAsJSON() // Saves value as JSON if the database column is of JSON type
+        ->optionsLimit(5) // How many items to display at once
+        ->reorderable() // Allows reordering functionality
+        ->singleSelect() // If you want a searchable single select field
     ];
 }
+```
+
+### Option groups
+
+Option groups are supported. Their syntax is the same as [Laravel's option group syntax](https://nova.laravel.com/docs/2.0/resources/fields.html#select-field).
+
+In this example (from Nova docs), all values are grouped by the `group` key:
+
+```php
+->options([
+    'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+    'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
+    'WS' => ['label' => 'Small', 'group' => 'Women Sizes'],
+    'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
+])
 ```
 
 ## Options
@@ -77,6 +94,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `options`                     | Array\|callable | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                |
 | `placeholder`                 | String          | Field name | The placeholder string for the input.                                                                                                                                        |
 | `max`                         | Number          | Infinite   | The maximum number of options a user can select.                                                                                                                             |
+| `groupSelect`                 | Boolean         | false      | For use with option groups - allows the user to select whole groups at once                                                                                                  |
 | `singleSelect`                | Boolean         | false      | Makes the field act as a single select which also means the saved value will not be an array.                                                                                |
 | `saveAsJSON`                  | Boolean         | false      | When you have a SQL JSON column, you can force the field to save the values as JSON. By default, values are saved as a stringified array.                                    |
 | `optionsLimit`                | Number          | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
