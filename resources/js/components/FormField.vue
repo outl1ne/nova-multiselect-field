@@ -9,6 +9,9 @@
           @open="() => repositionDropdown(true)"
           track-by="value"
           label="label"
+          :group-label="isOptionGroups ? 'label' : void 0"
+          :group-values="isOptionGroups ? 'values' : void 0"
+          :group-select="field.groupSelect || false"
           ref="multiselect"
           :value="selected"
           :options="options"
@@ -90,9 +93,6 @@ export default {
   computed: {
     selected() {
       return this.value || [];
-    },
-    options() {
-      return this.field.options || [];
     },
   },
 

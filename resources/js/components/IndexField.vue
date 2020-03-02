@@ -19,7 +19,7 @@ export default {
         const values = valuesArray
           .map(this.getValueFromOptions)
           .filter(Boolean)
-          .map(val => val.label);
+          .map(val => `${this.isOptionGroups ? `[${val.group}] ` : ''}${val.label}`);
 
         const joinedValues = values.join(', ');
         if (joinedValues.length <= 40) return joinedValues;

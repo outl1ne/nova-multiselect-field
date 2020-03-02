@@ -3,9 +3,7 @@
     <template slot="value">
       <nova-multiselect-detail-field-value v-if="isMultiselect" :field="field" :values="values" />
 
-      <div v-else>
-        {{ (value && value.label) || '—' }}
-      </div>
+      <div v-else>{{ (value && value.label) || '—' }}</div>
     </template>
   </panel-item>
 </template>
@@ -26,8 +24,9 @@ export default {
       return valuesArray
         .map(this.getValueFromOptions)
         .filter(Boolean)
-        .map(val => val.label);
+        .map(val => `${this.isOptionGroups ? `[${val.group}] ` : ''}${val.label}`);
     },
+
     value() {
       return this.getValueFromOptions(this.field.value);
     },

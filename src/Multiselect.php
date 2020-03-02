@@ -21,10 +21,31 @@ class Multiselect extends Field
     public function options($options = [])
     {
         if (is_callable($options)) $options = call_user_func($options);
+        $options = collect($options ?? []);
+
+        $isOptionGroup = $options->contains(function ($label, $value) {
+            return is_array($label);
+        });
+
+        if ($isOptionGroup) {
+            $_options = $options
+                ->map(function ($value, $key) {
+                    return collect($value + ['value' => $key]);
+                })
+                ->groupBy('group')
+                ->map(function ($value, $key) {
+                    return ['label' => $key, 'values' => $value->map->only(['label', 'value'])->toArray()];
+                })
+                ->values()
+                ->toArray();
+
+            return $this->withMeta(['options' => $_options]);
+        }
+
 
         return $this->withMeta([
-            'options' => collect($options)->map(function ($label, $value) {
-                return is_array($label) ? $label + ['value' => $value] : ['label' => $label, 'value' => $value];
+            'options' => $options->map(function ($label, $value) {
+                return ['label' => $label, 'value' => $value];
             })->values()->all(),
         ]);
     }
@@ -118,6 +139,18 @@ class Multiselect extends Field
     public function singleSelect($singleSelect = true)
     {
         return $this->withMeta(['singleSelect' => $singleSelect]);
+    }
+
+    /**
+     * Enables vue-multiselect's group-select feature which allows the
+     * user to select the whole group at once.
+     *
+     * @param bool $groupSelect
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function groupSelect($groupSelect = true)
+    {
+        return $this->withMeta(['groupSelect' => $groupSelect]);
     }
 
     public function resolveResponseValue($value, $templateModel)

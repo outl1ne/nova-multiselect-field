@@ -19,12 +19,27 @@ export default {
     },
 
     getValueFromOptions(value) {
+      if (this.isOptionGroups) {
+        return this.field.options
+          .map(optGroup => optGroup.values.map(values => ({ ...values, group: optGroup.label })))
+          .flat()
+          .find(opt => String(opt.value) === String(value));
+      }
+
       return this.field.options.find(opt => String(opt.value) === String(value));
     },
   },
   computed: {
     isMultiselect() {
       return !this.field.singleSelect;
+    },
+
+    isOptionGroups() {
+      return !!this.field.options.find(opt => opt.values && Array.isArray(opt.values));
+    },
+
+    options() {
+      return this.field.options || [];
     },
   },
 };
