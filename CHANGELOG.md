@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2020-03-05
+
+### Added
+
+- Support Nova 3.0 in `composer.json` requirements
+
 ## [1.8.0] - 2020-03-02
 
 ### Added
@@ -182,6 +188,7 @@ Initial release.
 
 - Basic multiple select field using [vue-multiselect](https://github.com/shentao/vue-multiselect)
 
+[1.8.1]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.7.4...1.8.0
 [1.7.4]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.7.3...1.7.4
 [1.7.3]: https://github.com/optimistdigital/nova-multiselect-field/compare/1.7.2...1.7.3
