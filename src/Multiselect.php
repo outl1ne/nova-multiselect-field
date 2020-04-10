@@ -153,6 +153,29 @@ class Multiselect extends Field
         return $this->withMeta(['groupSelect' => $groupSelect]);
     }
 
+    /**
+     * Enable other-field dependency.
+     *
+     * @param string $otherFieldName
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function dependsOn($otherFieldName)
+    {
+        return $this->withMeta(['dependsOn' => $otherFieldName]);
+    }
+
+    /**
+     * Set dependency options map. It should be a keyed array of 
+     * options
+     *
+     * @param array $options
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function dependsOnOptions(array $options)
+    {
+        return $this->withMeta(['dependsOnOptions' => $options]);
+    }
+
     public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? ($this->saveAsJSON ? $value : json_decode($value)) : null;
