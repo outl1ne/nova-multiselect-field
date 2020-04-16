@@ -70,7 +70,6 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
 import VueDraggable from 'vuedraggable';
-import Vue from 'vue';
 
 export default {
   components: { Multiselect, VueDraggable },
