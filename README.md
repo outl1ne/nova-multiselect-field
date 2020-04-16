@@ -18,6 +18,7 @@ This restriction is due to `Nova::translatable()` method being added in 2.0.11, 
 - Multiselect w/ search
 - Single select w/ search
 - Reordering functionality with drag & drop
+- Dependency on other Multiselect instances
 
 ## Screenshots
 
@@ -85,6 +86,31 @@ In this example (from Nova docs), all values are grouped by the `group` key:
 ])
 ```
 
+### Dependencies
+
+You can make a Multiselect depend on another by using `dependsOn`. This also requires specifying `->dependsOnOptions()`. The value from the `dependsOn` Multiselect has to be the key to the options and the value must be a key-value dictionary of options as usual.
+
+Usage:
+
+```
+Multiselect::make('Country', 'country')
+    ->options([
+        'IT' => 'Italy',
+        'FR' => 'France',
+    ]),
+
+Multiselect::make('Language', 'language')
+    ->dependsOn('country')
+    ->dependsOnOptions([
+        'IT' => [
+            'it' => 'Italian',
+        ],
+        'FR' => [
+            'fr' => 'French',
+        ],
+    ]),
+```
+
 ## Options
 
 Possible options you can pass to the field using the option name as a function, ie `->placeholder('Choose peanuts')`.
@@ -100,6 +126,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `optionsLimit`                | Number          | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                       |
 | `nullable`                    | Boolean         | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 | `reorderable`                 | Boolean         | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
+| `dependsOn`                   | String          | null       | Determines which Multiselect this field depends on.                                                                                                                          |
 | `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 
 ## Localization
