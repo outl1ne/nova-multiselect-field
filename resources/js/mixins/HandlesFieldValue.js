@@ -39,7 +39,24 @@ export default {
     },
 
     options() {
-      return this.field.options || [];
+      let options = this.field.options || [];
+
+      console.info('options');
+
+      if (this.isOptionGroups) {
+        const allLabels = options.map(opt => opt.values.map(o => o.label)).flat();
+        options = options.map(option => {
+          return {
+            ...option,
+            values: option.values.map(opt => {
+              const isDuplicate = allLabels.filter(l => l === opt.label).length > 1;
+              return { ...opt, label: isDuplicate ? `${opt.label} (${option.label})` : opt.label };
+            }),
+          };
+        });
+      }
+
+      return options;
     },
   },
 };
