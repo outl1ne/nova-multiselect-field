@@ -70,6 +70,7 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
 import VueDraggable from 'vuedraggable';
+import Vue from 'vue';
 
 export default {
   components: { Multiselect, VueDraggable },
@@ -84,6 +85,18 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
+    if(this.field.dependsOn) {
+      this.removeAllOptions(true);
+      Nova.$on(`multiselect-${this.field.dependsOn}-input`, (options) => {
+        this.removeAllOptions(false);
+        options.forEach(option => {
+          Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
+            let label = this.field.dependsOnOptions[option.value][value];
+            this.options.push({ label, value });
+          })
+        });
+      });
+    }
   },
 
   destroyed() {
@@ -123,6 +136,7 @@ export default {
     handleChange(value) {
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
+      Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
     },
 
     repositionDropdown(onOpen = false) {
@@ -153,6 +167,18 @@ export default {
 
       if (onOpen) this.$nextTick(handlePositioning);
       else handlePositioning();
+    },
+
+    removeAllOptions(keepValues) {
+      const l = this.options.length;
+      for(let i = 0; i < l; i++) {
+        Vue.delete(this.options, 0);
+      };
+      if(keepValues) {
+        this.value.forEach(option => {
+          this.options.push(option);
+        });
+      }
     },
   },
 };
