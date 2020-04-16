@@ -14,7 +14,7 @@
           :group-select="field.groupSelect || false"
           ref="multiselect"
           :value="selected"
-          :options="options"
+          :options="computedOptions"
           :class="errorClasses"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
@@ -87,27 +87,36 @@ export default {
     window.addEventListener('scroll', this.repositionDropdown);
 
     if (this.field.dependsOn) {
-      this.resetOptions();
+      this.options = [];
 
-      Nova.$on(`multiselect-${this.field.dependsOn}-input`, options => {
+      Nova.$on(`multiselect-${this.field.dependsOn}-input`, values => {
         // Clear options
-        this.resetOptions();
+        this.options = [];
 
-        options = Array.isArray(options) ? options : [options]; // Handle singleSelect
-        options.forEach(option => {
+        const newOptions = [];
+        values = Array.isArray(values) ? values : [values]; // Handle singleSelect
+        values.forEach(option => {
+          if (!option) return;
+
           Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
+            // Only add unique
+            if (newOptions.find(o => o.value === value)) return;
+
             let label = this.field.dependsOnOptions[option.value][value];
-            this.options.push({ label, value });
+            newOptions.push({ label, value });
           });
         });
 
+        this.options = newOptions;
+
         // Remove values that no longer apply
+        const hasValue = value => this.options.find(v => v.value === value);
         if (this.isMultiselect) {
           if (Array.isArray(this.value)) {
-            this.value = this.value.filter(v => !!v && !!this.getValueFromOptions(v.value));
+            this.value = this.value.filter(v => !!v && !!hasValue(v.value));
           }
         } else {
-          this.value = this.value && !!this.getValueFromOptions(this.value.value) ? this.value : void 0;
+          this.value = this.value && !!hasValue(this.value.value) ? this.value : void 0;
         }
       });
     }
@@ -186,14 +195,6 @@ export default {
 
       if (onOpen) this.$nextTick(handlePositioning);
       else handlePositioning();
-    },
-
-    resetOptions(keepValues) {
-      // Clear options
-      const l = this.options.length;
-      for (let i = 0; i < l; i++) {
-        Vue.delete(this.options, 0);
-      }
     },
   },
 };

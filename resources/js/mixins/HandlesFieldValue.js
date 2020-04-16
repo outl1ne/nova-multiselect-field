@@ -1,4 +1,14 @@
 export default {
+  data() {
+    return {
+      options: [],
+    };
+  },
+
+  beforeMount() {
+    this.options = this.field.options || [];
+  },
+
   methods: {
     getInitialFieldValuesArray() {
       try {
@@ -19,6 +29,16 @@ export default {
     },
 
     getValueFromOptions(value) {
+      let options = this.field.options;
+
+      if (this.field.dependsOn) {
+        const valueGroups = Object.values(this.field.dependsOnOptions || {});
+        options = [];
+        valueGroups.forEach(values =>
+          Object.keys(values).forEach(value => options.push({ value, label: values[value] }))
+        );
+      }
+
       if (this.isOptionGroups) {
         return this.field.options
           .map(optGroup => optGroup.values.map(values => ({ ...values, group: optGroup.label })))
@@ -26,7 +46,7 @@ export default {
           .find(opt => String(opt.value) === String(value));
       }
 
-      return this.field.options.find(opt => String(opt.value) === String(value));
+      return options.find(opt => String(opt.value) === String(value));
     },
   },
   computed: {
@@ -35,11 +55,11 @@ export default {
     },
 
     isOptionGroups() {
-      return !!this.field.options.find(opt => opt.values && Array.isArray(opt.values));
+      return !!this.field.options && !!this.field.options.find(opt => opt.values && Array.isArray(opt.values));
     },
 
-    options() {
-      let options = this.field.options || [];
+    computedOptions() {
+      let options = this.options || [];
 
       if (this.isOptionGroups) {
         const allLabels = options.map(opt => opt.values.map(o => o.label)).flat();
