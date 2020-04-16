@@ -41,8 +41,6 @@ export default {
     options() {
       let options = this.field.options || [];
 
-      console.info('options');
-
       if (this.isOptionGroups) {
         const allLabels = options.map(opt => opt.values.map(o => o.label)).flat();
         options = options.map(option => {
