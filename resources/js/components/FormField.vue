@@ -85,15 +85,15 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
-    if(this.field.dependsOn) {
+    if (this.field.dependsOn) {
       this.removeAllOptions(true);
-      Nova.$on(`multiselect-${this.field.dependsOn}-input`, (options) => {
+      Nova.$on(`multiselect-${this.field.dependsOn}-input`, options => {
         this.removeAllOptions(false);
         options.forEach(option => {
           Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
             let label = this.field.dependsOnOptions[option.value][value];
             this.options.push({ label, value });
-          })
+          });
         });
       });
     }
@@ -171,10 +171,10 @@ export default {
 
     removeAllOptions(keepValues) {
       const l = this.options.length;
-      for(let i = 0; i < l; i++) {
+      for (let i = 0; i < l; i++) {
         Vue.delete(this.options, 0);
-      };
-      if(keepValues) {
+      }
+      if (keepValues) {
         this.value.forEach(option => {
           this.options.push(option);
         });
