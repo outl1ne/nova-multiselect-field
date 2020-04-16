@@ -85,18 +85,37 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
+
     if (this.field.dependsOn) {
-      this.removeAllOptions(true);
+      this.resetOptions();
+
       Nova.$on(`multiselect-${this.field.dependsOn}-input`, options => {
-        this.removeAllOptions(false);
+        // Clear options
+        this.resetOptions();
+
+        options = Array.isArray(options) ? options : [options]; // Handle singleSelect
         options.forEach(option => {
           Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
             let label = this.field.dependsOnOptions[option.value][value];
             this.options.push({ label, value });
           });
         });
+
+        // Remove values that no longer apply
+        if (this.isMultiselect) {
+          if (Array.isArray(this.value)) {
+            this.value = this.value.filter(v => !!v && !!this.getValueFromOptions(v.value));
+          }
+        } else {
+          this.value = this.value && !!this.getValueFromOptions(this.value.value) ? this.value : void 0;
+        }
       });
     }
+
+    // Emit initial value
+    this.$nextTick(() => {
+      Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
+    });
   },
 
   destroyed() {
@@ -169,15 +188,11 @@ export default {
       else handlePositioning();
     },
 
-    removeAllOptions(keepValues) {
+    resetOptions(keepValues) {
+      // Clear options
       const l = this.options.length;
       for (let i = 0; i < l; i++) {
         Vue.delete(this.options, 0);
-      }
-      if (keepValues) {
-        this.value.forEach(option => {
-          this.options.push(option);
-        });
       }
     },
   },
