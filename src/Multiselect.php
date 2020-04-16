@@ -55,8 +55,7 @@ class Multiselect extends Field
         $singleSelect = $this->meta['singleSelect'] ?? false;
         $value = data_get($resource, str_replace('->', '.', $attribute));
 
-        if ($this->saveAsJSON) return $value;
-        if ($singleSelect) return json_decode($value);
+        if ($this->saveAsJSON || $singleSelect) return $value;
         return is_array($value) || is_object($value) ? (array) $value : json_decode($value);
     }
 
@@ -165,7 +164,7 @@ class Multiselect extends Field
     }
 
     /**
-     * Set dependency options map. It should be a keyed array of 
+     * Set dependency options map. It should be a keyed array of
      * options
      *
      * @param array $options
