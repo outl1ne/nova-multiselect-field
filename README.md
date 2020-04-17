@@ -127,6 +127,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `nullable`                    | Boolean         | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                         |
 | `reorderable`                 | Boolean         | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
 | `dependsOn`                   | String          | null       | Determines which Multiselect this field depends on.                                                                                                                          |
+| `dependsOnOptions`            | Array           | null       | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                     |
 | `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 
 ## Localization
