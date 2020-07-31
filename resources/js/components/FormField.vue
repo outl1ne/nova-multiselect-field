@@ -30,7 +30,7 @@
           :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
         >
           <template slot="maxElements">
-            {{ __('novaMultiselect.maxElements', { max: field.max }) }}
+            {{ __('novaMultiselect.maxElements', { max: field.max || '' }) }}
           </template>
 
           <template slot="noResult">
