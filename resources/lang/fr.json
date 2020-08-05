@@ -1,0 +1,16 @@
+{
+    "novaMultiselect.maxElements": "Maximum de :max sélectionnés.",
+    "novaMultiselect.noResult": "Aucun résultat trouvé.",
+    "novaMultiselect.noOptions": "La liste est vide.",
+    "novaMultiselect.limitText": "et :count de plus",
+    "novaMultiselect.selectLabel": "Appuyez sur Entrée pour sélectionner",
+    "novaMultiselect.selectGroupLabel": "Appuyez sur Entrée pour sélectionner le groupe",
+    "novaMultiselect.selectedLabel": "Sélectionné",
+    "novaMultiselect.deselectLabel": "Appuyez sur Entrée pour supprimer",
+    "novaMultiselect.deselectGroupLabel": "Appuyez sur Entrée pour désélectionner le groupe",
+    "novaMultiselect.placeholder": "Choisissez les options",
+    "novaMultiselect.nItemsSelected": ":count items sélectionnés",
+    "novaMultiselect.reorder": "Réorganiser",
+    "novaMultiselect.doneReordering": "Terminer la réorganisation"
+  }
+  
