@@ -22,7 +22,7 @@
           :multiple="isMultiselect"
           :max="field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
-          :limitText="count => __('novaMultiselect.limitText', { count })"
+          :limitText="count => __('novaMultiselect.limitText', { count: String(count) })"
           :selectLabel="__('novaMultiselect.selectLabel')"
           :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
           :selectedLabel="__('novaMultiselect.selectedLabel')"
@@ -30,7 +30,7 @@
           :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
         >
           <template slot="maxElements">
-            {{ __('novaMultiselect.maxElements', { max: field.max || '' }) }}
+            {{ __('novaMultiselect.maxElements', { max: String(field.max || '') }) }}
           </template>
 
           <template slot="noResult">
