@@ -16,28 +16,36 @@ class FieldServiceProvider extends ServiceProvider
             Nova::style('multiselect-field', __DIR__ . '/../dist/css/multiselect-field.css');
         });
 
-        $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-multiselect')], 'translations');
+        $this->translations();
+    }
 
-        if (method_exists('Nova', 'translations')) {
-            // Load local translation files
-            $localTranslationFiles = File::files(__DIR__ . '/../resources/lang');
-            foreach ($localTranslationFiles as $file) {
-                Nova::translations($file->getPathName());
-            }
+    protected function translations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-multiselect-field')], 'translations');
+        } else if (method_exists('Nova', 'translations')) {
+            $locale = app()->getLocale();
+            $fallbackLocale = config('app.fallback_locale');
 
-            // Load project translation files
-            $projectTransFilesPath = resource_path('lang/vendor/nova-multiselect');
-            if (File::exists($projectTransFilesPath)) {
-                $projectTranslationFiles = File::files($projectTransFilesPath);
-                foreach ($projectTranslationFiles as $file) {
-                    Nova::translations($file->getPathName());
-                }
-            }
+            if ($this->attemptToLoadTranslations($locale, 'project')) return;
+            if ($this->attemptToLoadTranslations($locale, 'local')) return;
+            if ($this->attemptToLoadTranslations($fallbackLocale, 'project')) return;
+            if ($this->attemptToLoadTranslations($fallbackLocale, 'local')) return;
+            $this->attemptToLoadTranslations('en', 'local');
         }
     }
 
-    public function register()
+    protected function attemptToLoadTranslations($locale, $from)
     {
-        //
+        $filePath = $from === 'local'
+            ? __DIR__ . '/../resources/lang/' . $locale . '.json'
+            : resource_path('lang/vendor/nova-multiselect-field') . '/' . $locale . '.json';
+
+        $localeFileExists = File::exists($filePath);
+        if ($localeFileExists) {
+            Nova::translations($filePath);
+            return true;
+        }
+        return false;
     }
 }
