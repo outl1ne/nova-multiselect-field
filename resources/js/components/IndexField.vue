@@ -24,7 +24,7 @@ export default {
         const joinedValues = values.join(', ');
         if (joinedValues.length <= 40) return joinedValues;
 
-        return this.__('novaMultiselect.nItemsSelected', { count: Sring(values.length) });
+        return this.__('novaMultiselect.nItemsSelected', { count: String(values.length) });
       } else {
         const value = this.field.options.find(opt => String(opt.value) === String(this.field.value));
         return (value && value.label) || '—';
