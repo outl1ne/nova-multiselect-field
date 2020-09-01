@@ -88,7 +88,7 @@ export default {
     if (this.field.dependsOn) {
       this.options = [];
 
-      Nova.$on(`multiselect-${this.field.dependsOn}-input`, values => {
+      Nova.$on(`multiselect-${this.safeDependsOnAttribute}-input`, values => {
         // Clear options
         this.options = [];
 
@@ -133,6 +133,18 @@ export default {
   computed: {
     selected() {
       return this.value || [];
+    },
+
+    flexibleKey() {
+      const flexRegex = /^([a-zA-Z0-9]+)(?=__)/;
+      const match = this.field.attribute.match(flexRegex);
+      if (match && match[0] && match[0].length === 16) return match[0];
+    },
+
+    safeDependsOnAttribute() {
+      const flexibleKey = this.flexibleKey;
+      if (!flexibleKey) return this.field.dependsOn;
+      return `${flexibleKey}__${this.field.dependsOn}`;
     },
   },
 
