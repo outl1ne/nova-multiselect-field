@@ -22,7 +22,7 @@
           :multiple="isMultiselect"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
-          :limitText="count => __('novaMultiselect.limitText', { count: String(count) })"
+          :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
           :selectLabel="__('novaMultiselect.selectLabel')"
           :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
           :selectedLabel="__('novaMultiselect.selectedLabel')"
@@ -44,7 +44,7 @@
 
         <!-- Reorder mode field -->
         <div v-if="reorderMode" class="form-input-bordered py-1">
-          <vue-draggable tag="ul" v-model="value" class="flex flex-col pl-0" style="list-style: none; margin-top: 5px;">
+          <vue-draggable tag="ul" v-model="value" class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <transition-group>
               <li v-for="s in selected" :key="s" class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
                 {{ s.label }}
