@@ -164,8 +164,7 @@ class Multiselect extends Field
     }
 
     /**
-     * Set dependency options map. It should be a keyed array of
-     * options
+     * Set dependency options map as a keyed array of options.
      *
      * @param array $options
      * @return \OptimistDigital\MultiselectField\Multiselect
@@ -173,6 +172,17 @@ class Multiselect extends Field
     public function dependsOnOptions(array $options)
     {
         return $this->withMeta(['dependsOnOptions' => $options]);
+    }
+
+    /**
+     * Set max selectable value count as a keyed array of numbers.
+     *
+     * @param array $maxOptions
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function dependsOnMax(array $maxOptions)
+    {
+        return $this->withMeta(['dependsOnMax' => $maxOptions]);
     }
 
     public function resolveResponseValue($value, $templateModel)

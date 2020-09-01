@@ -20,7 +20,7 @@
           :close-on-select="field.max === 1 || !isMultiselect"
           :clear-on-select="false"
           :multiple="isMultiselect"
-          :max="field.max || null"
+          :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count) })"
           :selectLabel="__('novaMultiselect.selectLabel')"
@@ -80,6 +80,8 @@ export default {
 
   data: () => ({
     reorderMode: false,
+    options: [],
+    max: void 0,
   }),
 
   mounted() {
@@ -89,11 +91,12 @@ export default {
       this.options = [];
 
       Nova.$on(`multiselect-${this.safeDependsOnAttribute}-input`, values => {
+        values = Array.isArray(values) ? values : [values]; // Handle singleSelect
+
         // Clear options
         this.options = [];
 
         const newOptions = [];
-        values = Array.isArray(values) ? values : [values]; // Handle singleSelect
         values.forEach(option => {
           if (!option) return;
 
@@ -116,6 +119,15 @@ export default {
           }
         } else {
           this.value = this.value && !!hasValue(this.value.value) ? this.value : void 0;
+        }
+
+        // Calculate max values
+        const dependsOnMax = this.field.dependsOnMax;
+        if (dependsOnMax) {
+          const maxValues = values.map(option => {
+            return option && (this.field.dependsOnMax[option.value] || null);
+          });
+          this.max = Math.max(...maxValues) || null;
         }
       });
     }

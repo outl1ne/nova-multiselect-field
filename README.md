@@ -15,8 +15,8 @@ This restriction is due to `Nova::translatable()` method being added in 2.0.11, 
 
 ## Features
 
-- Multiselect w/ search
-- Single select w/ search
+- Multiselect with search
+- Single select with search
 - Reordering functionality with drag & drop
 - Dependency on other Multiselect instances
 
@@ -96,7 +96,7 @@ Usage:
 Multiselect::make('Country', 'country')
     ->options([
         'IT' => 'Italy',
-        'FR' => 'France',
+        'SG' => 'Singapore',
     ]),
 
 Multiselect::make('Language', 'language')
@@ -105,10 +105,18 @@ Multiselect::make('Language', 'language')
         'IT' => [
             'it' => 'Italian',
         ],
-        'FR' => [
-            'fr' => 'French',
-        ],
+        'SG' => [
+            'en' => 'English',
+            'ms' => 'Malay',
+            'zh' => 'Chinese',
+        ]
     ]),
+
+    // Optionally define max number of values
+    ->dependsOnMax([
+        'IT' => 1,
+        'SG' => 3,
+    ])
 ```
 
 ## Options
