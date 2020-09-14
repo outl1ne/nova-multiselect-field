@@ -1,0 +1,15 @@
+{
+  "novaMultiselect.maxElements": "Maximaal :max toegestaan.",
+  "novaMultiselect.noResult": "Geen resultaten gevonden.",
+  "novaMultiselect.noOptions": "Lijst is leeg.",
+  "novaMultiselect.limitText": "en :count meer",
+  "novaMultiselect.selectLabel": "Druk enter om te selecteren",
+  "novaMultiselect.selectGroupLabel": "Druk enter om groep te selecteren",
+  "novaMultiselect.selectedLabel": "Geselecteerd",
+  "novaMultiselect.deselectLabel": "Druk enter om te verwijderen",
+  "novaMultiselect.deselectGroupLabel": "Druk enter om groep te verwijderen",
+  "novaMultiselect.placeholder": "Selecteer optie(s)",
+  "novaMultiselect.nItemsSelected": ":count items geselecteerd",
+  "novaMultiselect.reorder": "Ordenen",
+  "novaMultiselect.doneReordering": "Ordenen afgerond"
+}
