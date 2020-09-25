@@ -2,6 +2,7 @@
 
 namespace OptimistDigital\MultiselectField;
 
+use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -11,6 +12,8 @@ class Multiselect extends Field
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
+
+    protected static $belongsToManyCache = [];
 
     /**
      * Sets the options available for select.
@@ -196,6 +199,54 @@ class Multiselect extends Field
     public function resolveForPageResponseUsing(callable $resolveCallback)
     {
         $this->pageResponseResolveCallback = $resolveCallback;
+        return $this;
+    }
+
+
+    /**
+     * Makes the field to manage a BelongsToMany relationship.
+     *
+     * @param string $resourceClass The Nova Resource class for the other model.
+     * @param string $label The column to be displayed as the label in the select field.
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function belongsToMany($resourceClass, $label = null)
+    {
+        if (!$label && !empty($resourceClass::$title)) $label = $resourceClass::$title;
+        $model = $resourceClass::$model;
+        $primaryKey = (new $model)->getKeyName();
+
+        $this->resolveUsing(function ($value) use ($primaryKey, $model, $label) {
+            if (key_exists($model, static::$belongsToManyCache)) {
+                $options = static::$belongsToManyCache[$model];
+            } else {
+                $options = $model::all()->pluck($label, $primaryKey);
+                static::$belongsToManyCache[$model] = $options;
+            }
+
+            $this->options($options);
+
+            return collect(array_values($value ?? []))->flatten(1)->pluck($primaryKey);
+        });
+
+        $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
+            return function () use ($request, $model, $attribute) {
+                // Validate
+                if (!is_callable([$model, $attribute])) {
+                    throw new RuntimeException("{$model}::{$attribute} must be a relation method.");
+                }
+
+                $relation = $model->{$attribute}();
+
+                if (!method_exists($relation, 'sync')) {
+                    throw new RuntimeException("{$model}::{$attribute} does not appear to model a BelongsToMany or MorphsToMany.");
+                }
+
+                // Sync
+                $relation->sync($request->{$attribute} ?? []);
+            };
+        });
+
         return $this;
     }
 }
