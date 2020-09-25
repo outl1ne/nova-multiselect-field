@@ -9,10 +9,6 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 - Laravel Nova ^2.0.11
 
-For Nova version earlier than 2.0.11 please use `nova-multiselect-field` version `1.1.6` or earlier.
-
-This restriction is due to `Nova::translatable()` method being added in 2.0.11, which allows this package to be localized.
-
 ## Features
 
 - Multiselect with search
@@ -53,11 +49,6 @@ public function fields(Request $request)
         ->options([
           'liverpool' => 'Liverpool FC',
           'tottenham' => 'Tottenham Hotspur',
-          'bvb' => 'Borussia Dortmund',
-          'bayern' => 'FC Bayern Munich',
-          'barcelona' => 'FC Barcelona',
-          'juventus' => 'Juventus FC',
-          'psg' => 'Paris Saint-Germain FC',
         ])
 
         // Optional:
@@ -119,6 +110,22 @@ Multiselect::make('Language', 'language')
     ])
 ```
 
+## Belongs-To-Many
+
+You can use this field for `BelongsToMany` relationship selection.
+
+```php
+// Add your BelongsToMany relationship to your model:
+public function categories()
+{
+    return $this->belongsToMany(\App\Models\Category::class);
+}
+
+// Add the field to your Resource:
+Multiselect::make('Categories', 'categories')
+  ->belongsToMany(\App\Nova\Resources\Category::class),
+```
+
 ## Options
 
 Possible options you can pass to the field using the option name as a function, ie `->placeholder('Choose peanuts')`.
@@ -136,6 +143,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `reorderable`                 | Boolean         | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                 |
 | `dependsOn`                   | String          | null       | Determines which Multiselect this field depends on.                                                                                                                          |
 | `dependsOnOptions`            | Array           | null       | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                     |
+| `belongsToMany`               | Resource        | null       | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                 |
 | `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
 
 ## Localization
