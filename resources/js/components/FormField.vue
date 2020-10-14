@@ -46,7 +46,7 @@
         <div v-if="reorderMode" class="form-input-bordered py-1">
           <vue-draggable tag="ul" v-model="value" class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <transition-group>
-              <li v-for="(s, i) in selected" :key="i" class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
+              <li v-for="(s, i) in selected" :key="i + 0" class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
                 {{ s.label }}
               </li>
             </transition-group>
