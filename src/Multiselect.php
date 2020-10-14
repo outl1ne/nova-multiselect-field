@@ -243,7 +243,7 @@ class Multiselect extends Field
                 }
 
                 // Sync
-                $relation->sync($request->{$attribute} ?? []);
+                $relation->sync($request->get($attribute) ?? []);
             };
         });
 
