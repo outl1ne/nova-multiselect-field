@@ -230,7 +230,7 @@ class Multiselect extends Field
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
-            return function () use ($request, $model, $attribute) {
+            $model::saved(function ($model) use ($attribute, $request) {
                 // Validate
                 if (!is_callable([$model, $attribute])) {
                     throw new RuntimeException("{$model}::{$attribute} must be a relation method.");
@@ -244,7 +244,7 @@ class Multiselect extends Field
 
                 // Sync
                 $relation->sync($request->get($attribute) ?? []);
-            };
+            });
         });
 
         return $this;
