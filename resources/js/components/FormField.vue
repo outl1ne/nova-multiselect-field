@@ -7,6 +7,7 @@
           v-if="!reorderMode"
           @input="handleChange"
           @open="() => repositionDropdown(true)"
+          @search-change="asyncFindApi"
           track-by="value"
           label="label"
           :group-label="isOptionGroups ? 'label' : void 0"
@@ -14,7 +15,7 @@
           :group-select="field.groupSelect || false"
           ref="multiselect"
           :value="selected"
-          :options="computedOptions"
+          :options="field.apiUrl ? asyncOptions : computedOptions"
           :class="errorClasses"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
@@ -28,17 +29,18 @@
           :selectedLabel="__('novaMultiselect.selectedLabel')"
           :deselectLabel="__('novaMultiselect.deselectLabel')"
           :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
+          :clearOnSelect="field.clearOnSelect || false"
         >
           <template slot="maxElements">
             {{ __('novaMultiselect.maxElements', { max: String(field.max || '') }) }}
           </template>
 
           <template slot="noResult">
-            {{ __('novaMultiselect.noResult') }}
+            {{ field.apiUrl && isLoading ? __('novaMultiSelect.LookingForMatches') : __('novaMultiselect.noResult') }}
           </template>
 
           <template slot="noOptions">
-            {{ __('novaMultiselect.noOptions') }}
+            {{ field.apiUrl ? __('novaMultiSelect.startTypingForOptions') : __('novaMultiselect.noOptions') }}
           </template>
         </multiselect>
 
@@ -70,6 +72,7 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
 import VueDraggable from 'vuedraggable';
+import debounce from 'lodash/debounce';
 
 export default {
   components: { Multiselect, VueDraggable },
@@ -82,6 +85,8 @@ export default {
     reorderMode: false,
     options: [],
     max: void 0,
+    asyncOptions: [],
+    isLoading: false,
   }),
 
   mounted() {
@@ -218,6 +223,33 @@ export default {
 
       if (onOpen) this.$nextTick(handlePositioning);
       else handlePositioning();
+    },
+
+    fetchOptions: debounce(function (query) {
+      fetch(`${this.field.apiUrl}?query=${query}`)
+        .then(response => response.json())
+        .then(response => {
+          this.asyncOptions = Array.isArray(response)
+            ? response
+            : Object.entries(response).map(entry => ({ label: entry[1], value: entry[0] }));
+          this.isLoading = false;
+        });
+    }, 500),
+
+    asyncFindApi(query) {
+      if (!this.field.apiUrl) return;
+
+      if (query.length >= 1) {
+        this.asyncOptions = [];
+        try {
+          this.isLoading = true;
+          this.fetchOptions(query);
+        } catch (error) {
+          console.error('Error performing search:', error);
+        }
+      } else {
+        this.asyncOptions = [];
+      }
     },
   },
 };

@@ -11,5 +11,7 @@
   "novaMultiselect.placeholder": "Choisissez les options",
   "novaMultiselect.nItemsSelected": ":count items sélectionnés",
   "novaMultiselect.reorder": "Réorganiser",
-  "novaMultiselect.doneReordering": "Terminer la réorganisation"
+  "novaMultiselect.doneReordering": "Terminer la réorganisation",
+  "novaMultiSelect.LookingForMatches": "Recherche de matchs...",
+  "novaMultiSelect.startTypingForOptions" : "Commencez à taper pour voir les options"
 }

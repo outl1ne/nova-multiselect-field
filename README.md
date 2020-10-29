@@ -133,6 +133,7 @@ Possible options you can pass to the field using the option name as a function, 
 | Option                        | type            | default    | description                                                                                                                                                                  |
 | ----------------------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options`                     | Array\|callable | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                |
+| `api`                         | String          | null       | URL that can be used to fetch options asynchronously. The API must return an array of strings, or an object containing key-value pairs (`['id' => 'value']`).                |
 | `placeholder`                 | String          | Field name | The placeholder string for the input.                                                                                                                                        |
 | `max`                         | Number          | Infinite   | The maximum number of options a user can select.                                                                                                                             |
 | `groupSelect`                 | Boolean         | false      | For use with option groups - allows the user to select whole groups at once                                                                                                  |
@@ -145,6 +146,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `dependsOnOptions`            | Array           | null       | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                     |
 | `belongsToMany`               | Resource        | null       | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                 |
 | `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API. |
+| `clearOnSelect`               | Boolean         | false      | Clears input after an option has been selected.                                                                                                                              |
 
 ## Localization
 

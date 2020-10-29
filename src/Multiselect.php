@@ -53,6 +53,11 @@ class Multiselect extends Field
         ]);
     }
 
+    public function api($apiUrl = '')
+    {
+        return $this->withMeta(['apiUrl' => $apiUrl]);
+    }
+
     protected function resolveAttribute($resource, $attribute)
     {
         $singleSelect = $this->meta['singleSelect'] ?? false;
@@ -248,5 +253,10 @@ class Multiselect extends Field
         });
 
         return $this;
+    }
+
+    public function clearOnSelect($clearOnSelect = true)
+    {
+        return $this->withMeta(['clearOnSelect' => $clearOnSelect]);
     }
 }

@@ -11,5 +11,7 @@
   "novaMultiselect.placeholder": "Selecteer optie(s)",
   "novaMultiselect.nItemsSelected": ":count items geselecteerd",
   "novaMultiselect.reorder": "Ordenen",
-  "novaMultiselect.doneReordering": "Ordenen afgerond"
+  "novaMultiselect.doneReordering": "Ordenen afgerond",
+  "novaMultiSelect.LookingForMatches": "Op zoek naar wedstrijden...",
+  "novaMultiSelect.startTypingForOptions" : "Begin met typen om de opties te zien"
 }
