@@ -3,6 +3,7 @@
 namespace OptimistDigital\MultiselectField;
 
 use RuntimeException;
+use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -56,6 +57,12 @@ class Multiselect extends Field
     public function api($apiUrl = '')
     {
         return $this->withMeta(['apiUrl' => $apiUrl]);
+    }
+
+    public function asyncResource($resourceClass)
+    {
+        $apiUrl = "/nova-api/{$resourceClass::uriKey()}";
+        return $this->api($apiUrl);
     }
 
     protected function resolveAttribute($resource, $attribute)
