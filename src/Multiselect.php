@@ -3,7 +3,6 @@
 namespace OptimistDigital\MultiselectField;
 
 use RuntimeException;
-use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
