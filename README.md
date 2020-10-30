@@ -44,8 +44,7 @@ use OptimistDigital\MultiselectField\Multiselect;
 public function fields(Request $request)
 {
     return [
-      Multiselect
-        ::make('Favourite football teams', 'football_teams')
+      Multiselect::make('Football teams')
         ->options([
           'liverpool' => 'Liverpool FC',
           'tottenham' => 'Tottenham Hotspur',
@@ -58,6 +57,13 @@ public function fields(Request $request)
         ->optionsLimit(5) // How many items to display at once
         ->reorderable() // Allows reordering functionality
         ->singleSelect() // If you want a searchable single select field
+
+        // Async model querying
+        Multiselect::make('Artists')
+          ->asyncResource(Artist::class),
+
+          // If you want a custom search, create your own endpoint:
+          ->api('/api/multiselect/artists?something=false', Artist::class),
     ];
 }
 ```
@@ -83,7 +89,7 @@ You can make a Multiselect depend on another by using `dependsOn`. This also req
 
 Usage:
 
-```
+```php
 Multiselect::make('Country', 'country')
     ->options([
         'IT' => 'Italy',
