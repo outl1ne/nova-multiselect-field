@@ -87,7 +87,7 @@ class Multiselect extends Field
             return $value;
         });
 
-        return $this->withMeta(['apiUrl' => $path]);
+        return $this->withMeta(['apiUrl' => $path, 'labelKey' => $resourceClass::$title]);
     }
 
     public function asyncResource($resourceClass)
@@ -288,6 +288,52 @@ class Multiselect extends Field
                 // Sync
                 $relation->sync($request->get($attribute) ?? []);
             });
+        });
+
+        return $this;
+    }
+
+    /**
+     * Makes the field to manage a BelongsTo relationship.
+     *
+     * @param string $resourceClass The Nova Resource class for the other model.
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function belongsTo($resourceClass)
+    {
+        $this->singleSelect();
+
+        $model = $resourceClass::$model;
+        $primaryKey = (new $model)->getKeyName();
+
+        $this->resolveUsing(function ($value) use ($primaryKey, $resourceClass) {
+            $value = $value->{$primaryKey};
+            $this->asyncResource($resourceClass);
+
+            $options = [];
+            $model = $this->resourceClass::$model::find($value);
+            $options[$model[$primaryKey]] = $model[$this->resourceClass::$title];
+            $this->options($options);
+
+            return $value;
+        });
+
+        $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) use ($resourceClass) {
+            $modelClass = get_class($model);
+
+            // Validate
+            if (!is_callable([$model, $attribute])) {
+                throw new RuntimeException("{$modelClass}::{$attribute} must be a relation method.");
+            }
+
+            $relation = $model->{$attribute}();
+
+            if (!method_exists($relation, 'associate')) {
+                throw new RuntimeException("{$modelClass}::{$attribute} does not appear to model a BelongsTo relationship.");
+            }
+
+            // Sync
+            $relation->associate($resourceClass::$model::find($request->get($attribute)));
         });
 
         return $this;
