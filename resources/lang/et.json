@@ -3,15 +3,9 @@
   "novaMultiselect.noResult": "Tulemusi ei leitud.",
   "novaMultiselect.noOptions": "Valikuid ei ole.",
   "novaMultiselect.limitText": "ja :count veel",
-  "novaMultiselect.selectLabel": "Vajuta enter, et valida",
-  "novaMultiselect.selectGroupLabel": "Vajuta enter, et valida grupp",
-  "novaMultiselect.selectedLabel": "Valitud",
-  "novaMultiselect.deselectLabel": "Vajuta enter, et eemaldada valik",
-  "novaMultiselect.deselectGroupLabel": "Vajuta enter, et eemaldada grupi valik",
   "novaMultiselect.placeholder": "Tee valik",
   "novaMultiselect.nItemsSelected": ":count valitud",
   "novaMultiselect.reorder": "Järjesta",
   "novaMultiselect.doneReordering": "Lõpeta järjestamine",
-  "novaMultiSelect.LookingForMatches": "Otsitakse vasteid...",
-  "novaMultiSelect.startTypingForOptions" : "Alusta kirjutamist, et näha valikuid"
+  "novaMultiSelect.startTypingForOptions": "Alusta kirjutamist, et näha valikuid"
 }

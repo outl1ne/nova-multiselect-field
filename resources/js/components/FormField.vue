@@ -1,7 +1,7 @@
 <template>
   <default-field :field="field" :errors="errors">
     <template slot="field">
-      <div class="flex flex-col">
+      <div class="multiselect-field flex flex-col">
         <!-- Multi select field -->
         <multiselect
           v-if="!reorderMode"
@@ -16,6 +16,7 @@
           ref="multiselect"
           :value="selected"
           :options="field.apiUrl ? asyncOptions : computedOptions"
+          :internal-search="!field.apiUrl"
           :class="errorClasses"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
@@ -23,11 +24,12 @@
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
-          :selectLabel="__('novaMultiselect.selectLabel')"
-          :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
-          :selectedLabel="__('novaMultiselect.selectedLabel')"
-          :deselectLabel="__('novaMultiselect.deselectLabel')"
-          :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
+          selectLabel=""
+          :loading="isLoading"
+          selectGroupLabel=""
+          selectedLabel=""
+          deselectLabel=""
+          deselectGroupLabel=""
           :clearOnSelect="field.clearOnSelect || false"
         >
           <template slot="maxElements">
@@ -35,11 +37,19 @@
           </template>
 
           <template slot="noResult">
-            {{ field.apiUrl && isLoading ? __('novaMultiSelect.LookingForMatches') : __('novaMultiselect.noResult') }}
+            {{ __('novaMultiselect.noResult') }}
           </template>
 
           <template slot="noOptions">
             {{ field.apiUrl ? __('novaMultiSelect.startTypingForOptions') : __('novaMultiselect.noOptions') }}
+          </template>
+
+          <template slot="clear">
+            <div
+              class="multiselect__clear"
+              v-if="field.nullable && (isMultiselect ? value.length : value)"
+              @mousedown.prevent.stop="value = isMultiselect ? [] : null"
+            ></div>
           </template>
         </multiselect>
 
@@ -291,20 +301,52 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.reorder__tag {
-  background: #41b883;
-  border-radius: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.25s ease;
-  margin-bottom: 5px;
+<style lang="scss">
+.multiselect-field {
+  .reorder__tag {
+    background: #41b883;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.25s ease;
+    margin-bottom: 5px;
 
-  &:hover {
+    &:hover {
+      cursor: pointer;
+      background: #3dab7a;
+      transition-duration: 0.05s;
+    }
+  }
+
+  .multiselect__clear {
+    position: absolute;
+    right: 41px;
+    height: 40px;
+    width: 40px;
+    display: block;
     cursor: pointer;
-    background: #3dab7a;
-    transition-duration: 0.05s;
+    z-index: 2;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 3px;
+      height: 16px;
+      background: #aaa;
+      top: 12px;
+      right: 4px;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
   }
 }
 </style>
