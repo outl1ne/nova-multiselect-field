@@ -12,6 +12,7 @@ class Multiselect extends Field
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
+    protected $resourceClass = null;
 
     protected static $belongsToManyCache = [];
 
@@ -53,15 +54,37 @@ class Multiselect extends Field
         ]);
     }
 
-    public function api($apiUrl = '')
+    public function api($path, $resourceClass)
     {
-        return $this->withMeta(['apiUrl' => $apiUrl]);
+        $this->resourceClass = $resourceClass;
+
+        $this->resolveUsing(function ($value) {
+            if (empty($this->resourceClass) && empty($this->apiUrl)) return $value;
+
+            if (empty($value)) {
+                $this->options([]);
+                return $value;
+            }
+
+            $options = [];
+            $modelObj = (new $this->resourceClass::$model);
+            $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
+            $models->each(function ($model) use (&$options) {
+                $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
+            });
+            $this->options($options);
+
+            return $value;
+        });
+
+        return $this->withMeta(['apiUrl' => $path]);
     }
 
     public function asyncResource($resourceClass)
     {
+        $this->resourceClass = $resourceClass;
         $apiUrl = "/nova-api/{$resourceClass::uriKey()}";
-        return $this->api($apiUrl);
+        return $this->api($apiUrl, $resourceClass);
     }
 
     protected function resolveAttribute($resource, $attribute)
