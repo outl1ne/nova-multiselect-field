@@ -7,7 +7,7 @@
           v-if="!reorderMode"
           @input="handleChange"
           @open="() => repositionDropdown(true)"
-          @search-change="asyncFindApi"
+          @search-change="tryToFetchOptions"
           track-by="value"
           label="label"
           :group-label="isOptionGroups ? 'label' : void 0"
@@ -225,24 +225,59 @@ export default {
       else handlePositioning();
     },
 
-    fetchOptions: debounce(function (query) {
-      fetch(`${this.field.apiUrl}?query=${query}`)
-        .then(response => response.json())
-        .then(response => {
-          this.asyncOptions = Array.isArray(response)
-            ? response
-            : Object.entries(response).map(entry => ({ label: entry[1], value: entry[0] }));
-          this.isLoading = false;
-        });
+    fetchOptions: debounce(async function (search) {
+      const { data } = await Nova.request().get(`${this.field.apiUrl}`, { params: { search } });
+
+      // Response is not an array or an object
+      if (typeof data !== 'object') throw new Error('Server response was invalid.');
+
+      // Is array
+      if (Array.isArray(data)) {
+        this.asyncOptions = data;
+        this.isLoading = false;
+        return;
+      }
+
+      // Nova resource response
+      if (data.resources) {
+        const newOptions = [];
+
+        for (const resource of data.resources) {
+          const value = resource.id.value;
+          const labelField = this.field.labelKey;
+          let label = void 0;
+
+          // Has only ID field
+          if (resource.fields.length === 1) label = value;
+          else if (labelField) {
+            const field = resource.fields.filter(field => field.attribute === labelField)[0];
+            if (field) label = field.value;
+          }
+
+          // Still no name
+          if (!label && resource.fields.length > 1) {
+            label = resource.fields[1].value;
+          }
+
+          newOptions.push({ value, label });
+        }
+
+        this.asyncOptions = newOptions;
+        this.isLoading = false;
+        return;
+      }
+
+      this.asyncOptions = Object.entries(data).map(entry => ({ label: entry[1], value: entry[0] }));
+      this.isLoading = false;
     }, 500),
 
-    asyncFindApi(query) {
+    tryToFetchOptions(query) {
       if (!this.field.apiUrl) return;
 
       if (query.length >= 1) {
         this.asyncOptions = [];
+        this.isLoading = true;
         try {
-          this.isLoading = true;
           this.fetchOptions(query);
         } catch (error) {
           console.error('Error performing search:', error);
