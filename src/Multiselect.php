@@ -2,6 +2,7 @@
 
 namespace OptimistDigital\MultiselectField;
 
+use Exception;
 use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -13,8 +14,6 @@ class Multiselect extends Field
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
     protected $resourceClass = null;
-
-    protected static $belongsToManyCache = [];
 
     /**
      * Sets the options available for select.
@@ -66,13 +65,18 @@ class Multiselect extends Field
                 return $value;
             }
 
-            $options = [];
-            $modelObj = (new $this->resourceClass::$model);
-            $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
-            $models->each(function ($model) use (&$options) {
-                $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
-            });
-            $this->options($options);
+            try {
+                $options = [];
+                $modelObj = (new $this->resourceClass::$model);
+                $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
+                $models->each(function ($model) use (&$options) {
+                    $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
+                });
+                dd($value);
+                $this->options($options);
+            } catch (Exception $e) {
+                $this->options([]);
+            }
 
             return $value;
         });
@@ -241,26 +245,25 @@ class Multiselect extends Field
      * Makes the field to manage a BelongsToMany relationship.
      *
      * @param string $resourceClass The Nova Resource class for the other model.
-     * @param string $label The column to be displayed as the label in the select field.
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function belongsToMany($resourceClass, $label = null)
+    public function belongsToMany($resourceClass)
     {
-        if (!$label && !empty($resourceClass::$title)) $label = $resourceClass::$title;
         $model = $resourceClass::$model;
         $primaryKey = (new $model)->getKeyName();
 
-        $this->resolveUsing(function ($value) use ($primaryKey, $model, $label) {
-            if (key_exists($model, static::$belongsToManyCache)) {
-                $options = static::$belongsToManyCache[$model];
-            } else {
-                $options = $model::all()->pluck($label, $primaryKey);
-                static::$belongsToManyCache[$model] = $options;
-            }
+        $this->resolveUsing(function ($value) use ($primaryKey, $resourceClass) {
+            $value = collect(array_values($value ?? []))->flatten(1)->pluck($primaryKey);
+            $this->asyncResource($resourceClass);
 
+            $options = [];
+            $models = $this->resourceClass::$model::whereIn($primaryKey, $value)->get();
+            $models->each(function ($model) use (&$options) {
+                $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
+            });
             $this->options($options);
 
-            return collect(array_values($value ?? []))->flatten(1)->pluck($primaryKey);
+            return $value;
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
