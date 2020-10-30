@@ -7,12 +7,12 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Requirements
 
-- Laravel Nova ^2.0.11
+- Laravel Nova 3.X
 
 ## Features
 
-- Multiselect with search
-- Single select with search
+- Multi- and singleselect with search
+- Asynchronous search
 - Reordering functionality with drag & drop
 - Dependency on other Multiselect instances
 
@@ -151,7 +151,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `reorderable`                 | Boolean         | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
 | `dependsOn`                   | String          | null       | Determines which Multiselect this field depends on.                                                                                                                                               |
 | `dependsOnOptions`            | Array           | null       | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
-| `belongsToMany`               | Resource        | null       | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
+| `belongsToMany`               | String          | null       | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
 | `resolveForPageResponseUsing` | Callable        | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API.                      |
 | `clearOnSelect`               | Boolean         | false      | Clears input after an option has been selected.                                                                                                                                                   |
 
