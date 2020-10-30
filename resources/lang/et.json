@@ -11,5 +11,7 @@
   "novaMultiselect.placeholder": "Tee valik",
   "novaMultiselect.nItemsSelected": ":count valitud",
   "novaMultiselect.reorder": "Järjesta",
-  "novaMultiselect.doneReordering": "Lõpeta järjestamine"
+  "novaMultiselect.doneReordering": "Lõpeta järjestamine",
+  "novaMultiSelect.LookingForMatches": "Otsitakse vasteid...",
+  "novaMultiSelect.startTypingForOptions" : "Alusta kirjutamist, et näha valikuid"
 }
