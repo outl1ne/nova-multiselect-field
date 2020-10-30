@@ -259,6 +259,8 @@ export default {
             label = resource.fields[1].value;
           }
 
+          if (!label) label = value;
+
           newOptions.push({ value, label });
         }
 
