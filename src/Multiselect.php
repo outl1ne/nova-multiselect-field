@@ -58,11 +58,18 @@ class Multiselect extends Field
         $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) {
+            $value = array_values((array)$value);
+
             if (empty($this->resourceClass) && empty($this->apiUrl)) return $value;
 
             if (empty($value)) {
                 $this->options([]);
                 return $value;
+            }
+
+            // Handle translatable/collection where values are an array of arrays
+            if (is_array($value) && is_array($value[0] ?? null)) {
+                $value = collect($value)->flatten(1)->toArray();
             }
 
             try {
@@ -72,7 +79,6 @@ class Multiselect extends Field
                 $models->each(function ($model) use (&$options) {
                     $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
                 });
-                dd($value);
                 $this->options($options);
             } catch (Exception $e) {
                 $this->options([]);
