@@ -253,19 +253,21 @@ class Multiselect extends Field
      * @param string $resourceClass The Nova Resource class for the other model.
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function belongsToMany($resourceClass)
+    public function belongsToMany($resourceClass, $async = true)
     {
         $model = $resourceClass::$model;
         $primaryKey = (new $model)->getKeyName();
 
-        $this->resolveUsing(function ($value) use ($primaryKey, $resourceClass) {
+        $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
             $value = collect(array_values($value ?? []))->flatten(1)->pluck($primaryKey);
-            $this->asyncResource($resourceClass);
+            if ($async) $this->asyncResource($resourceClass);
 
             $options = [];
-            $models = $this->resourceClass::$model::whereIn($primaryKey, $value)->get();
-            $models->each(function ($model) use (&$options) {
-                $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
+            $models = $async
+                ? $resourceClass::$model::whereIn($primaryKey, $value)->get()
+                : $resourceClass::$model::all();
+            $models->each(function ($model) use (&$options, $resourceClass) {
+                $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
             });
             $this->options($options);
 
@@ -299,20 +301,27 @@ class Multiselect extends Field
      * @param string $resourceClass The Nova Resource class for the other model.
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function belongsTo($resourceClass)
+    public function belongsTo($resourceClass, $async = true)
     {
         $this->singleSelect();
 
         $model = $resourceClass::$model;
         $primaryKey = (new $model)->getKeyName();
 
-        $this->resolveUsing(function ($value) use ($primaryKey, $resourceClass) {
+        $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
             $value = $value->{$primaryKey};
-            $this->asyncResource($resourceClass);
+            if ($async) $this->asyncResource($resourceClass);
 
             $options = [];
-            $model = $this->resourceClass::$model::find($value);
-            $options[$model[$primaryKey]] = $model[$this->resourceClass::$title];
+            if ($async) {
+                $model = $resourceClass::$model::find($value);
+                $options[$model[$primaryKey]] = $model[$resourceClass::$title];
+            } else {
+                $models = $resourceClass::$model::all();
+                $models->each(function ($model) use (&$options, $resourceClass) {
+                    $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
+                });
+            }
             $this->options($options);
 
             return $value;
