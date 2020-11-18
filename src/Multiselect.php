@@ -309,7 +309,7 @@ class Multiselect extends Field
         $primaryKey = (new $model)->getKeyName();
 
         $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
-            $value = $value->{$primaryKey};
+            $value = $value->{$primaryKey} ?? null;
             if ($async) $this->asyncResource($resourceClass);
 
             $options = [];
