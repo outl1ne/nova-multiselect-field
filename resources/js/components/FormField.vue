@@ -114,7 +114,7 @@ export default {
         values.forEach(option => {
           if (!option) return;
 
-          Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
+          Object.keys(this.field.dependsOnOptions[option.value] || {}).forEach(value => {
             // Only add unique
             if (newOptions.find(o => o.value === value)) return;
 
