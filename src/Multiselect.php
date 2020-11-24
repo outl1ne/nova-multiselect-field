@@ -313,9 +313,9 @@ class Multiselect extends Field
             if ($async) $this->asyncResource($resourceClass);
 
             $options = [];
-            if ($async) {
+            if ($async && isset($value)) {
                 $model = $resourceClass::$model::find($value);
-                $options[$model[$primaryKey]] = $model[$resourceClass::$title];
+                if (isset($model)) $options[$model[$primaryKey]] = $model[$resourceClass::$title];
             } else {
                 $models = $resourceClass::$model::all();
                 $models->each(function ($model) use (&$options, $resourceClass) {
@@ -331,7 +331,7 @@ class Multiselect extends Field
             $modelClass = get_class($model);
 
             // Validate
-            if (!is_callable([$model, $attribute])) {
+            if (!method_exists($model, $attribute)) {
                 throw new RuntimeException("{$modelClass}::{$attribute} must be a relation method.");
             }
 
