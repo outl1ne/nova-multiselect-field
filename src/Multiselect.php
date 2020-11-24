@@ -264,7 +264,7 @@ class Multiselect extends Field
 
             $options = [];
             $models = $async
-                ? $resourceClass::$model::whereIn($primaryKey, $value)->get()
+                ? $resourceClass::$model::whereIn($primaryKey, $value)->get()->filter()
                 : $resourceClass::$model::all();
             $models->each(function ($model) use (&$options, $resourceClass) {
                 $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
@@ -277,7 +277,7 @@ class Multiselect extends Field
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
             $model::saved(function ($model) use ($attribute, $request) {
                 // Validate
-                if (!is_callable([$model, $attribute])) {
+                if (!method_exists($model, $attribute)) {
                     throw new RuntimeException("{$model}::{$attribute} must be a relation method.");
                 }
 
