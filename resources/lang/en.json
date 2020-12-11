@@ -3,13 +3,9 @@
   "novaMultiselect.noResult": "No results found.",
   "novaMultiselect.noOptions": "List is empty.",
   "novaMultiselect.limitText": "and :count more",
-  "novaMultiselect.selectLabel": "Press enter to select",
-  "novaMultiselect.selectGroupLabel": "Press enter to select group",
-  "novaMultiselect.selectedLabel": "Selected",
-  "novaMultiselect.deselectLabel": "Press enter to remove",
-  "novaMultiselect.deselectGroupLabel": "Press enter to deselect group",
   "novaMultiselect.placeholder": "Select option(s)",
   "novaMultiselect.nItemsSelected": ":count items selected",
   "novaMultiselect.reorder": "Reorder",
-  "novaMultiselect.doneReordering": "Finish reordering"
+  "novaMultiselect.doneReordering": "Finish reordering",
+  "novaMultiSelect.startTypingForOptions": "Start typing to see options"
 }

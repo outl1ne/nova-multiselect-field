@@ -1,12 +1,13 @@
 <template>
-  <default-field :field="field" :errors="errors">
+  <default-field :field="field" :showHelpText="true" :errors="errors">
     <template slot="field">
-      <div class="flex flex-col">
+      <div class="multiselect-field flex flex-col">
         <!-- Multi select field -->
         <multiselect
           v-if="!reorderMode"
           @input="handleChange"
           @open="() => repositionDropdown(true)"
+          @search-change="tryToFetchOptions"
           track-by="value"
           label="label"
           :group-label="isOptionGroups ? 'label' : void 0"
@@ -14,20 +15,22 @@
           :group-select="field.groupSelect || false"
           ref="multiselect"
           :value="selected"
-          :options="computedOptions"
+          :options="field.apiUrl ? asyncOptions : computedOptions"
+          :internal-search="!field.apiUrl"
           :class="errorClasses"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
-          :clear-on-select="false"
           :multiple="isMultiselect"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
-          :selectLabel="__('novaMultiselect.selectLabel')"
-          :selectGroupLabel="__('novaMultiselect.selectGroupLabel')"
-          :selectedLabel="__('novaMultiselect.selectedLabel')"
-          :deselectLabel="__('novaMultiselect.deselectLabel')"
-          :deselectGroupLabel="__('novaMultiselect.deselectGroupLabel')"
+          selectLabel=""
+          :loading="isLoading"
+          selectGroupLabel=""
+          selectedLabel=""
+          deselectLabel=""
+          deselectGroupLabel=""
+          :clearOnSelect="field.clearOnSelect || false"
           :taggable="field.taggable || false"
           @tag="addTag"
         >
@@ -40,7 +43,15 @@
           </template>
 
           <template slot="noOptions">
-            {{ __('novaMultiselect.noOptions') }}
+            {{ field.apiUrl ? __('novaMultiSelect.startTypingForOptions') : __('novaMultiselect.noOptions') }}
+          </template>
+
+          <template slot="clear">
+            <div
+              class="multiselect__clear"
+              v-if="field.nullable && (isMultiselect ? value.length : value)"
+              @mousedown.prevent.stop="value = isMultiselect ? [] : null"
+            ></div>
           </template>
         </multiselect>
 
@@ -72,6 +83,7 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect';
 import VueDraggable from 'vuedraggable';
+import debounce from 'lodash/debounce';
 
 export default {
   components: { Multiselect, VueDraggable },
@@ -84,6 +96,8 @@ export default {
     reorderMode: false,
     options: [],
     max: void 0,
+    asyncOptions: [],
+    isLoading: false,
   }),
 
   mounted() {
@@ -102,7 +116,7 @@ export default {
         values.forEach(option => {
           if (!option) return;
 
-          Object.keys(this.field.dependsOnOptions[option.value]).forEach(value => {
+          Object.keys(this.field.dependsOnOptions[option.value] || {}).forEach(value => {
             // Only add unique
             if (newOptions.find(o => o.value === value)) return;
 
@@ -234,25 +248,120 @@ export default {
       }else{
         this.value = value;
       }
-    }
+    },
+    fetchOptions: debounce(async function (search) {
+      const { data } = await Nova.request().get(`${this.field.apiUrl}`, { params: { search } });
+
+      // Response is not an array or an object
+      if (typeof data !== 'object') throw new Error('Server response was invalid.');
+
+      // Is array
+      if (Array.isArray(data)) {
+        this.asyncOptions = data;
+        this.isLoading = false;
+        return;
+      }
+
+      // Nova resource response
+      if (data.resources) {
+        const newOptions = [];
+
+        for (const resource of data.resources) {
+          const value = resource.id.value;
+          const labelField = this.field.labelKey;
+          let label = void 0;
+
+          // Has only ID field
+          if (resource.fields.length === 1) label = value;
+          else if (labelField) {
+            const field = resource.fields.filter(field => field.attribute === labelField)[0];
+            if (field) label = field.value;
+          }
+
+          // Still no name
+          if (!label && resource.fields.length > 1) {
+            label = resource.fields[1].value;
+          }
+
+          if (!label) label = value;
+
+          newOptions.push({ value, label });
+        }
+
+        this.asyncOptions = newOptions;
+        this.isLoading = false;
+        return;
+      }
+
+      this.asyncOptions = Object.entries(data).map(entry => ({ label: entry[1], value: entry[0] }));
+      this.isLoading = false;
+    }, 500),
+
+    tryToFetchOptions(query) {
+      if (!this.field.apiUrl) return;
+
+      if (query.length >= 1) {
+        this.asyncOptions = [];
+        this.isLoading = true;
+        try {
+          this.fetchOptions(query);
+        } catch (error) {
+          console.error('Error performing search:', error);
+        }
+      } else {
+        this.asyncOptions = [];
+      }
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.reorder__tag {
-  background: #41b883;
-  border-radius: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.25s ease;
-  margin-bottom: 5px;
+<style lang="scss">
+.multiselect-field {
+  .reorder__tag {
+    background: #41b883;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.25s ease;
+    margin-bottom: 5px;
 
-  &:hover {
+    &:hover {
+      cursor: pointer;
+      background: #3dab7a;
+      transition-duration: 0.05s;
+    }
+  }
+
+  .multiselect__clear {
+    position: absolute;
+    right: 41px;
+    height: 40px;
+    width: 40px;
+    display: block;
     cursor: pointer;
-    background: #3dab7a;
-    transition-duration: 0.05s;
+    z-index: 2;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 3px;
+      height: 16px;
+      background: #aaa;
+      top: 12px;
+      right: 4px;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
   }
 }
 </style>
