@@ -58,14 +58,12 @@ class Multiselect extends Field
         $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) {
+            $this->options([]);
             $value = array_values((array)$value);
 
-            if (empty($this->resourceClass) && empty($this->apiUrl)) return $value;
-
-            if (empty($value)) {
-                $this->options([]);
-                return $value;
-            }
+            if (empty($this->resourceClass)) throw new Exception('Multiselect requires resourceClass, none provided.');
+            if (empty($this->apiUrl)) throw new Exception('Multiselect requires apiUrl, none provided.');
+            if (empty($value)) return $value;
 
             // Handle translatable/collection where values are an array of arrays
             if (is_array($value) && is_array($value[0] ?? null)) {
@@ -81,7 +79,6 @@ class Multiselect extends Field
                 });
                 $this->options($options);
             } catch (Exception $e) {
-                $this->options([]);
             }
 
             return $value;
