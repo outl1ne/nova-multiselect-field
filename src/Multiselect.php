@@ -75,7 +75,7 @@ class Multiselect extends Field
                 $modelObj = (new $this->resourceClass::$model);
                 $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
                 $models->each(function ($model) use (&$options) {
-                    $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
+                    $options[$model[$model->getKeyName()]] = (new $this->resourceClass($model))->title();
                 });
                 $this->options($options);
             } catch (Exception $e) {

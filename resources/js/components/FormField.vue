@@ -252,24 +252,8 @@ export default {
         const newOptions = [];
 
         for (const resource of data.resources) {
+          const label = resource.title;
           const value = resource.id.value;
-          const labelField = this.field.labelKey;
-          let label = void 0;
-
-          // Has only ID field
-          if (resource.fields.length === 1) label = value;
-          else if (labelField) {
-            const field = resource.fields.filter(field => field.attribute === labelField)[0];
-            if (field) label = field.value;
-          }
-
-          // Still no name
-          if (!label && resource.fields.length > 1) {
-            label = resource.fields[1].value;
-          }
-
-          if (!label) label = value;
-
           newOptions.push({ value, label });
         }
 
