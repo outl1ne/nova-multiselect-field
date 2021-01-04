@@ -1,5 +1,5 @@
 <template>
-  <default-field :field="field" :showHelpText="true" :errors="errors">
+  <default-field :field="field" :showHelpText="showHelpText" :errors="errors">
     <template slot="field">
       <div class="multiselect-field flex flex-col">
         <!-- Multi select field -->
