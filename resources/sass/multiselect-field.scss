@@ -4,7 +4,12 @@
 .multiselect {
   > .multiselect__tags {
     border-color: var(\-\-60);
-    border-radius: 0.5rem;
+    border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  &.border-danger > .multiselect__tags {
+    border-color: var(--danger);
   }
 }
