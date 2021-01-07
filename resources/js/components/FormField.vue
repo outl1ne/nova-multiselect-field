@@ -18,6 +18,7 @@
           :options="field.apiUrl ? asyncOptions : computedOptions"
           :internal-search="!field.apiUrl"
           :class="errorClasses"
+          :disabled="isReadonly"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
