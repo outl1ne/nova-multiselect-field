@@ -15,6 +15,11 @@ class Multiselect extends Field
     protected $saveAsJSON = false;
     protected $resourceClass = null;
 
+    public function label($label)
+    {
+        return $this->withMeta(['label' => $label]);
+    }
+
     /**
      * Sets the options available for select.
      *

@@ -253,8 +253,16 @@ export default {
         const newOptions = [];
 
         for (const resource of data.resources) {
-          const label = resource.title;
+          let label = resource.title;
           const value = resource.id.value;
+          const labelField = this.field.label;
+
+          if (labelField) {
+            const field = resource.fields.filter(field => field.attribute === labelField)[0];
+
+            if (field) label = field.value;
+          }
+
           newOptions.push({ value, label });
         }
 
