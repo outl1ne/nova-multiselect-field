@@ -1,5 +1,5 @@
 <template>
-  <default-field :field="field" :showHelpText="showHelpText" :errors="errors">
+  <default-field :field="field" :showHelpText="true" :errors="errors">
     <template slot="field">
       <div class="multiselect-field flex flex-col">
         <!-- Multi select field -->
@@ -18,10 +18,11 @@
           :options="field.apiUrl ? asyncOptions : computedOptions"
           :internal-search="!field.apiUrl"
           :class="errorClasses"
-          :disabled="isReadonly"
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
+          :taggable="field.taggable"
+          @tag="addTag"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
@@ -176,6 +177,15 @@ export default {
   },
 
   methods: {
+    addTag (newTag) {
+      const tag = {
+          label: newTag,
+          value: newTag
+      }
+
+      this.value.push(tag)
+    },
+
     setInitialValue() {
       if (this.isMultiselect) {
         const valuesArray = this.getInitialFieldValuesArray();
@@ -253,15 +263,23 @@ export default {
         const newOptions = [];
 
         for (const resource of data.resources) {
-          let label = resource.title;
           const value = resource.id.value;
-          const labelField = this.field.label;
+          const labelField = this.field.labelKey;
+          let label = void 0;
 
-          if (labelField) {
+          // Has only ID field
+          if (resource.fields.length === 1) label = value;
+          else if (labelField) {
             const field = resource.fields.filter(field => field.attribute === labelField)[0];
-
             if (field) label = field.value;
           }
+
+          // Still no name
+          if (!label && resource.fields.length > 1) {
+            label = resource.fields[1].value;
+          }
+
+          if (!label) label = value;
 
           newOptions.push({ value, label });
         }

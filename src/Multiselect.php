@@ -14,10 +14,11 @@ class Multiselect extends Field
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
     protected $resourceClass = null;
-
-    public function label($label)
+    
+    
+    public function taggable($taggable = true)
     {
-        return $this->withMeta(['label' => $label]);
+        return $this->withMeta(['taggable' => $taggable]);
     }
 
     /**
@@ -61,14 +62,16 @@ class Multiselect extends Field
     public function api($path, $resourceClass)
     {
         $this->resourceClass = $resourceClass;
-        if (empty($resourceClass)) throw new Exception('Multiselect requires resourceClass, none provided.');
-        if (empty($path)) throw new Exception('Multiselect requires apiUrl, none provided.');
 
         $this->resolveUsing(function ($value) {
-            $this->options([]);
             $value = array_values((array)$value);
 
-            if (empty($value)) return $value;
+            if (empty($this->resourceClass) && empty($this->apiUrl)) return $value;
+
+            if (empty($value)) {
+                $this->options([]);
+                return $value;
+            }
 
             // Handle translatable/collection where values are an array of arrays
             if (is_array($value) && is_array($value[0] ?? null)) {
@@ -80,10 +83,11 @@ class Multiselect extends Field
                 $modelObj = (new $this->resourceClass::$model);
                 $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
                 $models->each(function ($model) use (&$options) {
-                    $options[$model[$model->getKeyName()]] = (new $this->resourceClass($model))->title();
+                    $options[$model[$model->getKeyName()]] = $model[$this->resourceClass::$title];
                 });
                 $this->options($options);
             } catch (Exception $e) {
+                $this->options([]);
             }
 
             return $value;

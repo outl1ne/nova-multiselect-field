@@ -29,7 +29,7 @@ export default {
     },
 
     getValueFromOptions(value) {
-      let options = this.field.options || [];
+      let options = this.field.options;
 
       if (this.field.dependsOn) {
         const valueGroups = Object.values(this.field.dependsOnOptions || {});
