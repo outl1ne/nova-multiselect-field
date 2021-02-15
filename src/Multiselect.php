@@ -5,6 +5,7 @@ namespace OptimistDigital\MultiselectField;
 use Exception;
 use RuntimeException;
 use Laravel\Nova\Fields\Field;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Multiselect extends Field
@@ -99,6 +100,7 @@ class Multiselect extends Field
         $singleSelect = $this->meta['singleSelect'] ?? false;
         $value = data_get($resource, str_replace('->', '.', $attribute));
 
+        if ($value instanceof Collection) return $value;
         if ($this->saveAsJSON || $singleSelect) return $value;
         return is_array($value) || is_object($value) ? (array) $value : json_decode($value);
     }
@@ -252,23 +254,20 @@ class Multiselect extends Field
      **/
     public function belongsToMany($resourceClass, $async = true)
     {
-        $model = $resourceClass::$model;
-        $primaryKey = (new $model)->getKeyName();
-
-        $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
-            $value = collect(array_values($value ?? []))->flatten(1)->pluck($primaryKey);
+        $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->asyncResource($resourceClass);
 
+            $models = $async ? $value : $resourceClass::$model::all();
+
             $options = [];
-            $models = $async
-                ? $resourceClass::$model::whereIn($primaryKey, $value)->get()->filter()
-                : $resourceClass::$model::all();
             $models->each(function ($model) use (&$options, $resourceClass) {
                 $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
             });
             $this->options($options);
 
-            return $value;
+            return $value->map(function ($model) {
+                return $model[$model->getKeyName()];
+            })->toArray();
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
