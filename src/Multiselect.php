@@ -72,13 +72,10 @@ class Multiselect extends Field
             }
 
             try {
-                $options = [];
                 $modelObj = (new $this->resourceClass::$model);
                 $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
-                $models->each(function ($model) use (&$options) {
-                    $options[$model[$model->getKeyName()]] = (new $this->resourceClass($model))->title();
-                });
-                $this->options($options);
+
+                $this->setOptionsFromModels($models);
             } catch (Exception $e) {
             }
 
@@ -259,10 +256,7 @@ class Multiselect extends Field
 
             $models = $async ? $value : $resourceClass::$model::all();
 
-            $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
-                return [$associatedResource->getKey() => $associatedResource->title()];
-            });
-            $this->options($options);
+            $this->setOptionsFromModels($models);
 
             return $value->map(function ($model) {
                 return $model[$model->getKeyName()];
@@ -310,10 +304,7 @@ class Multiselect extends Field
             $model = $resourceClass::$model;
             $models = $async && isset($value) ? collect([$model::find($value)]) : $model::all();
 
-            $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
-                return [$associatedResource->getKey() => $associatedResource->title()];
-            });
-            $this->options($options);
+            $this->setOptionsFromModels($models);
 
             return $value;
         });
