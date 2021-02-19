@@ -343,4 +343,18 @@ class Multiselect extends Field
     {
         return $this->withMeta(['clearOnSelect' => $clearOnSelect]);
     }
+
+    /**
+     * Set the options from a collection of models.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection  $models
+     * @return void
+     */
+    public function setOptionsFromModels(Collection $models)
+    {
+        $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
+            return [$associatedResource->getKey() => $associatedResource->title()];
+        });
+        $this->options($options);
+    }
 }
