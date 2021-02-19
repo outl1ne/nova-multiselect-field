@@ -259,9 +259,8 @@ class Multiselect extends Field
 
             $models = $async ? $value : $resourceClass::$model::all();
 
-            $options = [];
-            $models->each(function ($model) use (&$options, $resourceClass) {
-                $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
+            $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
+                return [$associatedResource->getKey() => $associatedResource->title()];
             });
             $this->options($options);
 
@@ -308,16 +307,12 @@ class Multiselect extends Field
             $value = $value->{$primaryKey} ?? null;
             if ($async) $this->asyncResource($resourceClass);
 
-            $options = [];
-            if ($async && isset($value)) {
-                $model = $resourceClass::$model::find($value);
-                if (isset($model)) $options[$model[$primaryKey]] = $model[$resourceClass::$title];
-            } else {
-                $models = $resourceClass::$model::all();
-                $models->each(function ($model) use (&$options, $resourceClass) {
-                    $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
-                });
-            }
+            $model = $resourceClass::$model;
+            $models = $async && isset($value) ? collect([$model::find($value)]) : $model::all();
+
+            $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
+                return [$associatedResource->getKey() => $associatedResource->title()];
+            });
             $this->options($options);
 
             return $value;
