@@ -113,7 +113,8 @@ class Multiselect extends Field
         if ($singleSelect) {
             $model->{$attribute} = $value;
         } else {
-            $model->{$attribute} = $this->saveAsJSON || is_null($value) ? $value : json_encode($value);
+            $value = is_null($value) ? ($this->nullable ? $value : $value = []) : $value;
+            $model->{$attribute} = ($this->saveAsJSON || is_null($value)) ? $value : json_encode($value);
         }
     }
 
