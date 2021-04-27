@@ -1,0 +1,11 @@
+{
+  "novaMultiselect.maxElements": "همه :max مورد مجاز انتخاب شد.",
+  "novaMultiselect.noResult": "نتیجه‌ای پیدا نشد.",
+  "novaMultiselect.noOptions": "لیست خالی است.",
+  "novaMultiselect.limitText": "و :count مورد دیگر",
+  "novaMultiselect.placeholder": "انتخاب گزینه‌ها",
+  "novaMultiselect.nItemsSelected": ":count مورد انتخاب شده است",
+  "novaMultiselect.reorder": "مرتب‌سازی",
+  "novaMultiselect.doneReordering": "مرتب‌سازی انجام شد",
+  "novaMultiSelect.startTypingForOptions": "جهت مشاهده گزینه‌ها تایپ کنید"
+}
