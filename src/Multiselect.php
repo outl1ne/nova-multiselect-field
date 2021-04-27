@@ -72,13 +72,10 @@ class Multiselect extends Field
             }
 
             try {
-                $options = [];
                 $modelObj = $this->resourceClass::newModel();
-                $models = $this->resourceClass::newModel()::whereIn($modelObj->getKeyName(), $value)->get();
-                $models->each(function ($model) use (&$options) {
-                    $options[$model[$model->getKeyName()]] = (new $this->resourceClass($model))->title();
-                });
-                $this->options($options);
+                $models = $modelObj::whereIn($modelObj->getKeyName(), $value)->get();
+
+                $this->setOptionsFromModels($models);
             } catch (Exception $e) {
             }
 
@@ -260,11 +257,7 @@ class Multiselect extends Field
 
             $models = $async ? $value : $resourceClass::newModel()::all();
 
-            $options = [];
-            $models->each(function ($model) use (&$options, $resourceClass) {
-                $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
-            });
-            $this->options($options);
+            $this->setOptionsFromModels($models);
 
             return $value->map(function ($model) {
                 return $model[$model->getKeyName()];
@@ -307,17 +300,10 @@ class Multiselect extends Field
             $value = $value->{$primaryKey} ?? null;
             if ($async) $this->asyncResource($resourceClass);
 
-            $options = [];
-            if ($async && isset($value)) {
-                $model = $resourceClass::newModel()::find($value);
-                if (isset($model)) $options[$model[$primaryKey]] = $model[$resourceClass::$title];
-            } else {
-                $models = $resourceClass::newModel()::all();
-                $models->each(function ($model) use (&$options, $resourceClass) {
-                    $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
-                });
-            }
-            $this->options($options);
+            $model = $resourceClass::newModel();
+            $models = $async && isset($value) ? collect([$model::find($value)]) : $model::all();
+
+            $this->setOptionsFromModels($models);
 
             return $value;
         });
@@ -346,5 +332,19 @@ class Multiselect extends Field
     public function clearOnSelect($clearOnSelect = true)
     {
         return $this->withMeta(['clearOnSelect' => $clearOnSelect]);
+    }
+
+    /**
+     * Set the options from a collection of models.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection  $models
+     * @return void
+     */
+    public function setOptionsFromModels(Collection $models)
+    {
+        $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
+            return [$associatedResource->getKey() => $associatedResource->title()];
+        });
+        $this->options($options);
     }
 }
