@@ -73,8 +73,8 @@ class Multiselect extends Field
 
             try {
                 $options = [];
-                $modelObj = (new $this->resourceClass::$model);
-                $models = $this->resourceClass::$model::whereIn($modelObj->getKeyName(), $value)->get();
+                $modelObj = $this->resourceClass::newModel();
+                $models = $this->resourceClass::newModel()::whereIn($modelObj->getKeyName(), $value)->get();
                 $models->each(function ($model) use (&$options) {
                     $options[$model[$model->getKeyName()]] = (new $this->resourceClass($model))->title();
                 });
@@ -257,7 +257,7 @@ class Multiselect extends Field
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->asyncResource($resourceClass);
 
-            $models = $async ? $value : $resourceClass::$model::all();
+            $models = $async ? $value : $resourceClass::newModel()::all();
 
             $options = [];
             $models->each(function ($model) use (&$options, $resourceClass) {
@@ -300,9 +300,7 @@ class Multiselect extends Field
     public function belongsTo($resourceClass, $async = true)
     {
         $this->singleSelect();
-
-        $model = $resourceClass::$model;
-        $primaryKey = (new $model)->getKeyName();
+        $primaryKey =  $resourceClass::newModel()->getKeyName();
 
         $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
             $value = $value->{$primaryKey} ?? null;
@@ -310,10 +308,10 @@ class Multiselect extends Field
 
             $options = [];
             if ($async && isset($value)) {
-                $model = $resourceClass::$model::find($value);
+                $model = $resourceClass::newModel()::find($value);
                 if (isset($model)) $options[$model[$primaryKey]] = $model[$resourceClass::$title];
             } else {
-                $models = $resourceClass::$model::all();
+                $models = $resourceClass::newModel()::all();
                 $models->each(function ($model) use (&$options, $resourceClass) {
                     $options[$model[$model->getKeyName()]] = $model[$resourceClass::$title];
                 });
@@ -338,7 +336,7 @@ class Multiselect extends Field
             }
 
             // Sync
-            $relation->associate($resourceClass::$model::find($request->get($attribute)));
+            $relation->associate($resourceClass::newModel()::find($request->get($attribute)));
         });
 
         return $this;
