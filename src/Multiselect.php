@@ -335,11 +335,12 @@ class Multiselect extends Field
      * Set the options from a collection of models.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $models
+     * @param  string  $resourceClass
      * @return void
      */
-    public function setOptionsFromModels(Collection $models)
+    public function setOptionsFromModels(Collection $models, $resourceClass)
     {
-        $options = $models->mapInto($this->resourceClass)->mapWithKeys(function ($associatedResource) {
+        $options = $models->mapInto($resourceClass)->mapWithKeys(function ($associatedResource) {
             return [$associatedResource->getKey() => $associatedResource->title()];
         });
         $this->options($options);
