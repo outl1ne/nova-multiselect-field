@@ -14,7 +14,6 @@ class Multiselect extends Field
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
-    protected $resourceClass = null;
 
     /**
      * Sets the options available for select.
@@ -56,11 +55,10 @@ class Multiselect extends Field
 
     public function api($path, $resourceClass)
     {
-        $this->resourceClass = $resourceClass;
         if (empty($resourceClass)) throw new Exception('Multiselect requires resourceClass, none provided.');
         if (empty($path)) throw new Exception('Multiselect requires apiUrl, none provided.');
 
-        $this->resolveUsing(function ($value) {
+        $this->resolveUsing(function ($value) use ($resourceClass) {
             $this->options([]);
             $value = array_values((array)$value);
 
@@ -72,10 +70,10 @@ class Multiselect extends Field
             }
 
             try {
-                $modelObj = $this->resourceClass::newModel();
+                $modelObj = $resourceClass::newModel();
                 $models = $modelObj::whereIn($modelObj->getKeyName(), $value)->get();
 
-                $this->setOptionsFromModels($models);
+                $this->setOptionsFromModels($models, $resourceClass);
             } catch (Exception $e) {
             }
 
@@ -87,7 +85,6 @@ class Multiselect extends Field
 
     public function asyncResource($resourceClass)
     {
-        $this->resourceClass = $resourceClass;
         $apiUrl = "/nova-api/{$resourceClass::uriKey()}";
         return $this->api($apiUrl, $resourceClass);
     }
@@ -257,7 +254,7 @@ class Multiselect extends Field
 
             $models = $async ? $value : $resourceClass::newModel()::all();
 
-            $this->setOptionsFromModels($models);
+            $this->setOptionsFromModels($models, $resourceClass);
 
             return $value->map(function ($model) {
                 return $model[$model->getKeyName()];
@@ -297,13 +294,13 @@ class Multiselect extends Field
         $primaryKey =  $resourceClass::newModel()->getKeyName();
 
         $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
-            $value = $value->{$primaryKey} ?? null;
             if ($async) $this->asyncResource($resourceClass);
 
+            $value = $value->{$primaryKey} ?? null;
             $model = $resourceClass::newModel();
             $models = $async && isset($value) ? collect([$model::find($value)]) : $model::all();
 
-            $this->setOptionsFromModels($models);
+            $this->setOptionsFromModels($models, $resourceClass);
 
             return $value;
         });
