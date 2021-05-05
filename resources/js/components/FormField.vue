@@ -6,7 +6,7 @@
         <multiselect
           v-if="!reorderMode"
           @input="handleChange"
-          @open="() => repositionDropdown(true)"
+          @open="handleOpen"
           @search-change="tryToFetchOptions"
           track-by="value"
           label="label"
@@ -97,6 +97,7 @@ export default {
     max: void 0,
     asyncOptions: [],
     isLoading: false,
+    isInitialized: false,
   }),
 
   mounted() {
@@ -203,6 +204,11 @@ export default {
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
+    },
+
+    handleOpen() {
+      if (!this.isInitialized) this.isInitialized = true;
+      this.repositionDropdown(true);
     },
 
     repositionDropdown(onOpen = false) {
