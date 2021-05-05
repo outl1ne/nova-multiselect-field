@@ -96,6 +96,7 @@ export default {
     options: [],
     max: void 0,
     asyncOptions: [],
+    distinctValues: [],
     isLoading: false,
   }),
 
@@ -223,23 +224,38 @@ export default {
      * If an options is used by another multiselect, we disable it.
      */
     distinctOptions() {
-      const distinctValues = [];
+      this.distinctValues = [];
 
       // Fetch other select values in current distinct group
       Nova.$emit(`multiselect-${this.field.distinct}-distinct`, values => {
         // Validate that current value is not disabled.
-        if (values !== this.value) {
+        if (values.length > 0 && values !== this.selected) {
           // Add already used values to distinctValues
-          if (this.isMultiselect) distinctValues.push(...values.map(value => value.value));
-          else distinctValues.push(values.value);
+          if (this.isMultiselect) this.distinctValues.push(...values.map(value => value.value));
+          else this.distinctValues.push(values.value);
         }
       });
 
       this.options = this.options.map(option => {
-        // Only update option if values match
-        if (distinctValues.includes(option.value)) return { ...option, $isDisabled: true };
-        return option;
+        if (this.isOptionGroups) {
+          // Support for option groups
+          return {
+            ...option,
+            values: option.values.map(option => this.newDistinctOption(option)),
+          };
+        }
+
+        return this.newDistinctOption(option);
       });
+    },
+
+    newDistinctOption(option) {
+      // Only return $disabled option if values match
+      if (this.distinctValues.includes(option.value)) return { ...option, $isDisabled: true };
+
+      // Force remove $isDisabled
+      delete option.$isDisabled;
+      return option;
     },
 
     repositionDropdown(onOpen = false) {
