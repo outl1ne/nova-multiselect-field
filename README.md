@@ -16,7 +16,7 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 - Asynchronous search
 - Reordering functionality with drag & drop
 - Dependency on other Multiselect instances
-- Sync options between multiple multiselects
+- Distinct values between multiple multiselects
 
 ## Screenshots
 
@@ -59,7 +59,7 @@ public function fields(Request $request)
         ->optionsLimit(5) // How many items to display at once
         ->reorderable() // Allows reordering functionality
         ->singleSelect() // If you want a searchable single select field
-        ->sync('football') // If you want to sync options between multiple multiselects
+        ->distinct('football') // Disables values used by other multiselects in same distinct group
 
         // Async model querying
         Multiselect::make('Artists')
