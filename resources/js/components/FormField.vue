@@ -6,7 +6,7 @@
         <multiselect
           v-if="!reorderMode"
           @input="handleChange"
-          @open="() => repositionDropdown(true)"
+          @open="handleOpen"
           @search-change="tryToFetchOptions"
           track-by="value"
           label="label"
@@ -147,6 +147,13 @@ export default {
       });
     }
 
+    if (this.field.sync) {
+      // Handle sync callback.
+      Nova.$on(`multiselect-${this.field.sync}-sync`, callback => {
+        return callback(this.value);
+      });
+    }
+
     // Emit initial value
     this.$nextTick(() => {
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
@@ -155,6 +162,7 @@ export default {
 
   destroyed() {
     window.removeEventListener('scroll', this.repositionDropdown);
+    if (this.field.sync) Nova.$off(`multiselect-${this.field.sync}-sync`);
   },
 
   computed: {
@@ -203,6 +211,37 @@ export default {
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
+    },
+
+    handleOpen() {
+      this.repositionDropdown(true);
+      if (this.field.sync) this.syncOptions();
+    },
+
+    /**
+     * Syncs options between multiple multiselect fields.
+     * If an options is used by another multiselect in the same sync group,
+     * we disable it.
+     */
+    syncOptions() {
+      console.log('syncOptions');
+      const syncValues = [];
+
+      // Fetch other select values in current sync group
+      Nova.$emit(`multiselect-${this.field.sync}-sync`, values => {
+        console.log('VALUES', values);
+        // Validate that current value is not added to synced values.
+        if (values !== this.value) {
+          if (this.isMultiselect) syncValues.push(...values.map(value => value.label));
+          else syncValues.push(values.label);
+        }
+      });
+
+      this.options = this.options.map(option => {
+        // Only update option if labels match
+        if (syncValues.includes(option.label)) return { ...option, $isDisabled: true };
+        return option;
+      });
     },
 
     repositionDropdown(onOpen = false) {

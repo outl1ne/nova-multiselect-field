@@ -226,6 +226,18 @@ class Multiselect extends Field
         return $this->withMeta(['dependsOnMax' => $maxOptions]);
     }
 
+    /**
+     * Sets group name for selects that need to have their values synced.
+     * 
+     * @param string $syncGroup
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function sync(string $syncGroup)
+    {
+        if (empty($syncGroup)) throw new Exception('Multiselect sync requires syncGroup, none provided.');
+        return $this->withMeta(['sync' => "$syncGroup"]);
+    }
+
     public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? ($this->saveAsJSON ? $value : json_decode($value)) : null;
