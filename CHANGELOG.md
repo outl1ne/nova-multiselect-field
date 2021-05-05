@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added `sync` options.
-  - Syncs values between multiple multiselects and disables options that have already been used.
-  - Support for Multiselect and SingleSelect. Pull request to support async options are welcome.
+- Added `distinct` options.
+  - Disables options that have already been used by other multiselects in the same distinct group.
+  - Supports Multiselect and SingleSelect options. Pull request to support async options are welcome.
 
 ## [2.1.1] - 2021-04-28
 

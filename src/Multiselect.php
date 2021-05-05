@@ -227,15 +227,15 @@ class Multiselect extends Field
     }
 
     /**
-     * Sets group name for selects that need to have their values synced.
+     * Sets group name for selects that need to have their values distinct.
      * 
-     * @param string $syncGroup
+     * @param string $group
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function sync($syncGroup = "")
+    public function distinct($group = "")
     {
-        if (empty($syncGroup)) $syncGroup = $this->attribute;
-        return $this->withMeta(['sync' => "$syncGroup"]);
+        if (empty($group)) $group = $this->attribute;
+        return $this->withMeta(['distinct' => $group]);
     }
 
     public function resolveResponseValue($value, $templateModel)

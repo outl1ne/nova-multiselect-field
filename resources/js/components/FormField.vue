@@ -147,9 +147,9 @@ export default {
       });
     }
 
-    if (this.field.sync) {
-      // Handle sync callback.
-      Nova.$on(`multiselect-${this.field.sync}-sync`, callback => {
+    if (this.field.distinct) {
+      // Handle distinct callback.
+      Nova.$on(`multiselect-${this.field.distinct}-distinct`, callback => {
         return callback(this.value);
       });
     }
@@ -162,7 +162,7 @@ export default {
 
   destroyed() {
     window.removeEventListener('scroll', this.repositionDropdown);
-    if (this.field.sync) Nova.$off(`multiselect-${this.field.sync}-sync`);
+    if (this.field.distinct) Nova.$off(`multiselect-${this.field.distinct}-distinct`);
   },
 
   computed: {
@@ -215,29 +215,29 @@ export default {
 
     handleOpen() {
       this.repositionDropdown(true);
-      if (this.field.sync) this.syncOptions();
+      if (this.field.distinct) this.distinctOptions();
     },
 
     /**
-     * Syncs options between multiple multiselect fields.
-     * If an options is used by another multiselect in the same sync group,
-     * we disable it.
+     * Creates new array of values that have been used by another multiselect.
+     * If an options is used by another multiselect, we disable it.
      */
-    syncOptions() {
-      const syncValues = [];
+    distinctOptions() {
+      const distinctValues = [];
 
-      // Fetch other select values in current sync group
-      Nova.$emit(`multiselect-${this.field.sync}-sync`, values => {
-        // Validate that current value is not added to synced values.
+      // Fetch other select values in current distinct group
+      Nova.$emit(`multiselect-${this.field.distinct}-distinct`, values => {
+        // Validate that current value is not disabled.
         if (values !== this.value) {
-          if (this.isMultiselect) syncValues.push(...values.map(value => value.value));
-          else syncValues.push(values.value);
+          // Add already used values to distinctValues
+          if (this.isMultiselect) distinctValues.push(...values.map(value => value.value));
+          else distinctValues.push(values.value);
         }
       });
 
       this.options = this.options.map(option => {
         // Only update option if values match
-        if (syncValues.includes(option.value)) return { ...option, $isDisabled: true };
+        if (distinctValues.includes(option.value)) return { ...option, $isDisabled: true };
         return option;
       });
     },
