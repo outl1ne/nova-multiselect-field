@@ -230,14 +230,14 @@ export default {
       Nova.$emit(`multiselect-${this.field.sync}-sync`, values => {
         // Validate that current value is not added to synced values.
         if (values !== this.value) {
-          if (this.isMultiselect) syncValues.push(...values.map(value => value.label));
-          else syncValues.push(values.label);
+          if (this.isMultiselect) syncValues.push(...values.map(value => value.value));
+          else syncValues.push(values.value);
         }
       });
 
       this.options = this.options.map(option => {
-        // Only update option if labels match
-        if (syncValues.includes(option.label)) return { ...option, $isDisabled: true };
+        // Only update option if values match
+        if (syncValues.includes(option.value)) return { ...option, $isDisabled: true };
         return option;
       });
     },
