@@ -232,9 +232,9 @@ class Multiselect extends Field
      * @param string $syncGroup
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function sync(string $syncGroup)
+    public function sync($syncGroup = "")
     {
-        if (empty($syncGroup)) throw new Exception('Multiselect sync requires syncGroup, none provided.');
+        if (empty($syncGroup)) $syncGroup = $this->attribute;
         return $this->withMeta(['sync' => "$syncGroup"]);
     }
 

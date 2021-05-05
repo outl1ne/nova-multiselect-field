@@ -224,12 +224,10 @@ export default {
      * we disable it.
      */
     syncOptions() {
-      console.log('syncOptions');
       const syncValues = [];
 
       // Fetch other select values in current sync group
       Nova.$emit(`multiselect-${this.field.sync}-sync`, values => {
-        console.log('VALUES', values);
         // Validate that current value is not added to synced values.
         if (values !== this.value) {
           if (this.isMultiselect) syncValues.push(...values.map(value => value.label));
