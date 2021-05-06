@@ -226,6 +226,18 @@ class Multiselect extends Field
         return $this->withMeta(['dependsOnMax' => $maxOptions]);
     }
 
+    /**
+     * Sets group name for selects that need to have their values distinct.
+     * 
+     * @param string $group
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function distinct($group = "")
+    {
+        if (empty($group)) $group = $this->attribute;
+        return $this->withMeta(['distinct' => $group]);
+    }
+
     public function resolveResponseValue($value, $templateModel)
     {
         $parsedValue = isset($value) ? ($this->saveAsJSON ? $value : json_decode($value)) : null;
