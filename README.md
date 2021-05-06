@@ -16,6 +16,7 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 - Asynchronous search
 - Reordering functionality with drag & drop
 - Dependency on other Multiselect instances
+- Distinct values between multiple multiselects
 
 ## Screenshots
 
@@ -58,6 +59,7 @@ public function fields(Request $request)
         ->optionsLimit(5) // How many items to display at once
         ->reorderable() // Allows reordering functionality
         ->singleSelect() // If you want a searchable single select field
+        ->distinct('football') // Disables values used by other multiselects in same distinct group
 
         // Async model querying
         Multiselect::make('Artists')
@@ -137,25 +139,26 @@ Multiselect::make('Categories', 'categories')
 
 Possible options you can pass to the field using the option name as a function, ie `->placeholder('Choose peanuts')`.
 
-| Option                        | type                      | default    | description                                                                                                                                                                                       |
-| ----------------------------- | ------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `options`                     | Array\|callable           | []         | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                                     |
-| `api($path, $resource)`       | String, String (Resource) | null       | URL that can be used to fetch options asynchronously. The search string is provided in the `search` query parameter. The API must return object containing key-value pairs (`['id' => 'value']`). |
-| `asyncResource($resource)`    | String (Resource)         | null       | Provide a Resource class to fetch the options asynchronously.                                                                                                                                     |
-| `placeholder`                 | String                    | Field name | The placeholder string for the input.                                                                                                                                                             |
-| `max`                         | Number                    | Infinite   | The maximum number of options a user can select.                                                                                                                                                  |
-| `groupSelect`                 | Boolean                   | false      | For use with option groups - allows the user to select whole groups at once                                                                                                                       |
-| `singleSelect`                | Boolean                   | false      | Makes the field act as a single select which also means the saved value will not be an array.                                                                                                     |
-| `saveAsJSON`                  | Boolean                   | false      | When you have a SQL JSON column, you can force the field to save the values as JSON. By default, values are saved as a stringified array.                                                         |
-| `optionsLimit`                | Number                    | 1000       | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                                            |
-| `nullable`                    | Boolean                   | false      | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                                              |
-| `reorderable`                 | Boolean                   | false      | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
-| `dependsOn`                   | String                    | null       | Determines which Multiselect this field depends on.                                                                                                                                               |
-| `dependsOnOptions`            | Array                     | null       | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
-| `belongsToMany`               | String (Resource)         | null       | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
-| `belongsTo`                   | String (Resource)         | null       | Allows the Multiselect to function as a BelongsTo field.                                                                                                                                          |
-| `resolveForPageResponseUsing` | Callable                  | null       | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API.                      |
-| `clearOnSelect`               | Boolean                   | false      | Clears input after an option has been selected.                                                                                                                                                   |
+| Option                        | type                      | default         | description                                                                                                                                                                                       |
+| ----------------------------- | ------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `options`                     | Array\|callable           | []              | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                                     |
+| `api($path, $resource)`       | String, String (Resource) | null            | URL that can be used to fetch options asynchronously. The search string is provided in the `search` query parameter. The API must return object containing key-value pairs (`['id' => 'value']`). |
+| `asyncResource($resource)`    | String (Resource)         | null            | Provide a Resource class to fetch the options asynchronously.                                                                                                                                     |
+| `placeholder`                 | String                    | Field name      | The placeholder string for the input.                                                                                                                                                             |
+| `max`                         | Number                    | Infinite        | The maximum number of options a user can select.                                                                                                                                                  |
+| `groupSelect`                 | Boolean                   | false           | For use with option groups - allows the user to select whole groups at once                                                                                                                       |
+| `singleSelect`                | Boolean                   | false           | Makes the field act as a single select which also means the saved value will not be an array.                                                                                                     |
+| `saveAsJSON`                  | Boolean                   | false           | When you have a SQL JSON column, you can force the field to save the values as JSON. By default, values are saved as a stringified array.                                                         |
+| `optionsLimit`                | Number                    | 1000            | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                                            |
+| `nullable`                    | Boolean                   | false           | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                                              |
+| `reorderable`                 | Boolean                   | false           | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
+| `dependsOn`                   | String                    | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
+| `dependsOnOptions`            | Array                     | null            | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
+| `belongsToMany`               | String (Resource)         | null            | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
+| `belongsTo`                   | String (Resource)         | null            | Allows the Multiselect to function as a BelongsTo field.                                                                                                                                          |
+| `resolveForPageResponseUsing` | Callable                  | null            | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API.                      |
+| `clearOnSelect`               | Boolean                   | false           | Clears input after an option has been selected.                                                                                                                                                   |
+| `distinct`                    | String                    | Field Attribute | Syncs options between multiple multiselects in the same group and disables the options that have already been used.                                                                               |
 
 ## Localization
 

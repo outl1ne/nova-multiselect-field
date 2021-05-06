@@ -6,7 +6,7 @@
         <multiselect
           v-if="!reorderMode"
           @input="handleChange"
-          @open="() => repositionDropdown(true)"
+          @open="handleOpen"
           @search-change="tryToFetchOptions"
           track-by="value"
           label="label"
@@ -96,6 +96,7 @@ export default {
     options: [],
     max: void 0,
     asyncOptions: [],
+    distinctValues: [],
     isLoading: false,
   }),
 
@@ -147,6 +148,13 @@ export default {
       });
     }
 
+    if (this.field.distinct) {
+      // Handle distinct callback.
+      Nova.$on(`multiselect-${this.field.distinct}-distinct`, callback => {
+        return callback(this.value);
+      });
+    }
+
     // Emit initial value
     this.$nextTick(() => {
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
@@ -155,6 +163,7 @@ export default {
 
   destroyed() {
     window.removeEventListener('scroll', this.repositionDropdown);
+    if (this.field.distinct) Nova.$off(`multiselect-${this.field.distinct}-distinct`);
   },
 
   computed: {
@@ -203,6 +212,50 @@ export default {
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
+    },
+
+    handleOpen() {
+      this.repositionDropdown(true);
+      if (this.field.distinct) this.distinctOptions();
+    },
+
+    /**
+     * Creates new array of values that have been used by another multiselect.
+     * If an options is used by another multiselect, we disable it.
+     */
+    distinctOptions() {
+      this.distinctValues = [];
+
+      // Fetch other select values in current distinct group
+      Nova.$emit(`multiselect-${this.field.distinct}-distinct`, values => {
+        // Validate that current value is not disabled.
+        if (values.length > 0 && values !== this.selected) {
+          // Add already used values to distinctValues
+          if (this.isMultiselect) this.distinctValues.push(...values.map(value => value.value));
+          else this.distinctValues.push(values.value);
+        }
+      });
+
+      this.options = this.options.map(option => {
+        if (this.isOptionGroups) {
+          // Support for option groups
+          return {
+            ...option,
+            values: option.values.map(option => this.newDistinctOption(option)),
+          };
+        }
+
+        return this.newDistinctOption(option);
+      });
+    },
+
+    newDistinctOption(option) {
+      // Only return $disabled option if values match
+      if (this.distinctValues.includes(option.value)) return { ...option, $isDisabled: true };
+
+      // Force remove $isDisabled
+      delete option.$isDisabled;
+      return option;
     },
 
     repositionDropdown(onOpen = false) {
