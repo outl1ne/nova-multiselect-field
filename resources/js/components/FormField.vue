@@ -98,6 +98,7 @@ export default {
     asyncOptions: [],
     distinctValues: [],
     isLoading: false,
+    isInitialized: false,
   }),
 
   mounted() {
@@ -216,6 +217,7 @@ export default {
 
     handleOpen() {
       this.repositionDropdown(true);
+      if (!this.isInitialized) this.isInitialized = true;
       if (this.field.distinct) this.distinctOptions();
     },
 
