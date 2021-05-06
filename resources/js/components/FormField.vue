@@ -231,7 +231,7 @@ export default {
       // Fetch other select values in current distinct group
       Nova.$emit(`multiselect-${this.field.distinct}-distinct`, values => {
         // Validate that current value is not disabled.
-        if (values.length > 0 && values !== this.selected) {
+        if (values !== this.selected) {
           // Add already used values to distinctValues
           if (this.isMultiselect) this.distinctValues.push(...values.map(value => value.value));
           else this.distinctValues.push(values.value);
