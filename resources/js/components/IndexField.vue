@@ -1,5 +1,6 @@
 <template>
-  <span>{{ value }}</span>
+  <span v-if="!field.asHtml">{{ value }}</span>
+  <span v-else v-html="value"></span>
 </template>
 
 <script>
@@ -21,8 +22,8 @@ export default {
           .filter(Boolean)
           .map(val => `${this.isOptionGroups ? `[${val.group}] ` : ''}${val.label}`);
 
-        const joinedValues = values.join(', ');
-        if (joinedValues.length <= 40) return joinedValues;
+        const joinedValues = values.join(this.field.delimiter ?? ', ');
+        if (joinedValues.length <= (this.field.displayAtOnce ?? 40)) return joinedValues;
 
         return this.__('novaMultiselect.nItemsSelected', { count: String(values.length || '') });
       } else {
