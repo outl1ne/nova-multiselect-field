@@ -15,7 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `indexCharDisplayLimit` - Set char limit for index display value
 
 ### Changed
-  - Updated packages
+
+- Updated packages
+
 ## [2.2.1] - 2021-05-06
 
 ### Removed
