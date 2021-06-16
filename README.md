@@ -159,6 +159,9 @@ Possible options you can pass to the field using the option name as a function, 
 | `resolveForPageResponseUsing` | Callable                  | null            | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API.                      |
 | `clearOnSelect`               | Boolean                   | false           | Clears input after an option has been selected.                                                                                                                                                   |
 | `distinct`                    | String                    | Field Attribute | Syncs options between multiple multiselects in the same group and disables the options that have already been used.                                                                               |
+| `indexDelimiter`              | String                    | `', '`          | Sets delimiter used to join values on index view                                                                                                                                                  |
+| `indexValueDisplayLimit`      | Number                    | 9999            | Define how many values can be displayed at once on index view                                                                                                                                     |
+| `indexCharDisplayLimit`       | Number                    | 40              | Set char limit for index display value                                                                                                                                                            |
 
 ## Localization
 

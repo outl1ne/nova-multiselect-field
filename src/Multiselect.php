@@ -228,7 +228,7 @@ class Multiselect extends Field
 
     /**
      * Sets group name for selects that need to have their values distinct.
-     * 
+     *
      * @param string $group
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
@@ -356,5 +356,48 @@ class Multiselect extends Field
             return [$associatedResource->getKey() => $associatedResource->title()];
         });
         $this->options($options);
+    }
+
+    /**
+     * Sets delimiter for joining values on index
+     *
+     * @param  string $delimiter
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     */
+    public function indexDelimiter(string $delimiter)
+    {
+        return $this->withMeta(['indexDelimiter' => $delimiter]);
+    }
+
+    /**
+     * Sets amount of characters that can be shown on index at once
+     *
+     * @param  int $limit
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     */
+    public function indexCharDisplayLimit(int $limit)
+    {
+        return $this->withMeta(['indexCharDisplayLimit' => $limit]);
+    }
+
+    /**
+     * Sets amount of values that can be shown on index at once
+     *
+     * @param  int $limit
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     */
+    public function indexValueDisplayLimit(int $limit)
+    {
+        return $this->withMeta(['indexValueDisplayLimit' => $limit]);
+    }
+
+    /**
+     * Display the field as raw HTML using Vue.
+     *
+     * @return $this
+     */
+    public function asHtml()
+    {
+        return $this->withMeta(['asHtml' => true]);
     }
 }
