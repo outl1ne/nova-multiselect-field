@@ -370,14 +370,25 @@ class Multiselect extends Field
     }
 
     /**
-     * Defines how many characters can be shown on index at once
+     * Sets amount of characters that can be shown on index at once
      *
-     * @param  int $displayAtOnce
+     * @param  int $limit
      * @return \OptimistDigital\MultiselectField\Multiselect
      */
-    public function indexDisplayAtOnce(int $displayAtOnce)
+    public function indexCharDisplayLimit(int $limit)
     {
-        return $this->withMeta(['indexDisplayAtOnce' => $displayAtOnce]);
+        return $this->withMeta(['indexCharDisplayLimit' => $limit]);
+    }
+
+    /**
+     * Sets amount of values that can be shown on index at once
+     *
+     * @param  int $limit
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     */
+    public function indexValueDisplayLimit(int $limit)
+    {
+        return $this->withMeta(['indexValueDisplayLimit' => $limit]);
     }
 
     /**
