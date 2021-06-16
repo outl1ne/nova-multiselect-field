@@ -359,15 +359,25 @@ class Multiselect extends Field
     }
 
     /**
-     * Sets variables which will be used for displaying index value
+     * Sets delimiter for joining values on index
      *
      * @param  string $delimiter
-     * @param  int $limit
      * @return \OptimistDigital\MultiselectField\Multiselect
      */
-    public function displayIndexUsing($delimiter = ', ', $limit = 40)
+    public function indexDelimiter(string $delimiter)
     {
-        return $this->withMeta(['delimiter' => $delimiter, 'displayAtOnce' => $limit]);
+        return $this->withMeta(['indexDelimiter' => $delimiter]);
+    }
+
+    /**
+     * Defines how many characters can be shown on index at once
+     *
+     * @param  int $displayAtOnce
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     */
+    public function indexDisplayAtOnce(int $displayAtOnce)
+    {
+        return $this->withMeta(['indexDisplayAtOnce' => $displayAtOnce]);
     }
 
     /**

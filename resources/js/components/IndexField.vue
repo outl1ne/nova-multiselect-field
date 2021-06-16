@@ -22,8 +22,8 @@ export default {
           .filter(Boolean)
           .map(val => `${this.isOptionGroups ? `[${val.group}] ` : ''}${val.label}`);
 
-        const joinedValues = values.join(this.field.delimiter ?? ', ');
-        if (joinedValues.length <= (this.field.displayAtOnce ?? 40)) return joinedValues;
+        const joinedValues = values.join(this.field.indexDelimiter ?? ', ');
+        if (joinedValues.length <= (this.field.indexDisplayAtOnce ?? 40)) return joinedValues;
 
         return this.__('novaMultiselect.nItemsSelected', { count: String(values.length || '') });
       } else {
