@@ -235,7 +235,7 @@ export default {
         // Validate that current value is not disabled.
         if (values !== this.selected) {
           // Add already used values to distinctValues
-          if (this.isMultiselect) this.distinctValues.push(...values.map(value => value.value));
+          if (Array.isArray(values)) this.distinctValues.push(...values.map(value => value.value));
           else this.distinctValues.push(values.value);
         }
       });
