@@ -205,6 +205,17 @@ class Multiselect extends Field
     }
 
     /**
+     * Enable other-field dependency that is not inside the same Flexible content.
+     *
+     * @param string $otherFieldName
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function dependsOnOutsideFlexible($otherFieldName)
+    {
+        return $this->withMeta(['dependsOn' => $otherFieldName, 'dependsOnOutsideFlexible' => true]);
+    }
+
+    /**
      * Set dependency options map as a keyed array of options.
      *
      * @param array $options

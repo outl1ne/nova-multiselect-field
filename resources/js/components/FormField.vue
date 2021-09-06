@@ -179,6 +179,10 @@ export default {
     },
 
     safeDependsOnAttribute() {
+      if (this.field.dependsOnOutsideFlexible) {
+        return this.field.dependsOn;
+      }
+
       const flexibleKey = this.flexibleKey;
       if (!flexibleKey) return this.field.dependsOn;
       return `${flexibleKey}__${this.field.dependsOn}`;
