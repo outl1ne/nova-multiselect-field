@@ -280,9 +280,9 @@ class Multiselect extends Field
 
             $models = $async
                 ? $value
-                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query());
+                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
 
-            $this->setOptionsFromModels($models->get(), $resourceClass);
+            $this->setOptionsFromModels($models, $resourceClass);
 
             return $value->map(function ($model) {
                 return $model[$model->getKeyName()];
