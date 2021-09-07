@@ -4,14 +4,11 @@ namespace OptimistDigital\MultiselectField;
 
 use Exception;
 use Illuminate\Support\Str;
-use Laravel\Nova\Contracts\QueryBuilder;
-use Laravel\Nova\Rules\RelatableAttachment;
 use Laravel\Nova\TrashedStatus;
 use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\Permission\Models\Role;
 
 class Multiselect extends Field
 {
