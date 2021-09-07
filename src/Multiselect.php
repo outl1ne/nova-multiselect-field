@@ -4,7 +4,6 @@ namespace OptimistDigital\MultiselectField;
 
 use Exception;
 use Illuminate\Support\Str;
-use Laravel\Nova\TrashedStatus;
 use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
