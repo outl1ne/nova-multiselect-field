@@ -3,10 +3,15 @@
 namespace OptimistDigital\MultiselectField;
 
 use Exception;
+use Illuminate\Support\Str;
+use Laravel\Nova\Contracts\QueryBuilder;
+use Laravel\Nova\Rules\RelatableAttachment;
+use Laravel\Nova\TrashedStatus;
 use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\Permission\Models\Role;
 
 class Multiselect extends Field
 {
@@ -263,7 +268,6 @@ class Multiselect extends Field
         return $this;
     }
 
-
     /**
      * Makes the field to manage a BelongsToMany relationship.
      *
@@ -275,9 +279,14 @@ class Multiselect extends Field
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->asyncResource($resourceClass);
 
-            $models = $async ? $value : $resourceClass::newModel()::all();
+            $request = app(NovaRequest::class);
+            $model = $resourceClass::newModel();
 
-            $this->setOptionsFromModels($models, $resourceClass);
+            $models = $async
+                ? $value
+                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query());
+
+            $this->setOptionsFromModels($models->get(), $resourceClass);
 
             return $value->map(function ($model) {
                 return $model[$model->getKeyName()];
@@ -303,6 +312,36 @@ class Multiselect extends Field
         });
 
         return $this;
+    }
+
+    /**
+     * Get the attachable query method name.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array
+     */
+    protected function attachableQueryCallable(NovaRequest $request, $model, $resourceClass)
+    {
+        return ($method = $this->attachableQueryMethod($request, $model))
+            ? [$request->resource(), $method]
+            : [$resourceClass, 'relatableQuery'];
+    }
+
+    /**
+     * Get the attachable query method name.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return string
+     */
+    protected function attachableQueryMethod(NovaRequest $request, $model)
+    {
+        $method = 'relatable'.Str::plural(class_basename($model));
+
+        if (method_exists($request->resource(), $method)) {
+            return $method;
+        }
     }
 
     /**
