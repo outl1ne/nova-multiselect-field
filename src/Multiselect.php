@@ -239,6 +239,17 @@ class Multiselect extends Field
     }
 
     /**
+     * Sets the placeholder value displayed on the field.
+     *
+     * @param string $limit
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function limit($limit)
+    {
+        return $this->withMeta(['limit' => $limit]);
+    }
+
+    /**
      * Sets group name for selects that need to have their values distinct.
      *
      * @param string $group
