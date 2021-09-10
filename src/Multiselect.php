@@ -239,7 +239,7 @@ class Multiselect extends Field
     }
 
     /**
-     * Sets the placeholder value displayed on the field.
+     * Sets the limit value for the field.
      *
      * @param string $limit
      * @return \OptimistDigital\MultiselectField\Multiselect
