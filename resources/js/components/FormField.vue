@@ -24,6 +24,7 @@
           :multiple="isMultiselect"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
+          :limit="field.limit"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
           selectLabel=""
           :loading="isLoading"
