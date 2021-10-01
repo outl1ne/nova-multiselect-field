@@ -10,12 +10,12 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "laravel-mix": "^6.0.29",
+    "laravel-mix": "^6.0.31",
     "laravel-nova": "^1.12.3",
-    "postcss": "^8.3.6",
-    "prettier": "^2.3.2",
+    "postcss": "^8.3.8",
+    "prettier": "^2.4.1",
     "resolve-url-loader": "^4.0.0",
-    "sass": "^1.39.0",
+    "sass": "^1.42.1",
     "sass-loader": "^12.1.0",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.14"
