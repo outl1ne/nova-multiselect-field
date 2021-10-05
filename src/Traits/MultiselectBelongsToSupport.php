@@ -93,7 +93,7 @@ trait MultiselectBelongsToSupport
         $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
-            if ($async) $this->asyncResource($resourceClass);
+            if ($async) $this->associatableResource($resourceClass);
 
             $request = app(NovaRequest::class);
             $model = $resourceClass::newModel();
