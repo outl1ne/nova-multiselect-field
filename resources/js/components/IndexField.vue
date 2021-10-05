@@ -1,5 +1,27 @@
 <template>
-  <span v-if="!field.asHtml">{{ value }}</span>
+  <div :class="`text-${field.textAlign}`" v-if="field.belongsToResourceName && field.viewable && field.value">
+    <span>
+      <span v-if="field.viewable && field.value">
+        <router-link
+          :to="{
+            name: 'detail',
+            params: {
+              resourceName: field.belongsToResourceName,
+              resourceId: field.value,
+            },
+          }"
+          class="no-underline dim text-primary font-bold"
+        >
+          {{ field.belongsToDisplayValue }}
+        </router-link>
+      </span>
+
+      <span v-else-if="field.value">{{ field.value }}</span>
+
+      <span v-else>&mdash;</span>
+    </span>
+  </div>
+  <span v-else-if="!field.asHtml">{{ value }}</span>
   <span v-else v-html="value"></span>
 </template>
 
