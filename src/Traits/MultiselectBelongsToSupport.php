@@ -8,13 +8,12 @@ use Laravel\Nova\Util;
 use Illuminate\Support\Str;
 use Laravel\Nova\TrashedStatus;
 use Laravel\Nova\Contracts\QueryBuilder;
-use Laravel\Nova\Fields\AssociatableRelation;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\FormatsRelatableDisplayValues;
 
 trait MultiselectBelongsToSupport
 {
-    use FormatsRelatableDisplayValues, AssociatableRelation;
+    use FormatsRelatableDisplayValues;
 
     public $resourceClass;
     public $display;
@@ -211,5 +210,10 @@ trait MultiselectBelongsToSupport
             'subtitle' => $resource->subtitle(),
             'value' => Util::safeInt($resource->getKey()),
         ]);
+    }
+
+    public function shouldReorderAssociatableValues(NovaRequest $request)
+    {
+        return false;
     }
 }
