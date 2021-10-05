@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Fixed `ralatableQuery` support for async relations
+- Fixed `relatableQuery` support for async relations
 
 ## [2.3.5] - 2021-10-05
 
