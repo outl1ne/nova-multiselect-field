@@ -315,8 +315,8 @@ export default {
         const newOptions = [];
 
         for (const resource of data.resources) {
-          const label = resource.title;
-          const value = resource.id.value;
+          const label = resource.display;
+          const value = resource.value;
           newOptions.push({ value, label });
         }
 

@@ -3,14 +3,16 @@
 namespace OptimistDigital\MultiselectField;
 
 use Exception;
-use Illuminate\Support\Str;
-use RuntimeException;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Contracts\RelatableField;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use OptimistDigital\MultiselectField\Traits\MultiselectBelongsToSupport;
 
-class Multiselect extends Field
+class Multiselect extends Field implements RelatableField
 {
+    use MultiselectBelongsToSupport;
+
     public $component = 'multiselect-field';
 
     protected $pageResponseResolveCallback;
@@ -273,137 +275,6 @@ class Multiselect extends Field
     {
         $this->pageResponseResolveCallback = $resolveCallback;
         return $this;
-    }
-
-    /**
-     * Makes the field to manage a BelongsToMany relationship.
-     *
-     * @param string $resourceClass The Nova Resource class for the other model.
-     * @return \OptimistDigital\MultiselectField\Multiselect
-     **/
-    public function belongsToMany($resourceClass, $async = true)
-    {
-        $this->resolveUsing(function ($value) use ($async, $resourceClass) {
-            if ($async) $this->asyncResource($resourceClass);
-
-            $request = app(NovaRequest::class);
-            $model = $resourceClass::newModel();
-
-            $models = $async
-                ? $value
-                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
-
-            $this->setOptionsFromModels($models, $resourceClass);
-
-            return $value->map(function ($model) {
-                return $model[$model->getKeyName()];
-            })->toArray();
-        });
-
-        $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
-            $model::saved(function ($model) use ($attribute, $request) {
-                // Validate
-                if (!method_exists($model, $attribute)) {
-                    throw new RuntimeException("{$model}::{$attribute} must be a relation method.");
-                }
-
-                $relation = $model->{$attribute}();
-
-                if (!method_exists($relation, 'sync')) {
-                    throw new RuntimeException("{$model}::{$attribute} does not appear to model a BelongsToMany or MorphsToMany.");
-                }
-
-                // Sync
-                $relation->sync($request->get($attribute) ?? []);
-            });
-        });
-
-        return $this;
-    }
-
-    /**
-     * Makes the field to manage a BelongsTo relationship.
-     *
-     * @param string $resourceClass The Nova Resource class for the other model.
-     * @return \OptimistDigital\MultiselectField\Multiselect
-     **/
-    public function belongsTo($resourceClass, $async = true)
-    {
-        $this->singleSelect();
-        $primaryKey =  $resourceClass::newModel()->getKeyName();
-
-        $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
-            if ($async) $this->asyncResource($resourceClass);
-
-            $request = app(NovaRequest::class);
-            $value = $value->{$primaryKey} ?? null;
-            $model = $resourceClass::newModel();
-
-            $models = isset($value)
-                ? collect([$model::find($value)])
-                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
-
-            $this->setOptionsFromModels($models, $resourceClass);
-
-            $resource = isset($value) ? new $resourceClass($models->first()) : null;
-            $this->withMeta([
-                'belongsToDisplayValue' => $resource ? (string) $resource->title() : null,
-                'belongsToResourceName' => $resource ? $resource::uriKey() : null,
-                'viewable' => $resource ? $resource->authorizedToView(request()) : false,
-            ]);
-
-            return $value;
-        });
-
-        $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) use ($resourceClass) {
-            $modelClass = get_class($model);
-
-            // Validate
-            if (!method_exists($model, $attribute)) {
-                throw new RuntimeException("{$modelClass}::{$attribute} must be a relation method.");
-            }
-
-            $relation = $model->{$attribute}();
-
-            if (!method_exists($relation, 'associate')) {
-                throw new RuntimeException("{$modelClass}::{$attribute} does not appear to model a BelongsTo relationship.");
-            }
-
-            // Sync
-            $relation->associate($resourceClass::newModel()::find($request->get($attribute)));
-        });
-
-        return $this;
-    }
-
-    /**
-     * Get the attachable query method name.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return array
-     */
-    protected function attachableQueryCallable(NovaRequest $request, $model, $resourceClass)
-    {
-        return ($method = $this->attachableQueryMethod($request, $model))
-            ? [$request->resource(), $method]
-            : [$resourceClass, 'relatableQuery'];
-    }
-
-    /**
-     * Get the attachable query method name.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return string
-     */
-    protected function attachableQueryMethod(NovaRequest $request, $model)
-    {
-        $method = 'relatable' . Str::plural(class_basename($model));
-
-        if (method_exists($request->resource(), $method)) {
-            return $method;
-        }
     }
 
     public function clearOnSelect($clearOnSelect = true)
