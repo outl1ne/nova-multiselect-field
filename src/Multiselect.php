@@ -322,36 +322,6 @@ class Multiselect extends Field
     }
 
     /**
-     * Get the attachable query method name.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return array
-     */
-    protected function attachableQueryCallable(NovaRequest $request, $model, $resourceClass)
-    {
-        return ($method = $this->attachableQueryMethod($request, $model))
-            ? [$request->resource(), $method]
-            : [$resourceClass, 'relatableQuery'];
-    }
-
-    /**
-     * Get the attachable query method name.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return string
-     */
-    protected function attachableQueryMethod(NovaRequest $request, $model)
-    {
-        $method = 'relatable'.Str::plural(class_basename($model));
-
-        if (method_exists($request->resource(), $method)) {
-            return $method;
-        }
-    }
-
-    /**
      * Makes the field to manage a BelongsTo relationship.
      *
      * @param string $resourceClass The Nova Resource class for the other model.
@@ -365,9 +335,13 @@ class Multiselect extends Field
         $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
             if ($async) $this->asyncResource($resourceClass);
 
+            $request = app(NovaRequest::class);
             $value = $value->{$primaryKey} ?? null;
             $model = $resourceClass::newModel();
-            $models = $async && isset($value) ? collect([$model::find($value)]) : $model::all();
+
+            $models = isset($value)
+                ? collect([$model::find($value)])
+                : forward_static_call($this->attachableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
 
             $this->setOptionsFromModels($models, $resourceClass);
 
@@ -393,6 +367,36 @@ class Multiselect extends Field
         });
 
         return $this;
+    }
+
+    /**
+     * Get the attachable query method name.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array
+     */
+    protected function attachableQueryCallable(NovaRequest $request, $model, $resourceClass)
+    {
+        return ($method = $this->attachableQueryMethod($request, $model))
+            ? [$request->resource(), $method]
+            : [$resourceClass, 'relatableQuery'];
+    }
+
+    /**
+     * Get the attachable query method name.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return string
+     */
+    protected function attachableQueryMethod(NovaRequest $request, $model)
+    {
+        $method = 'relatable' . Str::plural(class_basename($model));
+
+        if (method_exists($request->resource(), $method)) {
+            return $method;
+        }
     }
 
     public function clearOnSelect($clearOnSelect = true)
