@@ -345,6 +345,13 @@ class Multiselect extends Field
 
             $this->setOptionsFromModels($models, $resourceClass);
 
+            $resource = isset($value) ? new $resourceClass($models->first()) : null;
+            $this->withMeta([
+                'belongsToDisplayValue' => $resource ? (string) $resource->title() : null,
+                'belongsToResourceName' => $resource ? $resource::uriKey() : null,
+                'viewable' => $resource ? $resource->authorizedToView(request()) : false,
+            ]);
+
             return $value;
         });
 

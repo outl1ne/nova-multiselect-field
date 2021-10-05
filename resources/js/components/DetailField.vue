@@ -1,7 +1,21 @@
 <template>
   <panel-item :field="field">
     <template slot="value">
-      <nova-multiselect-detail-field-value v-if="isMultiselect" :field="field" :values="values" />
+      <router-link
+        v-if="field.belongsToResourceName && field.viewable && field.value"
+        :to="{
+          name: 'detail',
+          params: {
+            resourceName: field.belongsToResourceName,
+            resourceId: field.value,
+          },
+        }"
+        class="no-underline font-bold dim text-primary"
+      >
+        {{ field.belongsToDisplayValue }}
+      </router-link>
+
+      <nova-multiselect-detail-field-value v-else-if="isMultiselect" :field="field" :values="values" />
 
       <div v-else>{{ (value && value.label) || '—' }}</div>
     </template>
