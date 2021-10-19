@@ -7,7 +7,6 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Util;
 use Illuminate\Support\Str;
 use Laravel\Nova\TrashedStatus;
-use Laravel\Nova\Contracts\QueryBuilder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\FormatsRelatableDisplayValues;
 
@@ -147,7 +146,11 @@ trait MultiselectBelongsToSupport
             [$resourceClass = $this->resourceClass, 'newModel']
         );
 
-        $query = app()->make(QueryBuilder::class, [$resourceClass]);
+        $queryBuilderClass = Nova::version() >= '3.26.1'
+            ? 'Laravel\Nova\Contracts\QueryBuilder'
+            : 'Laravel\Nova\Query\Builder';
+
+        $query = app()->make($queryBuilderClass, [$resourceClass]);
 
         $request->first === 'true'
             ? $query->whereKey($model->newQueryWithoutScopes(), $request->current)
