@@ -146,11 +146,9 @@ trait MultiselectBelongsToSupport
             [$resourceClass = $this->resourceClass, 'newModel']
         );
 
-        $queryBuilderClass = Nova::version() >= '3.26.1'
-            ? 'Laravel\Nova\Contracts\QueryBuilder'
-            : 'Laravel\Nova\Query\Builder';
-
-        $query = app()->make($queryBuilderClass, [$resourceClass]);
+        $query = Nova::version() >= '3.26.1'
+            ? app()->make('Laravel\Nova\Contracts\QueryBuilder', [$resourceClass])
+            : new Laravel\Nova\Query\Builder($resourceClass);
 
         $request->first === 'true'
             ? $query->whereKey($model->newQueryWithoutScopes(), $request->current)
