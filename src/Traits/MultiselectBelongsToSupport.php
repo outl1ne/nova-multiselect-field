@@ -4,7 +4,6 @@ namespace OptimistDigital\MultiselectField\Traits;
 
 use RuntimeException;
 use Laravel\Nova\Nova;
-use Laravel\Nova\Util;
 use Illuminate\Support\Str;
 use Laravel\Nova\TrashedStatus;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -205,11 +204,15 @@ trait MultiselectBelongsToSupport
      */
     public function formatAssociatableResource(NovaRequest $request, $resource)
     {
+        $value = Nova::version() >= '3.25.0'
+            ? \Laravel\Nova\Util::safeInt($resource->getKey())
+            : $resource->getKey();
+
         return array_filter([
             'avatar' => $resource->resolveAvatarUrl($request),
             'display' => $this->formatDisplayValue($resource),
             'subtitle' => $resource->subtitle(),
-            'value' => Util::safeInt($resource->getKey()),
+            'value' => $value,
         ]);
     }
 
