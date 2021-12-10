@@ -285,7 +285,7 @@ class Multiselect extends Field implements RelatableField
     /**
      * Set the options from a collection of models.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection  $models
+     * @param  \Illuminate\Support\Collection  $models
      * @param  string  $resourceClass
      * @return void
      */
