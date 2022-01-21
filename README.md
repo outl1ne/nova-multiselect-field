@@ -130,9 +130,16 @@ public function categories()
     return $this->belongsToMany(\App\Models\Category::class);
 }
 
-// Add the field to your Resource:
+// Add the field to your Resource for asynchronous option querying:
 Multiselect::make('Categories', 'categories')
   ->belongsToMany(\App\Nova\Resources\Category::class),
+
+// Alternatively, you can set the second argument to 'false' to
+// query the options on page load and prevent the user from having
+// to first type in order to view the available options. Note: Not
+// recommended for unbounded relationship row counts.
+Multiselect::make('Categories', 'categories')
+  ->belongsToMany(\App\Nova\Resources\Category::class, false),
 ```
 
 ## Options
