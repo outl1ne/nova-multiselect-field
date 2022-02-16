@@ -50,7 +50,7 @@ public function fields(Request $request)
         ->options([
           'liverpool' => 'Liverpool FC',
           'tottenham' => 'Tottenham Hotspur',
-        ])
+        ], true) // Default false, set to True to use Value => Value
 
         // Optional:
         ->placeholder('Choose football teams') // Placeholder text
@@ -58,6 +58,7 @@ public function fields(Request $request)
         ->saveAsJSON() // Saves value as JSON if the database column is of JSON type
         ->optionsLimit(5) // How many items to display at once
         ->reorderable() // Allows reordering functionality
+        ->taggable() // Allows taggable functionality
         ->singleSelect() // If you want a searchable single select field
         ->distinct('football') // Disables values used by other multiselects in same distinct group
 
@@ -148,7 +149,7 @@ Possible options you can pass to the field using the option name as a function, 
 
 | Option                        | type                      | default         | description                                                                                                                                                                                       |
 | ----------------------------- | ------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `options`                     | Array\|callable           | []              | Options in an array as key-value pairs (`['id' => 'value']`).                                                                                                                                     |
+| `options`                     | Array\|callable           | ([], false)     | Options in an array as key-value pairs (`['id' => 'value']`), set second boolean parameter for using ((`['value' => 'value']`)).                                                                  |
 | `api($path, $resource)`       | String, String (Resource) | null            | URL that can be used to fetch options asynchronously. The search string is provided in the `search` query parameter. The API must return object containing key-value pairs (`['id' => 'value']`). |
 | `asyncResource($resource)`    | String (Resource)         | null            | Provide a Resource class to fetch the options asynchronously.                                                                                                                                     |
 | `placeholder`                 | String                    | Field name      | The placeholder string for the input.                                                                                                                                                             |
@@ -159,6 +160,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `optionsLimit`                | Number                    | 1000            | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                                            |
 | `nullable`                    | Boolean                   | false           | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                                              |
 | `reorderable`                 | Boolean                   | false           | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
+| `taggable`                    | Boolean                   | false           | Enables (or disables) the taggable functionality of the multiselect field.                                                                                                                        |
 | `dependsOn`                   | String                    | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
 | `dependsOnOptions`            | Array                     | null            | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
 | `belongsToMany`               | String (Resource)         | null            | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |

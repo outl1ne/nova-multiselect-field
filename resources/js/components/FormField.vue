@@ -22,6 +22,8 @@
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
+          :taggable="isTaggable"
+          @tag="addTag"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limit="field.limit"
@@ -214,6 +216,17 @@ export default {
       }
     },
 
+    addTag(newTag) {
+      if (this.isTaggable) {
+        const parts = newTag.split(', ');
+        const tag = {
+          label: newTag,
+          value: newTag,
+        };
+        this.value.push(tag);
+      }
+    },
+
     handleChange(value) {
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
@@ -351,7 +364,7 @@ export default {
 <style lang="scss">
 .multiselect-field {
   .reorder__tag {
-    background: #41b883;
+    background: var(--primary);
     border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -361,7 +374,7 @@ export default {
 
     &:hover {
       cursor: pointer;
-      background: #3dab7a;
+      background: var(--primary-dark);
       transition-duration: 0.05s;
     }
   }
