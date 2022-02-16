@@ -24,7 +24,7 @@ class Multiselect extends Field implements RelatableField
      * @param  array|callable
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function options($options = [])
+    public function options($options = [], $use_value = false)
     {
         if (is_callable($options)) $options = call_user_func($options);
         $options = collect($options ?? []);
@@ -50,8 +50,12 @@ class Multiselect extends Field implements RelatableField
 
 
         return $this->withMeta([
-            'options' => $options->map(function ($label, $value) {
-                return ['label' => $label, 'value' => $value];
+            'options' => $options->map(function ($label, $value) use ($use_value) {
+                if (!$use_value) {
+                    return ['label' => $label, 'value' => $value];
+                } else {
+                    return ['label' => $value, 'value' => $value];
+                }
             })->values()->all(),
         ]);
     }
