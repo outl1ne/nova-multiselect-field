@@ -55,6 +55,10 @@ export default {
       return !this.field.singleSelect;
     },
 
+    isTaggable() {
+      return this.field.taggable || false;
+    },
+
     isOptionGroups() {
       return !!this.field.options && !!this.field.options.find(opt => opt.values && Array.isArray(opt.values));
     },

@@ -176,6 +176,17 @@ class Multiselect extends Field implements RelatableField
     }
 
     /**
+     * Enables or disables taggable of the field values.
+     *
+     * @param bool $reorderable
+     * @return \OptimistDigital\MultiselectField\Multiselect
+     **/
+    public function taggable($taggable = true)
+    {
+        return $this->withMeta(['taggable' => $taggable]);
+    }
+
+    /**
      * Enables the field to be used as a single select.
      *
      * This forces the value saved to be a single value and not an array.
