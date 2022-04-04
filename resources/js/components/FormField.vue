@@ -33,6 +33,8 @@
           deselectLabel=""
           deselectGroupLabel=""
           :clearOnSelect="field.clearOnSelect || false"
+          :taggable="field.taggable || false"
+          @tag="addTag"
         >
           <template slot="maxElements">
             {{ __('novaMultiselect.maxElements', { max: String(field.max || '') }) }}
@@ -295,6 +297,21 @@ export default {
 
       if (onOpen) this.$nextTick(handlePositioning);
       else handlePositioning();
+    },
+
+    addTag (newTag) {
+      const tag = {
+        label: newTag,
+        value: newTag,
+      }
+
+      this.options.push(tag)
+
+      if (this.isMultiselect) {
+        this.value.push(tag)
+      } else {
+        this.value = tag;
+      }
     },
 
     fetchOptions: debounce(async function (search) {
