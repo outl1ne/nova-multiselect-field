@@ -120,8 +120,10 @@ trait MultiselectBelongsToSupport
                     throw new RuntimeException("{$model}::{$attribute} does not appear to model a BelongsToMany or MorphsToMany.");
                 }
 
+                $ids = $request->get($attribute);
+                
                 // Sync
-                $relation->sync($request->get($attribute) ?? []);
+                $relation->sync(!blank($ids) ? $ids : []);
             });
         });
 
