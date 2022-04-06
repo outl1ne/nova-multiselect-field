@@ -14,8 +14,8 @@ class FieldServiceProvider extends ServiceProvider
     public function boot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('multiselect-field', __DIR__ . '/../dist/js/multiselect-field.js');
-            Nova::style('multiselect-field', __DIR__ . '/../dist/css/multiselect-field.css');
+            Nova::script('multiselect-field', __DIR__ . '/../dist/js/entry.js');
+            Nova::style('multiselect-field', __DIR__ . '/../dist/css/entry.css');
         });
 
         $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-multiselect-field', true);

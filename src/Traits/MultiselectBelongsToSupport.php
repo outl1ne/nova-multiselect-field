@@ -14,6 +14,7 @@ trait MultiselectBelongsToSupport
     use FormatsRelatableDisplayValues;
 
     public $resourceClass;
+    public $resourceName; // TODO
     public $display;
 
     /**
@@ -220,5 +221,21 @@ trait MultiselectBelongsToSupport
     public function shouldReorderAssociatableValues(NovaRequest $request)
     {
         return false;
+    }
+
+    // Implement abstract methods
+    public function relationshipName()
+    {
+        return 'hoho';
+    }
+
+    /**
+     * Get the relationship type.
+     *
+     * @return string
+     */
+    public function relationshipType()
+    {
+        return 'haha';
     }
 }

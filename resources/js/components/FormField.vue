@@ -1,6 +1,6 @@
 <template>
-  <default-field :field="field" :showHelpText="showHelpText" :errors="errors">
-    <template slot="field">
+  <DefaultField :field="field" :showHelpText="showHelpText" :errors="errors">
+    <template #field>
       <div class="multiselect-field flex flex-col">
         <!-- Multi select field -->
         <multiselect
@@ -75,15 +75,17 @@
         </div>
       </div>
     </template>
-  </default-field>
+  </DefaultField>
 </template>
 
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
-import Multiselect from 'vue-multiselect';
+import Multiselect from 'vue-multiselect/src/Multiselect';
 import VueDraggable from 'vuedraggable';
 import debounce from 'lodash/debounce';
+
+console.info(Multiselect);
 
 export default {
   components: { Multiselect, VueDraggable },
@@ -105,7 +107,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
 
-    if (this.field.dependsOn) {
+    if (this.field.valueDependsOn) {
       this.options = [];
 
       Nova.$on(`multiselect-${this.safeDependsOnAttribute}-input`, values => {
@@ -118,11 +120,11 @@ export default {
         values.forEach(option => {
           if (!option) return;
 
-          Object.keys(this.field.dependsOnOptions[option.value] || {}).forEach(value => {
+          Object.keys(this.field.valueDependsOnOptions[option.value] || {}).forEach(value => {
             // Only add unique
             if (newOptions.find(o => o.value === value)) return;
 
-            let label = this.field.dependsOnOptions[option.value][value];
+            let label = this.field.valueDependsOnOptions[option.value][value];
             newOptions.push({ label, value });
           });
         });
@@ -140,10 +142,10 @@ export default {
         }
 
         // Calculate max values
-        const dependsOnMax = this.field.dependsOnMax;
+        const dependsOnMax = this.field.valueDependsOnMax;
         if (dependsOnMax) {
           const maxValues = values.map(option => {
-            return option && (this.field.dependsOnMax[option.value] || null);
+            return option && (this.field.valueDependsOnMax[option.value] || null);
           });
           this.max = Math.max(...maxValues) || null;
         }
@@ -180,13 +182,13 @@ export default {
     },
 
     safeDependsOnAttribute() {
-      if (this.field.dependsOnOutsideFlexible) {
-        return this.field.dependsOn;
+      if (this.field.valueDependsOnOutsideFlexible) {
+        return this.field.valueDependsOn;
       }
 
       const flexibleKey = this.flexibleKey;
-      if (!flexibleKey) return this.field.dependsOn;
-      return `${flexibleKey}__${this.field.dependsOn}`;
+      if (!flexibleKey) return this.field.valueDependsOn;
+      return `${flexibleKey}__${this.field.valueDependsOn}`;
     },
   },
 
@@ -244,6 +246,8 @@ export default {
           else this.distinctValues.push(values.value);
         }
       });
+
+      console.info('distinctOptions');
 
       this.options = this.options.map(option => {
         if (this.isOptionGroups) {
