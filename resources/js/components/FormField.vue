@@ -107,7 +107,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.repositionDropdown);
 
-    if (this.field.valueDependsOn) {
+    if (this.field.optionsDependOn) {
       this.options = [];
 
       Nova.$on(`multiselect-${this.safeDependsOnAttribute}-input`, values => {
@@ -120,11 +120,11 @@ export default {
         values.forEach(option => {
           if (!option) return;
 
-          Object.keys(this.field.valueDependsOnOptions[option.value] || {}).forEach(value => {
+          Object.keys(this.field.optionsDependOnOptions[option.value] || {}).forEach(value => {
             // Only add unique
             if (newOptions.find(o => o.value === value)) return;
 
-            let label = this.field.valueDependsOnOptions[option.value][value];
+            let label = this.field.optionsDependOnOptions[option.value][value];
             newOptions.push({ label, value });
           });
         });
@@ -142,10 +142,10 @@ export default {
         }
 
         // Calculate max values
-        const dependsOnMax = this.field.valueDependsOnMax;
+        const dependsOnMax = this.field.optionsDependOnMax;
         if (dependsOnMax) {
           const maxValues = values.map(option => {
-            return option && (this.field.valueDependsOnMax[option.value] || null);
+            return option && (this.field.optionsDependOnMax[option.value] || null);
           });
           this.max = Math.max(...maxValues) || null;
         }
@@ -182,13 +182,13 @@ export default {
     },
 
     safeDependsOnAttribute() {
-      if (this.field.valueDependsOnOutsideFlexible) {
-        return this.field.valueDependsOn;
+      if (this.field.optionsDependOnOutsideFlexible) {
+        return this.field.optionsDependOn;
       }
 
       const flexibleKey = this.flexibleKey;
-      if (!flexibleKey) return this.field.valueDependsOn;
-      return `${flexibleKey}__${this.field.valueDependsOn}`;
+      if (!flexibleKey) return this.field.optionsDependOn;
+      return `${flexibleKey}__${this.field.optionsDependOn}`;
     },
   },
 

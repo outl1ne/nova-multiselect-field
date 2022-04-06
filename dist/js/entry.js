@@ -4608,7 +4608,7 @@ console.info(vue_multiselect_src_Multiselect__WEBPACK_IMPORTED_MODULE_3__["defau
 
     window.addEventListener('scroll', this.repositionDropdown);
 
-    if (this.field.valueDependsOn) {
+    if (this.field.optionsDependOn) {
       this.options = [];
       Nova.$on("multiselect-".concat(this.safeDependsOnAttribute, "-input"), function (values) {
         values = Array.isArray(values) ? values : [values]; // Handle singleSelect
@@ -4618,12 +4618,12 @@ console.info(vue_multiselect_src_Multiselect__WEBPACK_IMPORTED_MODULE_3__["defau
         var newOptions = [];
         values.forEach(function (option) {
           if (!option) return;
-          Object.keys(_this.field.valueDependsOnOptions[option.value] || {}).forEach(function (value) {
+          Object.keys(_this.field.optionsDependOnOptions[option.value] || {}).forEach(function (value) {
             // Only add unique
             if (newOptions.find(function (o) {
               return o.value === value;
             })) return;
-            var label = _this.field.valueDependsOnOptions[option.value][value];
+            var label = _this.field.optionsDependOnOptions[option.value][value];
             newOptions.push({
               label: label,
               value: value
@@ -4649,11 +4649,11 @@ console.info(vue_multiselect_src_Multiselect__WEBPACK_IMPORTED_MODULE_3__["defau
         } // Calculate max values
 
 
-        var dependsOnMax = _this.field.valueDependsOnMax;
+        var dependsOnMax = _this.field.optionsDependOnMax;
 
         if (dependsOnMax) {
           var maxValues = values.map(function (option) {
-            return option && (_this.field.valueDependsOnMax[option.value] || null);
+            return option && (_this.field.optionsDependOnMax[option.value] || null);
           });
           _this.max = Math.max.apply(Math, _toConsumableArray(maxValues)) || null;
         }
@@ -4686,13 +4686,13 @@ console.info(vue_multiselect_src_Multiselect__WEBPACK_IMPORTED_MODULE_3__["defau
       if (match && match[0] && match[0].length === 16) return match[0];
     },
     safeDependsOnAttribute: function safeDependsOnAttribute() {
-      if (this.field.valueDependsOnOutsideFlexible) {
-        return this.field.valueDependsOn;
+      if (this.field.optionsDependOnOutsideFlexible) {
+        return this.field.optionsDependOn;
       }
 
       var flexibleKey = this.flexibleKey;
-      if (!flexibleKey) return this.field.valueDependsOn;
-      return "".concat(flexibleKey, "__").concat(this.field.valueDependsOn);
+      if (!flexibleKey) return this.field.optionsDependOn;
+      return "".concat(flexibleKey, "__").concat(this.field.optionsDependOn);
     }
   },
   methods: {
@@ -5358,8 +5358,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getValueFromOptions: function getValueFromOptions(value) {
       var options = this.field.options || [];
 
-      if (this.field.valueDependsOn) {
-        var valueGroups = Object.values(this.field.valueDependsOnOptions || {});
+      if (this.field.optionsDependOn) {
+        var valueGroups = Object.values(this.field.optionsDependOnOptions || {});
         options = [];
         valueGroups.forEach(function (values) {
           return Object.keys(values).forEach(function (value) {

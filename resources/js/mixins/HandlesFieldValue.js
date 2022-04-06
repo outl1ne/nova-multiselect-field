@@ -33,8 +33,8 @@ export default {
     getValueFromOptions(value) {
       let options = this.field.options || [];
 
-      if (this.field.valueDependsOn) {
-        const valueGroups = Object.values(this.field.valueDependsOnOptions || {});
+      if (this.field.optionsDependOn) {
+        const valueGroups = Object.values(this.field.optionsDependOnOptions || {});
         options = [];
         valueGroups.forEach(values =>
           Object.keys(values).forEach(value => options.push({ value, label: values[value] }))

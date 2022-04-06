@@ -202,9 +202,12 @@ class Multiselect extends Field implements RelatableField
      * @param string $otherFieldName
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function valueDependsOn($otherFieldName)
+    public function optionsDependOn($otherFieldName, $options)
     {
-        return $this->withMeta(['valueDependsOn' => $otherFieldName]);
+        return $this->withMeta([
+            'optionsDependOn' => $otherFieldName,
+            'optionsDependOnOptions' => $options,
+        ]);
     }
 
     /**
@@ -213,20 +216,13 @@ class Multiselect extends Field implements RelatableField
      * @param string $otherFieldName
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function valueDependsOnOutsideFlexible($otherFieldName)
+    public function optionsDependOnOutsideFlexible($otherFieldName, $options)
     {
-        return $this->withMeta(['valueDependsOn' => $otherFieldName, 'valueDependsOnOutsideFlexible' => true]);
-    }
-
-    /**
-     * Set dependency options map as a keyed array of options.
-     *
-     * @param array $options
-     * @return \OptimistDigital\MultiselectField\Multiselect
-     **/
-    public function valueDependsOnOptions(array $options)
-    {
-        return $this->withMeta(['valueDependsOnOptions' => $options]);
+        return $this->withMeta([
+            'optionsDependOn' => $otherFieldName,
+            'optionsDependOnOptions' => $options,
+            'optionsDependOnOutsideFlexible' => true,
+        ]);
     }
 
     /**
@@ -235,9 +231,9 @@ class Multiselect extends Field implements RelatableField
      * @param array $maxOptions
      * @return \OptimistDigital\MultiselectField\Multiselect
      **/
-    public function valueDependsOnMax(array $maxOptions)
+    public function optionsDependOnMax(array $maxOptions)
     {
-        return $this->withMeta(['valueDependsOnMax' => $maxOptions]);
+        return $this->withMeta(['optionsDependOnMax' => $maxOptions]);
     }
 
     /**
