@@ -5,7 +5,7 @@ namespace OptimistDigital\MultiselectField;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
-use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
+use OptimistDigital\NovaTranslationsLoaderPHP\LoadsNovaTranslations;
 
 class FieldServiceProvider extends ServiceProvider
 {
