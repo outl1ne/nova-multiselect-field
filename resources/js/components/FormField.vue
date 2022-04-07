@@ -385,6 +385,12 @@ export default {
     @media (prefers-color-scheme: dark) {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
     }
+
+    .multiselect__tag-icon {
+      &:hover {
+        background: rgba(var(--colors-red-500));
+      }
+    }
   }
 
   .multiselect__content-wrapper {
@@ -406,8 +412,12 @@ export default {
       .multiselect__option {
         &.multiselect__option--selected {
           color: rgba(var(--colors-primary-400));
-          background-color: rgba(var(--colors-gray-900));
+          background-color: #fff;
           text-decoration: underline;
+
+          @media (prefers-color-scheme: dark) {
+            background-color: rgba(var(--colors-gray-900));
+          }
         }
 
         &.multiselect__option--highlight {
@@ -415,6 +425,11 @@ export default {
 
           &.multiselect__option--selected {
             background-color: rgba(var(--colors-red-500));
+            color: #fff;
+
+            @media (prefers-color-scheme: dark) {
+              background-color: rgba(var(--colors-red-500));
+            }
           }
         }
       }
