@@ -53,6 +53,10 @@
               @mousedown.prevent.stop="value = isMultiselect ? [] : null"
             ></div>
           </template>
+
+          <template #singleLabel>
+            <span>{{ value ? value.label : '' }}</span>
+          </template>
         </multiselect>
 
         <!-- Reorder mode field -->
