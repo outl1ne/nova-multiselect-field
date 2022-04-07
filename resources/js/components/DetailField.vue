@@ -1,6 +1,6 @@
 <template>
-  <panel-item :field="field">
-    <template slot="value">
+  <PanelItem :index="index" :field="field">
+    <template #value>
       <router-link
         v-if="field.belongsToResourceName && field.viewable && field.value"
         :to="{
@@ -19,7 +19,7 @@
 
       <div v-else>{{ (value && value.label) || '—' }}</div>
     </template>
-  </panel-item>
+  </PanelItem>
 </template>
 
 <script>
@@ -28,7 +28,7 @@ import HandlesFieldValue from '../mixins/HandlesFieldValue';
 export default {
   mixins: [HandlesFieldValue],
 
-  props: ['resource', 'resourceName', 'resourceId', 'field'],
+  props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
 
   computed: {
     values() {
