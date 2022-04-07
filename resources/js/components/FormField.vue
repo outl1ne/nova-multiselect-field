@@ -388,7 +388,11 @@ export default {
 
     .multiselect__tag-icon {
       &:hover {
-        background: rgba(var(--colors-red-500));
+        background: rgba(var(--colors-primary-600));
+
+        &::after {
+          color: rgba(var(--colors-red-500));
+        }
       }
     }
   }
