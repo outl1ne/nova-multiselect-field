@@ -7,7 +7,6 @@ export default {
   },
 
   beforeMount() {
-    console.info('beforEMount?', this.field.options);
     this.options = this.field.options || [];
   },
 
@@ -64,8 +63,6 @@ export default {
       // Return empty array if the multiselect has not been opened yet.
       if (!this.isInitialized) return [];
       let options = this.options || [];
-
-      console.info(this.options, this);
 
       if (this.isOptionGroups) {
         const allLabels = options.map(opt => opt.values.map(o => o.label)).flat();

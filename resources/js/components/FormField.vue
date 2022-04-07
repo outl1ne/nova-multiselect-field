@@ -34,19 +34,19 @@
           deselectGroupLabel=""
           :clearOnSelect="field.clearOnSelect || false"
         >
-          <template slot="maxElements">
+          <template #maxElements>
             {{ __('novaMultiselect.maxElements', { max: String(field.max || '') }) }}
           </template>
 
-          <template slot="noResult">
+          <template #noResult>
             {{ __('novaMultiselect.noResult') }}
           </template>
 
-          <template slot="noOptions">
+          <template #noOptions>
             {{ field.apiUrl ? __('novaMultiSelect.startTypingForOptions') : __('novaMultiselect.noOptions') }}
           </template>
 
-          <template slot="clear">
+          <template #clear>
             <div
               class="multiselect__clear"
               v-if="field.nullable && (isMultiselect ? value.length : value)"
@@ -84,8 +84,6 @@ import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect/src/Multiselect';
 import VueDraggable from 'vuedraggable';
 import debounce from 'lodash/debounce';
-
-console.info(Multiselect);
 
 export default {
   components: { Multiselect, VueDraggable },
@@ -247,8 +245,6 @@ export default {
         }
       });
 
-      console.info('distinctOptions');
-
       this.options = this.options.map(option => {
         if (this.isOptionGroups) {
           // Support for option groups
@@ -354,8 +350,79 @@ export default {
 
 <style lang="scss">
 .multiselect-field {
+  .multiselect__tags {
+    --tw-border-opacity: 1;
+    border-width: 1px;
+
+    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+    }
+  }
+
+  .multiselect__input {
+    border: none;
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+    }
+  }
+
+  .multiselect__tag {
+    background-color: rgba(var(--colors-primary-500));
+    color: rgba(var(--colors-white), var(--tw-text-opacity));
+    --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    font-weight: 700;
+
+    @media (prefers-color-scheme: dark) {
+      color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
+    }
+  }
+
+  .multiselect__content-wrapper {
+    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+    }
+
+    .multiselect__element {
+      background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+        color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      }
+
+      .multiselect__option {
+        &.multiselect__option--selected {
+          color: rgba(var(--colors-primary-400));
+          background-color: rgba(var(--colors-gray-900));
+          text-decoration: underline;
+        }
+
+        &.multiselect__option--highlight {
+          background-color: rgba(var(--colors-primary-500));
+
+          &.multiselect__option--selected {
+            background-color: rgba(var(--colors-red-500));
+          }
+        }
+      }
+    }
+  }
+
   .reorder__tag {
-    background: #41b883;
+    background-color: rgba(var(--colors-primary-500));
     border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
