@@ -58,17 +58,17 @@ export default {
     },
 
     delimiter() {
-      return this.field.indexDelimiter ?? ', ';
+      return this.field.indexDelimiter || ', ';
     },
 
     valueDisplayLimit() {
-      return this.field.indexValueDisplayLimit ?? 9999;
+      return this.field.indexValueDisplayLimit || 9999;
     },
 
     charDisplayLimit() {
       // Set char limit to 9999 if we have value limit, but not char limit
       if (!!this.field.indexValueDisplayLimit && !this.field.indexCharDisplayLimit) return 9999;
-      return this.field.indexCharDisplayLimit ?? 40;
+      return this.field.indexCharDisplayLimit || 40;
     },
   },
 };

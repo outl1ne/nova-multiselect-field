@@ -27,7 +27,7 @@ class Multiselect extends Field implements RelatableField
     public function options($options = [])
     {
         if (is_callable($options)) $options = call_user_func($options);
-        $options = collect($options ?? []);
+        $options = collect($options ?: []);
 
         $isOptionGroup = $options->contains(function ($label, $value) {
             return is_array($label);
@@ -105,7 +105,7 @@ class Multiselect extends Field implements RelatableField
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
         $singleSelect = $this->meta['singleSelect'] ?? false;
-        $value = $request->input($requestAttribute) ?? null;
+        $value = $request->input($requestAttribute) ?: null;
 
         if ($singleSelect) {
             $model->{$attribute} = $value;
