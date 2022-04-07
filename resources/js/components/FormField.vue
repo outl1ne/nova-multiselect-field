@@ -56,14 +56,16 @@
         </multiselect>
 
         <!-- Reorder mode field -->
-        <div v-if="reorderMode" class="form-input-bordered py-1">
-          <vue-draggable tag="ul" v-model="value" class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
-            <transition-group>
-              <li v-for="(s, i) in selected" :key="i + 0" class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
-                {{ s.label }}
-              </li>
-            </transition-group>
-          </vue-draggable>
+        <div v-if="reorderMode" class="form-input-bordered py-1 px-2">
+          <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
+            <vue-draggable v-model="value" tag="transition-group">
+              <template #item="{ element }">
+                <li class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
+                  {{ element.label }}
+                </li>
+              </template>
+            </vue-draggable>
+          </ul>
         </div>
 
         <div
@@ -382,13 +384,17 @@ export default {
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     font-weight: 700;
 
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
-    }
+    } */
 
     .multiselect__tag-icon {
+      &::after {
+        color: rgba(var(--colors-white));
+      }
+
       &:hover {
-        background: rgba(var(--colors-primary-600));
+        background: rgba(var(--colors-primary-400));
 
         &::after {
           color: rgba(var(--colors-red-500));
@@ -446,13 +452,13 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: all 0.25s ease;
     margin-bottom: 5px;
+    font-weight: 700;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
       cursor: pointer;
-      background: #3dab7a;
-      transition-duration: 0.05s;
+      opacity: 0.8;
     }
   }
 
