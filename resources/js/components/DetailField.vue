@@ -1,19 +1,13 @@
 <template>
   <PanelItem :index="index" :field="field">
     <template #value>
-      <router-link
+      <Link
         v-if="field.belongsToResourceName && field.viewable && field.value"
-        :to="{
-          name: 'detail',
-          params: {
-            resourceName: field.belongsToResourceName,
-            resourceId: field.value,
-          },
-        }"
-        class="no-underline font-bold dim text-primary"
+        :href="$url(`/resources/${field.belongsToResourceName}/${field.value}`)"
+        class="link-default no-underline font-bold dim"
       >
         {{ field.belongsToDisplayValue }}
-      </router-link>
+      </Link>
 
       <nova-multiselect-detail-field-value v-else-if="isMultiselect" :field="field" :values="values" />
 
