@@ -62,7 +62,7 @@
         </multiselect>
 
         <!-- Reorder mode field -->
-        <div v-if="reorderMode" class="form-input-bordered py-1 px-2">
+        <div v-if="reorderMode" class="form-input-bordered py-1 px-2 rounded-lg">
           <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <vue-draggable v-model="value" tag="transition-group">
               <template #item="{ element }">
