@@ -17,6 +17,7 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 - Reordering functionality with drag & drop
 - Dependency on other Multiselect instances
 - Distinct values between multiple multiselects
+- Fully compatible with light and dark modes
 
 ## Screenshots
 
@@ -164,6 +165,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `dependsOnOptions`            | Array                     | null            | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
 | `belongsToMany`               | String (Resource)         | null            | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
 | `belongsTo`                   | String (Resource)         | null            | Allows the Multiselect to function as a BelongsTo field.                                                                                                                                          |
+| `taggable`                    | Boolean                   | false           | Makes the Multiselet to support tags (dynamically entered values).                                                                                                                                |
 | `resolveForPageResponseUsing` | Callable                  | null            | Only for use in conjunction with [Page Manager](https://github.com/optimistdigital/nova-page-manager). Allows you to format the value before it is returned through the API.                      |
 | `clearOnSelect`               | Boolean                   | false           | Clears input after an option has been selected.                                                                                                                                                   |
 | `distinct`                    | String                    | Field Attribute | Syncs options between multiple multiselects in the same group and disables the options that have already been used.                                                                               |
