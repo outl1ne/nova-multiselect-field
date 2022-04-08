@@ -7,8 +7,8 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Requirements
 
-- `php: >=7.2`
-- `laravel/nova: ^3.0`
+- `php: >=8.0`
+- `laravel/nova: ^4.0`
 
 ## Features
 
@@ -60,6 +60,7 @@ public function fields(Request $request)
         ->reorderable() // Allows reordering functionality
         ->singleSelect() // If you want a searchable single select field
         ->distinct('football') // Disables values used by other multiselects in same distinct group
+        ->taggable() // Possible to add values ("tags") on the fly
 
         // Async model querying
         Multiselect::make('Artists')
