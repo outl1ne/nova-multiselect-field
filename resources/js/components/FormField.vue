@@ -518,6 +518,11 @@ export default {
           background-color: rgba(var(--colors-primary-500));
           color: rgba(var(--colors-white));
 
+          &::after {
+            background-color: rgba(var(--colors-primary-500));
+            font-weight: 700;
+          }
+
           &.multiselect__option--selected {
             background-color: rgba(var(--colors-red-500));
 
