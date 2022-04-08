@@ -229,7 +229,7 @@ export default {
       if (this.isMultiselect) {
         if (!Array.isArray(value)) return;
       } else {
-        if (!value.value) return;
+        if (value && !value.value) return;
       }
 
       this.value = value;
