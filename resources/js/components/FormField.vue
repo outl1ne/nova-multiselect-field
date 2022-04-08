@@ -499,12 +499,15 @@ export default {
       }
 
       .multiselect__option {
-        color: #fff;
+        color: rgba(var(--colors-gray-600));
+
+        @media (prefers-color-scheme: dark) {
+          color: rgba(var(--colors-gray-400));
+        }
 
         &.multiselect__option--selected {
           color: rgba(var(--colors-primary-400));
-          background-color: #fff;
-          text-decoration: underline;
+          background-color: rgba(var(--colors-white));
 
           @media (prefers-color-scheme: dark) {
             background-color: rgba(var(--colors-gray-900));
@@ -513,10 +516,10 @@ export default {
 
         &.multiselect__option--highlight {
           background-color: rgba(var(--colors-primary-500));
+          color: rgba(var(--colors-white));
 
           &.multiselect__option--selected {
             background-color: rgba(var(--colors-red-500));
-            color: #fff;
 
             @media (prefers-color-scheme: dark) {
               background-color: rgba(var(--colors-red-500));
