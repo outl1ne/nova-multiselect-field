@@ -10,10 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added taggable support (thanks to [@milewski](https://github.com/milewski))
-- Fixed invalid belongsToMany empty value handling (thanks to [@crezra](https://github.com/crezra))
 
 ### Changed
 
+- Fixed invalid belongsToMany empty value handling (thanks to [@crezra](https://github.com/crezra))
 - Updated packages
 
 ## [2.3.13] - 2021-12-13
