@@ -47,7 +47,11 @@ export default {
           .find(opt => String(opt.value) === String(value));
       }
 
-      return options.find(opt => String(opt.value) === String(value));
+      const option = options.find(opt => String(opt.value) === String(value));
+      if (option) return option;
+
+      // Taggable support
+      if (this.field.taggable) return { label: value, value };
     },
   },
   computed: {
