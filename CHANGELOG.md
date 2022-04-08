@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Nova 4 support
+- Fully compatible with light and dark modes
 
 ### Changed
 
