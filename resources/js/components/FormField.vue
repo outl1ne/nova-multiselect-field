@@ -221,6 +221,15 @@ export default {
     },
 
     handleChange(value) {
+      // For some reason, after upgrading to Vue 3, this callback
+      // Sometimes receives an InputEvent as an argument - my only
+      // fix is to filter out the InputEvent and only accept arrays
+      if (this.isMultiselect) {
+        if (!Array.isArray(value)) return;
+      } else {
+        if (!value.value) return;
+      }
+
       this.value = value;
       this.$nextTick(() => this.repositionDropdown());
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
@@ -407,11 +416,60 @@ export default {
     }
   }
 
+  .multiselect > .multiselect__clear {
+    &::before,
+    &::after {
+      width: 2px;
+      background: rgba(var(--colors-gray-400));
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        background: rgba(var(--colors-red-400));
+      }
+    }
+  }
+
+  .multiselect__single {
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+    }
+  }
+
+  .multiselect__spinner {
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+    }
+
+    &:before,
+    &:after {
+      border-color: rgba(var(--colors-primary-500)) transparent transparent;
+    }
+  }
+
   .multiselect__content-wrapper {
     border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
 
     @media (prefers-color-scheme: dark) {
       border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+    }
+
+    li > span.multiselect__option {
+      background-color: #fff;
+      color: rgba(var(--colors-gray-400));
+
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba(var(--colors-gray-900));
+      }
     }
 
     .multiselect__element {
@@ -424,6 +482,8 @@ export default {
       }
 
       .multiselect__option {
+        color: #fff;
+
         &.multiselect__option--selected {
           color: rgba(var(--colors-primary-400));
           background-color: #fff;
