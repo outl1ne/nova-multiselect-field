@@ -184,6 +184,11 @@ class Multiselect extends Field implements RelatableField
         return $this->withMeta(['singleSelect' => $singleSelect]);
     }
 
+    public function taggable($taggable = true)
+    {
+        return $this->withMeta(['taggable' => $taggable]);
+    }
+
     /**
      * Enables vue-multiselect's group-select feature which allows the
      * user to select the whole group at once.
