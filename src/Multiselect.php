@@ -96,9 +96,10 @@ class Multiselect extends Field implements RelatableField
     {
         $singleSelect = $this->meta['singleSelect'] ?? false;
         $value = data_get($resource, str_replace('->', '.', $attribute));
+        $saveAsJson = $this->shouldSaveAsJson($resource, $attribute);
 
         if ($value instanceof Collection) return $value;
-        if ($this->saveAsJSON || $singleSelect) return $value;
+        if ($saveAsJson || $singleSelect) return $value;
         return is_array($value) || is_object($value) ? (array) $value : json_decode($value);
     }
 
@@ -106,13 +107,21 @@ class Multiselect extends Field implements RelatableField
     {
         $singleSelect = $this->meta['singleSelect'] ?? false;
         $value = $request->input($requestAttribute) ?: null;
+        $saveAsJson = $this->shouldSaveAsJson($model, $attribute);
 
         if ($singleSelect) {
             $model->{$attribute} = $value;
         } else {
             $value = is_null($value) ? ($this->nullable ? $value : $value = []) : $value;
-            $model->{$attribute} = ($this->saveAsJSON || is_null($value)) ? $value : json_encode($value);
+            $model->{$attribute} = ($saveAsJson || is_null($value)) ? $value : json_encode($value);
         }
+    }
+
+    private function shouldSaveAsJson($model, $attribute)
+    {
+        $casts = $model->getCasts();
+        $isCastedToArray = ($casts[$attribute] ?? null) === 'array';
+        return $this->saveAsJSON || $isCastedToArray;
     }
 
     /**
