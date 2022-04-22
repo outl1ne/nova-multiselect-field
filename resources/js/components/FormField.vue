@@ -390,7 +390,7 @@ export default {
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
     color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
-    @media (prefers-color-scheme: dark) {
+    .dark & {
       border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
       background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
       color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
@@ -402,7 +402,7 @@ export default {
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
     color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
-    @media (prefers-color-scheme: dark) {
+    .dark & {
       background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
       color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
@@ -414,7 +414,7 @@ export default {
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     font-weight: 700;
 
-    /* @media (prefers-color-scheme: dark) {
+    /* .dark & {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
     } */
 
@@ -452,7 +452,7 @@ export default {
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
     color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
-    @media (prefers-color-scheme: dark) {
+    .dark & {
       background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
       color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
@@ -462,7 +462,7 @@ export default {
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
     color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
-    @media (prefers-color-scheme: dark) {
+    .dark & {
       background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
       color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
@@ -476,7 +476,7 @@ export default {
   .multiselect__content-wrapper {
     border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
 
-    @media (prefers-color-scheme: dark) {
+    .dark & {
       border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
     }
 
@@ -484,7 +484,7 @@ export default {
       background-color: #fff;
       color: rgba(var(--colors-gray-400));
 
-      @media (prefers-color-scheme: dark) {
+      .dark & {
         background-color: rgba(var(--colors-gray-900));
       }
     }
@@ -493,7 +493,7 @@ export default {
       background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
       color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
-      @media (prefers-color-scheme: dark) {
+      .dark & {
         background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
         color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
       }
@@ -501,7 +501,7 @@ export default {
       .multiselect__option {
         color: rgba(var(--colors-gray-600));
 
-        @media (prefers-color-scheme: dark) {
+        .dark & {
           color: rgba(var(--colors-gray-400));
         }
 
@@ -509,7 +509,7 @@ export default {
           color: rgba(var(--colors-primary-400));
           background-color: rgba(var(--colors-white));
 
-          @media (prefers-color-scheme: dark) {
+          .dark & {
             background-color: rgba(var(--colors-gray-900));
           }
         }
@@ -526,7 +526,7 @@ export default {
           &.multiselect__option--selected {
             background-color: rgba(var(--colors-red-500));
 
-            @media (prefers-color-scheme: dark) {
+            .dark & {
               background-color: rgba(var(--colors-red-500));
             }
           }
