@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimistDigital\MultiselectField;
+namespace Outl1ne\MultiselectField;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
