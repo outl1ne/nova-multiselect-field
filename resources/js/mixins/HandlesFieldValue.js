@@ -13,7 +13,6 @@ export default {
   methods: {
     getInitialFieldValuesArray() {
       try {
-        if (!this.field.value) return void 0;
         if (Array.isArray(this.field.value)) return this.field.value;
 
         // Attempt to parse the field value
