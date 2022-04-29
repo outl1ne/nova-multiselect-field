@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - 29-04-2022
+
+### Changed
+
+- Use Outl1ne translations loader 5.0
+- Re-add support for Laravel 8.0 and PHP 8.0
+
 ## [4.0.0] - 22-04-2022
 
 **NB! Namespace has changed from OptimistDigital to Outl1ne**
