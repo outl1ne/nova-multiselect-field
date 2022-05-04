@@ -188,7 +188,7 @@ class Multiselect extends Field implements RelatableField
      * Enables or disables taggable of the field values.
      *
      * @param bool $reorderable
-     * @return \OptimistDigital\MultiselectField\Multiselect
+     * @return \Outl1ne\MultiselectField\Multiselect
      **/
     public function taggable($taggable = true)
     {
@@ -206,11 +206,6 @@ class Multiselect extends Field implements RelatableField
     public function singleSelect($singleSelect = true)
     {
         return $this->withMeta(['singleSelect' => $singleSelect]);
-    }
-
-    public function taggable($taggable = true)
-    {
-        return $this->withMeta(['taggable' => $taggable]);
     }
 
     /**
