@@ -22,8 +22,6 @@
           :placeholder="field.placeholder || field.name"
           :close-on-select="field.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
-          :taggable="isTaggable"
-          @tag="addTag"
           :max="max || field.max || null"
           :optionsLimit="field.optionsLimit || 1000"
           :limit="field.limit"
