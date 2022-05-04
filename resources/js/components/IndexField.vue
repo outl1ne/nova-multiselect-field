@@ -1,28 +1,17 @@
 <template>
-  <div :class="`text-${field.textAlign}`" v-if="field.belongsToResourceName && field.viewable && field.value">
-    <span>
-      <span v-if="field.viewable && field.value">
-        <router-link
-          :to="{
-            name: 'detail',
-            params: {
-              resourceName: field.belongsToResourceName,
-              resourceId: field.value,
-            },
-          }"
-          class="no-underline dim text-primary font-bold"
-        >
-          {{ field.belongsToDisplayValue }}
-        </router-link>
-      </span>
-
-      <span v-else-if="field.value">{{ field.value }}</span>
-
-      <span v-else>&mdash;</span>
-    </span>
+  <div :class="`text-${field.textAlign}`">
+    <Link
+      @click.stop
+      v-if="field.belongsToResourceName && field.viewable && field.value"
+      :href="$url(`/resources/${field.belongsToResourceName}/${field.value}`)"
+      class="link-default no-underline font-bold dim"
+    >
+      {{ field.belongsToDisplayValue }}
+    </Link>
+    <span v-else-if="!field.asHtml">{{ value }}</span>
+    <span v-else-if="field.value">{{ field.value }}</span>
+    <span v-else>&mdash;</span>
   </div>
-  <span v-else-if="!field.asHtml">{{ value }}</span>
-  <span v-else v-html="value"></span>
 </template>
 
 <script>
@@ -30,9 +19,7 @@ import HandlesFieldValue from '../mixins/HandlesFieldValue';
 
 export default {
   mixins: [HandlesFieldValue],
-
   props: ['resourceName', 'field'],
-
   computed: {
     value() {
       if (this.isMultiselect) {
@@ -58,17 +45,17 @@ export default {
     },
 
     delimiter() {
-      return this.field.indexDelimiter ?? ', ';
+      return this.field.indexDelimiter || ', ';
     },
 
     valueDisplayLimit() {
-      return this.field.indexValueDisplayLimit ?? 9999;
+      return this.field.indexValueDisplayLimit || 9999;
     },
 
     charDisplayLimit() {
       // Set char limit to 9999 if we have value limit, but not char limit
       if (!!this.field.indexValueDisplayLimit && !this.field.indexCharDisplayLimit) return 9999;
-      return this.field.indexCharDisplayLimit ?? 40;
+      return this.field.indexCharDisplayLimit || 40;
     },
   },
 };

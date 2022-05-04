@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimistDigital\MultiselectField\Traits;
+namespace Outl1ne\MultiselectField\Traits;
 
 use RuntimeException;
 use Laravel\Nova\Nova;
@@ -14,13 +14,14 @@ trait MultiselectBelongsToSupport
     use FormatsRelatableDisplayValues;
 
     public $resourceClass;
+    public $resourceName; // TODO
     public $display;
 
     /**
      * Makes the field to manage a BelongsTo relationship.
      *
      * @param string $resourceClass The Nova Resource class for the other model.
-     * @return \OptimistDigital\MultiselectField\Multiselect
+     * @return \Outl1ne\MultiselectField\Multiselect
      **/
     public function belongsTo($resourceClass, $async = true)
     {
@@ -83,7 +84,7 @@ trait MultiselectBelongsToSupport
      * Makes the field to manage a BelongsToMany relationship.
      *
      * @param string $resourceClass The Nova Resource class for the other model.
-     * @return \OptimistDigital\MultiselectField\Multiselect
+     * @return \Outl1ne\MultiselectField\Multiselect
      **/
     public function belongsToMany($resourceClass, $async = true)
     {
@@ -92,7 +93,7 @@ trait MultiselectBelongsToSupport
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->associatableResource($resourceClass);
 
-            $value = $value ?? collect();
+            $value = $value ?: collect();
             $request = app(NovaRequest::class);
             $model = $resourceClass::newModel();
 
@@ -121,7 +122,7 @@ trait MultiselectBelongsToSupport
                 }
 
                 // Sync
-                $relation->sync($request->get($attribute) ?? []);
+                $relation->sync($request->get($attribute) ?: []);
             });
         });
 
@@ -220,5 +221,21 @@ trait MultiselectBelongsToSupport
     public function shouldReorderAssociatableValues(NovaRequest $request)
     {
         return false;
+    }
+
+    // Implement abstract methods
+    public function relationshipName()
+    {
+        return 'hoho';
+    }
+
+    /**
+     * Get the relationship type.
+     *
+     * @return string
+     */
+    public function relationshipType()
+    {
+        return 'haha';
     }
 }
