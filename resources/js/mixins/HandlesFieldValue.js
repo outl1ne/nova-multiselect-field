@@ -13,7 +13,6 @@ export default {
   methods: {
     getInitialFieldValuesArray() {
       try {
-        if (!this.field.value) return void 0;
         if (Array.isArray(this.field.value)) return this.field.value;
 
         // Attempt to parse the field value
@@ -32,8 +31,8 @@ export default {
     getValueFromOptions(value) {
       let options = this.field.options || [];
 
-      if (this.field.dependsOn) {
-        const valueGroups = Object.values(this.field.dependsOnOptions || {});
+      if (this.field.optionsDependOn) {
+        const valueGroups = Object.values(this.field.optionsDependOnOptions || {});
         options = [];
         valueGroups.forEach(values =>
           Object.keys(values).forEach(value => options.push({ value, label: values[value] }))
@@ -47,7 +46,11 @@ export default {
           .find(opt => String(opt.value) === String(value));
       }
 
-      return options.find(opt => String(opt.value) === String(value));
+      const option = options.find(opt => String(opt.value) === String(value));
+      if (option) return option;
+
+      // Taggable support
+      if (this.field.taggable) return { label: value, value };
     },
   },
   computed: {

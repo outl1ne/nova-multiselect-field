@@ -21,19 +21,19 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.2.0",
-    "laravel/nova": "^3.0",
-    "optimistdigital/nova-translations-loader": "^3.0.0"
+    "php": ">=8.0",
+    "laravel/nova": "^4.1",
+    "outl1ne/nova-translations-loader": "^5.0"
   },
   "autoload": {
     "psr-4": {
-      "OptimistDigital\\MultiselectField\\": "src/"
+      "Outl1ne\\MultiselectField\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "OptimistDigital\\MultiselectField\\FieldServiceProvider"
+        "Outl1ne\\MultiselectField\\FieldServiceProvider"
       ]
     }
   },

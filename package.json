@@ -9,20 +9,24 @@
     "format": "prettier --write 'resources/**/*.{js,scss,vue}'"
   },
   "devDependencies": {
+    "@inertiajs/inertia": "^0.11.0",
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "axios": "^0.26.1",
     "cross-env": "^7.0.3",
-    "laravel-mix": "^6.0.39",
-    "laravel-nova": "^1.12.3",
-    "postcss": "^8.4.4",
-    "prettier": "^2.5.1",
+    "form-backend-validation": "^2.4.0",
+    "laravel-mix": "^6.0.43",
+    "postcss": "^8.4.12",
+    "prettier": "^2.6.2",
     "resolve-url-loader": "^4.0.0",
-    "sass": "^1.44.0",
-    "sass-loader": "^12.4.0",
-    "vue-loader": "^15.9.8",
-    "vue-template-compiler": "^2.6.14"
+    "sass": "^1.49.11",
+    "sass-loader": "^12.6.0",
+    "vue-loader": "^17.0.0",
+    "vue-template-compiler": "^2.6.14",
+    "vuex": "^4.0.2"
   },
   "dependencies": {
-    "vue": "^2.6.14",
+    "vue": "^3.2.31",
     "vue-multiselect": "^2.1.6",
-    "vuedraggable": "^2.24.3"
+    "vuedraggable": "^4.1.0"
   }
 }
