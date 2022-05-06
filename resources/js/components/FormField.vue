@@ -395,7 +395,7 @@ export default {
 .multiselect-field {
   .multiselect__tags {
     --tw-border-opacity: 1;
-    border-width: 1px;
+    border-width: 0px;
 
     border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
