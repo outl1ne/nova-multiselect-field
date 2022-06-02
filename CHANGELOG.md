@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.4] - 24-05-2022
+
+### Changed
+
+- Make form field class name more unique
+- Fix compatibility issue with Flexible field (thanks to [@alancolant](https://github.com/alancolant))
+
+## [4.0.3] - 13-05-2022
+
+### Changed
+
+- Fixed exception with nova-settings
+
 ## [4.0.2] - 29-04-2022
 
 ### Changed

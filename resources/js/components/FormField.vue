@@ -1,7 +1,7 @@
 <template>
   <DefaultField :field="field" :showHelpText="showHelpText" :errors="errors">
     <template #field>
-      <div class="multiselect-field flex flex-col">
+      <div class="outl1ne-multiselect-field flex flex-col">
         <!-- Multi select field -->
         <multiselect
           v-if="!reorderMode"
@@ -392,7 +392,7 @@ export default {
 </script>
 
 <style lang="scss">
-.multiselect-field {
+.outl1ne-multiselect-field {
   .multiselect__tags {
     --tw-border-opacity: 1;
     border-width: 0px;

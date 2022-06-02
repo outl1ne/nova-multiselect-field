@@ -123,9 +123,12 @@ class Multiselect extends Field implements RelatableField
 
     private function shouldSaveAsJson($model, $attribute)
     {
-        $casts = $model->getCasts();
-        $isCastedToArray = ($casts[$attribute] ?? null) === 'array';
-        return $this->saveAsJSON || $isCastedToArray;
+        if (!is_array($model) && method_exists($model, 'getCasts')) {
+            $casts = $model->getCasts();
+            $isCastedToArray = ($casts[$attribute] ?? null) === 'array';
+            return $this->saveAsJSON || $isCastedToArray;
+        }
+        return false;
     }
 
     /**
