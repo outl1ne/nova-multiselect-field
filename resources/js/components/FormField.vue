@@ -381,36 +381,52 @@ export default {
 </script>
 
 <style lang="scss">
+$white: #fff;
+$slate50: #f8fafc;
+$slate100: #f1f5f9;
+$slate200: #e2e8f0;
+$slate300: #cbd5e1;
+$slate400: #94a3b8;
+$slate500: #64748b;
+$slate600: #475569;
+$slate700: #334155;
+$slate800: #1e293b;
+$slate900: #0f172a;
+
+$red400: #f87171;
+$red500: #ef4444;
+
 .outl1ne-multiselect-field {
   .multiselect__tags {
     --tw-border-opacity: 1;
     border-width: 1px;
 
-    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    border-color: $slate300;
+    background-color: $white;
+    color: $slate600;
 
     .dark & {
-      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      border-color: $slate700;
+      background-color: $slate900;
+      color: $slate400;
     }
   }
 
   .multiselect__input {
     border: none;
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    border-color: rgba(var(--colors-gray-100), var(--tw-border-opacity));
+    background-color: $white;
+    color: $slate600;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      background-color: $slate900;
+      color: $slate400;
     }
   }
 
   .multiselect__tag {
     background-color: rgba(var(--colors-primary-500));
-    color: rgba(var(--colors-white), var(--tw-text-opacity));
+    color: $white;
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     font-weight: 700;
 
@@ -420,14 +436,14 @@ export default {
 
     .multiselect__tag-icon {
       &::after {
-        color: rgba(var(--colors-white));
+        color: $white;
       }
 
       &:hover {
-        background: rgba(var(--colors-primary-400));
+        background: rgba(var(--colors-primary-500));
 
         &::after {
-          color: rgba(var(--colors-red-500));
+          color: $red500;
         }
       }
     }
@@ -449,22 +465,22 @@ export default {
   }
 
   .multiselect__single {
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    background-color: $white;
+    color: $slate600;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      background-color: $slate900;
+      color: $slate400;
     }
   }
 
   .multiselect__spinner {
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    background-color: $white;
+    color: $slate600;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      background-color: $slate900;
+      color: $slate400;
     }
 
     &:before,
@@ -474,49 +490,49 @@ export default {
   }
 
   .multiselect__content-wrapper {
-    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
+    border-color: $slate300;
 
     .dark & {
-      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+      border-color: $slate700;
     }
 
     li > span.multiselect__option {
       background-color: #fff;
-      color: rgba(var(--colors-gray-400));
+      color: $slate400;
 
       .dark & {
-        background-color: rgba(var(--colors-gray-900));
+        background-color: $slate900;
       }
     }
 
     .multiselect__element {
-      background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+      background-color: $white;
+      color: $slate600;
 
       .dark & {
-        background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-        color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+        background-color: $slate900;
+        color: $slate400;
       }
 
       .multiselect__option {
-        color: rgba(var(--colors-gray-600));
+        color: $slate600;
 
         .dark & {
-          color: rgba(var(--colors-gray-400));
+          color: $slate400;
         }
 
         &.multiselect__option--selected {
-          color: rgba(var(--colors-primary-400));
-          background-color: rgba(var(--colors-white));
+          color: rgba(var(--colors-primary-500));
+          background-color: $white;
 
           .dark & {
-            background-color: rgba(var(--colors-gray-900));
+            background-color: $slate900;
           }
         }
 
         &.multiselect__option--highlight {
           background-color: rgba(var(--colors-primary-500));
-          color: rgba(var(--colors-white));
+          color: $white;
 
           &::after {
             background-color: rgba(var(--colors-primary-500));
@@ -524,10 +540,10 @@ export default {
           }
 
           &.multiselect__option--selected {
-            background-color: rgba(var(--colors-red-500));
+            background-color: $red500;
 
             .dark & {
-              background-color: rgba(var(--colors-red-500));
+              background-color: $red500;
             }
           }
         }
