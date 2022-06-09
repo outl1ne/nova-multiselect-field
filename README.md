@@ -90,7 +90,7 @@ In this example (from Nova docs), all values are grouped by the `group` key:
 
 ### Dependencies
 
-You can make a Multiselect depend on another by using `dependsOn`. This also requires specifying `->dependsOnOptions()`. The value from the `dependsOn` Multiselect has to be the key to the options and the value must be a key-value dictionary of options as usual.
+You can make a Multiselect depend on another by using `optionsDependOn`. The value from the `optionsDependOn` Multiselect has to be the key to the options and the value must be a key-value dictionary of options as usual.
 
 Usage:
 
@@ -102,8 +102,7 @@ Multiselect::make('Country', 'country')
     ]),
 
 Multiselect::make('Language', 'language')
-    ->dependsOn('country')
-    ->dependsOnOptions([
+    ->optionsDependOn('country', [
         'IT' => [
             'it' => 'Italian',
         ],
@@ -115,7 +114,7 @@ Multiselect::make('Language', 'language')
     ]),
 
     // Optionally define max number of values
-    ->dependsOnMax([
+    ->optionsDependOnMax([
         'IT' => 1,
         'SG' => 3,
     ])
@@ -161,8 +160,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `optionsLimit`             | Number                    | 1000            | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                                            |
 | `nullable`                 | Boolean                   | false           | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                                              |
 | `reorderable`              | Boolean                   | false           | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
-| `dependsOn`                | String                    | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
-| `dependsOnOptions`         | Array                     | null            | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
+| `optionsDependOn`          | String, Array             | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
 | `belongsToMany`            | String (Resource)         | null            | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
 | `belongsTo`                | String (Resource)         | null            | Allows the Multiselect to function as a BelongsTo field.                                                                                                                                          |
 | `taggable`                 | Boolean                   | false           | Makes the Multiselet to support tags (dynamically entered values).                                                                                                                                |
