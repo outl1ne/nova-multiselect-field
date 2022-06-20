@@ -218,6 +218,39 @@ Nova.booting((Vue, router, store) => {
 });
 ```
 
+## Overwriting the form tag field
+
+You can overwrite the tag template in the form-field component to customize it as you see fit.
+
+Create a new component for `FormFieldTag` and register it in your `app.js`. The component receives two props: `option` and `remove`. The `option` prop is an object with, for example, the `label`.
+
+```js
+// in FormFieldTag.vue
+
+<template>
+  <span class="multiselect__tag">
+    <span>{{ option.label.trim() }}</span>
+    <i class="multiselect__tag-icon" @click="remove(option)"></i>
+  </span>
+</template>
+
+<script>
+export default {
+  props: ['option', 'remove'],
+};
+</script>
+```
+
+```js
+// in app.js
+
+import FormFieldTag from './FormFieldTag';
+
+Nova.booting((Vue, router, store) => {
+  Vue.component('form-multiselect-field-tag', FormFieldTag);
+});
+```
+
 ## Credits
 
 - [Tarvo Reinpalu](https://github.com/Tarpsvo)

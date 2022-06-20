@@ -55,6 +55,10 @@
               @mousedown.prevent.stop="value = isMultiselect ? [] : null"
             ></div>
           </template>
+
+          <template slot="tag" slot-scope="{ option, remove }">
+            <form-multiselect-field-tag :option="option" :remove="remove" />
+          </template>
         </multiselect>
 
         <!-- Reorder mode field -->
