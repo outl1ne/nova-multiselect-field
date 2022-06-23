@@ -62,7 +62,7 @@
         </multiselect>
 
         <!-- Reorder mode field -->
-        <div v-if="reorderMode" class="form-input-bordered py-1 px-2 rounded-lg">
+        <div v-if="reorderMode" class="form-input-bordered py-1 px-2 rounded-md">
           <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <vue-draggable v-model="value" tag="transition-group">
               <template #item="{ element }">
@@ -313,11 +313,11 @@ export default {
         if (fromBottom < 300) {
           ms.$refs.list.style.top = 'auto';
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
-          ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
+          ms.$refs.list.style['border-radius'] = '3px 3px 0 0';
         } else {
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${top + height}px`;
-          ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
+          ms.$refs.list.style['border-radius'] = '0 0 3px 3px';
         }
       };
 
@@ -421,7 +421,7 @@ export default {
 
   .multiselect__tag {
     background-color: rgba(var(--colors-primary-500));
-    color: rgba(var(--colors-white), var(--tw-text-opacity));
+    color: var(--colors-white) !important;
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     font-weight: 700;
 
@@ -438,7 +438,7 @@ export default {
         background: rgba(var(--colors-primary-400));
 
         &::after {
-          color: rgba(var(--colors-red-500));
+          color: rgba(var(--colors-primary-500));
         }
       }
     }
@@ -454,7 +454,7 @@ export default {
     &:hover {
       &::before,
       &::after {
-        background: rgba(var(--colors-red-400));
+        background: rgba(var(--colors-primary-400));
       }
     }
   }
@@ -535,10 +535,10 @@ export default {
           }
 
           &.multiselect__option--selected {
-            background-color: rgba(var(--colors-red-500));
+            background-color: rgba(var(--colors-primary-400));
 
             .dark & {
-              background-color: rgba(var(--colors-red-500));
+              background-color: rgba(var(--colors-primary-200));
             }
           }
         }
@@ -548,7 +548,7 @@ export default {
 
   .reorder__tag {
     background-color: rgba(var(--colors-primary-500));
-    border-radius: 5px;
+    border-radius: 3px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

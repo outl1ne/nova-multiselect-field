@@ -21,7 +21,7 @@ fieldset[disabled] .multiselect {
   height: 16px;
   border-radius: 100%;
   border: 2px solid transparent;
-  border-top-color: var(--primary) !important;
+  border-top-color: var(--colors-primary-500) !important;
   box-shadow: 0 0 0 1px transparent;
 }
 .multiselect__spinner:before {
@@ -94,7 +94,7 @@ fieldset[disabled] .multiselect {
   min-height: 20px;
   line-height: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   background: var(--white) !important;
   padding: 0 0 0 5px;
   width: 100%;
@@ -133,7 +133,7 @@ fieldset[disabled] .multiselect {
   min-height: 40px;
   display: block;
   padding: 8px 40px 0 8px;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 0px solid #e8e8e8;
   background: var(--white) !important;
   font-size: 14px;
@@ -142,11 +142,11 @@ fieldset[disabled] .multiselect {
   position: relative;
   display: inline-block;
   padding: 4px 26px 4px 10px;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-right: 10px;
   color: var(--white) !important;
   line-height: 1;
-  background: var(--primary) !important;
+  background: var(--colors-primary-500) !important;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -166,7 +166,7 @@ fieldset[disabled] .multiselect {
   text-align: center;
   line-height: 22px;
   transition: all 0.2s ease;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .multiselect__tag-icon:after {
   content: '\D7';
@@ -175,7 +175,8 @@ fieldset[disabled] .multiselect {
 }
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-  background: var(--primary-70) !important;
+  background: var(--colors-primary-700) !important;
+  background: var(--white) !important;
 }
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
@@ -186,7 +187,7 @@ fieldset[disabled] .multiselect {
   overflow: hidden;
   padding: 8px 30px 0 12px;
   white-space: nowrap;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid #e8e8e8;
 }
 .multiselect__current,
@@ -287,17 +288,17 @@ fieldset[disabled] .multiselect {
   font-size: 13px;
 }
 .multiselect__option--highlight {
-  background: var(--primary) !important;
+  background: var(--colors-primary-500) !important;
   outline: none;
   color: var(--white) !important;
 }
 .multiselect__option--highlight:after {
   content: attr(data-select);
-  background: var(--primary) !important;
+  background: var(--colors-primary-500) !important;
   color: var(--white) !important;
 }
 .multiselect__option--selected {
-  background: var(--primary-50) !important;
+  background: var(--colors-primary-50) !important;
   color: var(--white) !important;
   font-weight: 700;
 }
@@ -340,11 +341,11 @@ fieldset[disabled] .multiselect {
   background: #dedede;
 }
 .multiselect__option--group-selected.multiselect__option--highlight {
-  background: var(--primary-70) !important;
+  background: var(--colors-primary-700) !important;
   color: var(--white) !important;
 }
 .multiselect__option--group-selected.multiselect__option--highlight:after {
-  background: var(--primary-70) !important;
+  background: var(--colors-primary-700) !important;
   content: attr(data-deselect);
   color: var(--white) !important;
 }

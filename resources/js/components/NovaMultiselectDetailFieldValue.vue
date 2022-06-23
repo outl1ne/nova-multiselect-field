@@ -1,11 +1,11 @@
 <template>
   <div
-    class="multiselect-detail-field-value relative rounded-lg border bg-white dark:bg-gray-900 dark:border-gray-700"
+    class="multiselect-detail-field-value relative rounded-md border-gray-300 border bg-white dark:bg-gray-900 dark:border-gray-700"
     v-if="values"
   >
-    <div class="overflow-hidden rounded-lg">
+    <div class="overflow-hidden rounded-md">
       <div
-        class="multiselect-detail-row border-b dark:border-gray-700 cursor-text font-mono text-sm py-2 px-4"
+        class="multiselect-detail-row border-b border-gray-300 dark:border-gray-700 cursor-text text-sm py-2 px-4"
         v-for="(value, i) of values"
         :key="i"
       >
@@ -29,6 +29,9 @@ export default {
     &:last-child {
       border-bottom: none;
     }
+  }
+  .rounded-md {
+    border-radius: 0.25rem;
   }
 }
 </style>
