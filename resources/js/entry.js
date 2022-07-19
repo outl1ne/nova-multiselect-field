@@ -2,6 +2,21 @@
 window.Vue.component = () => false;
 
 Nova.booting((Vue, router, store) => {
+  new MutationObserver(() => {
+    const cls = document.documentElement.classList;
+    const isDarkMode = cls.contains('dark');
+
+    if (isDarkMode && !cls.contains('o1-dark')) {
+      cls.add('o1-dark');
+    } else if (!isDarkMode && cls.contains('o1-dark')) {
+      cls.remove('o1-dark');
+    }
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ['class'],
+  });
+
   Vue.component('index-multiselect-field', require('./components/IndexField').default);
   Vue.component('detail-multiselect-field', require('./components/DetailField').default);
   Vue.component('form-multiselect-field', require('./components/FormField').default);
