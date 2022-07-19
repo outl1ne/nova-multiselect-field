@@ -405,6 +405,8 @@ $red500: #ef4444;
     background-color: $white;
     color: $slate600;
 
+    padding-right: 56px;
+
     .dark & {
       border-color: $slate700;
       background-color: $slate900;
@@ -428,7 +430,7 @@ $red500: #ef4444;
     background-color: rgba(var(--colors-primary-500));
     color: $white;
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    font-weight: 700;
+    font-weight: 600;
 
     /* .dark & {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
@@ -517,6 +519,11 @@ $red500: #ef4444;
       .multiselect__option {
         color: $slate600;
 
+        padding: 8px 12px;
+        min-height: 32px;
+        font-size: 14px;
+        line-height: 14px;
+
         .dark & {
           color: $slate400;
         }
@@ -536,7 +543,7 @@ $red500: #ef4444;
 
           &::after {
             background-color: rgba(var(--colors-primary-500));
-            font-weight: 700;
+            font-weight: 600;
           }
 
           &.multiselect__option--selected {
@@ -558,7 +565,7 @@ $red500: #ef4444;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 5px;
-    font-weight: 700;
+    font-weight: 600;
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -569,9 +576,10 @@ $red500: #ef4444;
 
   .multiselect__clear {
     position: absolute;
-    right: 41px;
-    height: 40px;
-    width: 40px;
+    right: 36px;
+    top: 10px;
+    height: 20px;
+    width: 20px;
     display: block;
     cursor: pointer;
     z-index: 2;
@@ -584,8 +592,11 @@ $red500: #ef4444;
       width: 3px;
       height: 16px;
       background: #aaa;
-      top: 12px;
-      right: 4px;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
     }
 
     &::before {
