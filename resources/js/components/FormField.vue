@@ -60,7 +60,7 @@
             <span>{{ value ? value.label : '' }}</span>
           </template>
 
-          <template #tag slot-scope="{ option, remove }">
+          <template #tag="{ option, remove }">
             <form-multiselect-field-tag :option="option" :remove="remove" />
           </template>
         </multiselect>
