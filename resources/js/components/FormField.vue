@@ -387,11 +387,16 @@ export default {
     }
   }
 
+  .multiselect__tags {
+    padding-right: 56px;
+  }
+
   .multiselect__clear {
     position: absolute;
-    right: 41px;
-    height: 40px;
-    width: 40px;
+    right: 36px;
+    top: 10px;
+    height: 20px;
+    width: 20px;
     display: block;
     cursor: pointer;
     z-index: 2;
@@ -404,8 +409,11 @@ export default {
       width: 3px;
       height: 16px;
       background: #aaa;
-      top: 12px;
-      right: 4px;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
     }
 
     &::before {
