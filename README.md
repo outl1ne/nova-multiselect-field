@@ -7,7 +7,7 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Requirements
 
-- `php: >=8.1`
+- `php: >=8.0`
 - `laravel/nova: ^4.1`
 
 ## Features
@@ -21,13 +21,9 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Screenshots
 
-![Detail View](docs/detail.png)
+![Detail View](docs/detail-light.jpeg)
 
-![Form View](docs/form.png)
-
-![Index View](docs/index.png)
-
-![Reorder GIF](docs/reorder.gif)
+![Form View](docs/form-dark.jpeg)
 
 ## Installation
 
