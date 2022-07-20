@@ -53,7 +53,7 @@
               class="multiselect__clear"
               v-if="field.nullable && (isMultiselect ? value.length : value)"
               @mousedown.prevent.stop="value = isMultiselect ? [] : null"
-            ></div>
+            />
           </template>
 
           <template #singleLabel>
