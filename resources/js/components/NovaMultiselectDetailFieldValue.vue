@@ -1,11 +1,11 @@
 <template>
   <div
-    class="multiselect-detail-field-value relative rounded-lg border bg-white dark:bg-gray-900 dark:border-gray-700"
+    class="multiselect-detail-field-value relative o1-rounded border bg-white o1-border-gray-200 dark:o1-bg-gray-900 dark:o1-border-gray-700"
     v-if="values"
   >
-    <div class="overflow-hidden rounded-lg">
+    <div class="overflow-hidden">
       <div
-        class="multiselect-detail-row border-b dark:border-gray-700 cursor-text font-mono text-sm py-2 px-4"
+        class="multiselect-detail-row border-b o1-border-gray-200 dark:o1-border-slate-800 o1-text-sm o1-py-1 o1-px-2 hover:o1-bg-slate-50 dark:hover:o1-bg-gray-800"
         v-for="(value, i) of values"
         :key="i"
       >

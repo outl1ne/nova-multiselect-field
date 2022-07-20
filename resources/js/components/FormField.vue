@@ -409,8 +409,7 @@ $red500: #ef4444;
     background-color: $white;
     color: $slate600;
 
-    padding-right: 56px;
-
+    padding: 6px 56px 0 6px;
     min-height: 36px;
 
     .dark & {
@@ -424,12 +423,12 @@ $red500: #ef4444;
     border: none;
     border-color: rgba(var(--colors-gray-100), var(--tw-border-opacity));
     background-color: $white;
-    color: $slate600;
+    color: rgba(var(--colors-gray-400));
 
     font-size: 14px;
     line-height: 14px;
 
-    padding-left: 0px;
+    padding-left: 8px;
 
     .dark & {
       background-color: $slate900;
@@ -440,12 +439,14 @@ $red500: #ef4444;
   .multiselect__tag {
     background-color: rgba(var(--colors-primary-500));
     color: $white;
-    --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     font-weight: 600;
 
     /* .dark & {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
     } */
+
+    padding: 4px 24px 4px 8px;
+    margin: 1px 8px 1px 0;
 
     .multiselect__tag-icon {
       &::after {
@@ -482,12 +483,14 @@ $red500: #ef4444;
     color: $slate600;
 
     font-size: 14px;
-    line-height: 14px;
+    line-height: 18px;
     font-weight: 700;
-    min-height: 14px;
+    min-height: 18px;
 
     padding-top: 2px;
-    padding-left: 0px;
+    padding-left: 8px;
+
+    color: rgba(var(--colors-gray-400));
 
     .dark & {
       background-color: $slate900;
@@ -512,6 +515,7 @@ $red500: #ef4444;
 
   .multiselect__content-wrapper {
     border-color: $slate300;
+    transition: none;
 
     .dark & {
       border-color: $slate700;
@@ -604,6 +608,16 @@ $red500: #ef4444;
   .multiselect__placeholder {
     margin-bottom: 8px;
     padding-top: 0px;
+    padding-left: 8px;
+    min-height: 16px;
+    line-height: 16px;
+    cursor: default;
+
+    color: #475569;
+
+    .dark & {
+      color: #64748b;
+    }
   }
 
   .multiselect__clear {
