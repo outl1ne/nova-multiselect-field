@@ -1,2 +1,2 @@
-// Nova Tool CSS
+@tailwind utilities;
 @import '~vue-multiselect/dist/vue-multiselect.min.css';
