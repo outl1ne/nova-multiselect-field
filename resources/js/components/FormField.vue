@@ -68,13 +68,13 @@
         <!-- Reorder mode field -->
         <div v-if="reorderMode" class="form-input-bordered py-1 px-2 rounded-lg">
           <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
-            <vue-draggable v-model="value" tag="transition-group">
+            <VueDraggable v-model="value" tag="transition-group">
               <template #item="{ element }">
                 <li class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
                   {{ element.label }}
                 </li>
               </template>
-            </vue-draggable>
+            </VueDraggable>
           </ul>
         </div>
 
@@ -494,11 +494,11 @@ $red500: #ef4444;
     padding-top: 2px;
     padding-left: 8px;
 
-    color: rgba(var(--colors-gray-400));
+    color: $slate600;
 
     .dark & {
+      color: rgba(var(--colors-gray-400));
       background-color: $slate900;
-      color: $slate400;
     }
   }
 
