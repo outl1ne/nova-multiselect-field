@@ -23,10 +23,7 @@ Nova.booting((Vue, router, store) => {
 
   // Allow user to overwrite form-multiselect-field-tag
   if (!Vue._context.components['form-multiselect-field-tag']) {
-    Vue.component(
-      'form-multiselect-field-tag',
-      require('./components/FormFieldTag').default
-    );
+    Vue.component('form-multiselect-field-tag', require('./components/FormFieldTag').default);
   }
 
   // Allow user to overwrite nova-multiselect-detail-field-value
