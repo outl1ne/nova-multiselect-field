@@ -403,6 +403,9 @@ $red500: #ef4444;
 .outl1ne-multiselect-field {
   .multiselect {
     min-height: 36px;
+    border: none;
+    border-radius: 0;
+    background: none;
   }
 
   .multiselect__tags {
@@ -415,6 +418,9 @@ $red500: #ef4444;
 
     padding: 6px 56px 0 6px;
     min-height: 36px;
+
+    border-radius: 4px;
+    overflow: hidden;
 
     .dark & {
       border-color: $slate700;
