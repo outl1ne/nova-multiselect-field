@@ -23,6 +23,7 @@
   "require": {
     "php": ">=8.0",
     "laravel/nova": "^4.1",
+    "nova-kit/nova-packages-tool": "^1.0.1",
     "outl1ne/nova-translations-loader": "^5.0"
   },
   "autoload": {
