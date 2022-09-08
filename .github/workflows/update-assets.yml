@@ -20,7 +20,7 @@ jobs:
       - name: Compile Asset
         run: |
           npm ci
-          npm run production
+          npm run prod
         env:
           TAILWIND_MODE: build
 
