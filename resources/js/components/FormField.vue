@@ -406,6 +406,7 @@ $red500: #ef4444;
     border: none;
     border-radius: 0;
     background: none;
+    display: block;
   }
 
   .multiselect__tags {
