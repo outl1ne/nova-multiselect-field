@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { FormField, HandlesValidationErrors } from 'laravel-nova';
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova';
 import HandlesFieldValue from '../mixins/HandlesFieldValue';
 import Multiselect from 'vue-multiselect/src/Multiselect';
 import VueDraggable from 'vuedraggable';
@@ -100,7 +100,7 @@ import debounce from 'lodash/debounce';
 export default {
   components: { Multiselect, VueDraggable },
 
-  mixins: [FormField, HandlesValidationErrors, HandlesFieldValue],
+  mixins: [DependentFormField, HandlesValidationErrors, HandlesFieldValue],
 
   props: ['resourceName', 'resourceId', 'field'],
 

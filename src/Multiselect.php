@@ -7,11 +7,12 @@ use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Contracts\RelatableField;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\SupportsDependentFields;
 use Outl1ne\MultiselectField\Traits\MultiselectBelongsToSupport;
 
 class Multiselect extends Field implements RelatableField
 {
-    use MultiselectBelongsToSupport;
+    use MultiselectBelongsToSupport, SupportsDependentFields;
 
     public $component = 'multiselect-field';
 
