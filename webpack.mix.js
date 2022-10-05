@@ -8,9 +8,10 @@ mix
   .js('resources/js/entry.js', 'js')
   .vue({ version: 3 })
   .webpackConfig({
+    // stats: { children: true },
     externals: {
       vue: 'Vue',
-      'laravel-nova': 'LaravelNova'
+      'laravel-nova': 'LaravelNova',
     },
     output: {
       uniqueName: 'outl1ne/nova-multiselect-field',
