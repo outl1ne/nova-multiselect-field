@@ -226,7 +226,7 @@ trait MultiselectBelongsToSupport
     // Implement abstract methods
     public function relationshipName()
     {
-        return 'hoho';
+        return $this->attribute;
     }
 
     /**
@@ -236,6 +236,6 @@ trait MultiselectBelongsToSupport
      */
     public function relationshipType()
     {
-        return 'haha';
+        return null;
     }
 }
