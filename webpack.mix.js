@@ -10,12 +10,10 @@ mix
   .webpackConfig({
     externals: {
       vue: 'Vue',
+      'laravel-nova': 'LaravelNova'
     },
     output: {
       uniqueName: 'outl1ne/nova-multiselect-field',
     },
   })
-  .postCss('resources/css/entry.css', 'dist/css/', [postcss(), tailwindcss('tailwind.config.js')])
-  .alias({
-    'laravel-nova': path.join(__dirname, 'vendor/laravel/nova/resources/js/mixins/packages.js'),
-  });
+  .postCss('resources/css/entry.css', 'dist/css/', [postcss(), tailwindcss('tailwind.config.js')]);

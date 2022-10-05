@@ -1,7 +1,7 @@
 // Fix vue-draggable being stupid
 window.Vue.component = () => false;
 
-Nova.booting((Vue, router, store) => {
+Nova.booting((Vue, store) => {
   new MutationObserver(() => {
     const cls = document.documentElement.classList;
     const isDarkMode = cls.contains('dark');
