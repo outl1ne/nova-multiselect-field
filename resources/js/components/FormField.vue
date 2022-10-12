@@ -340,7 +340,8 @@ export default {
     },
 
     fetchOptions: debounce(async function (search) {
-      const { data } = await Nova.request().get(`${this.currentField.apiUrl}`, { params: { search } });
+      const resourceId = this.resourceId || '';
+      const { data } = await Nova.request().get(`${this.currentField.apiUrl}`, { params: { search, resourceId } });
 
       // Response is not an array or an object
       if (typeof data !== 'object') throw new Error('Server response was invalid.');
