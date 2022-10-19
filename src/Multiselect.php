@@ -18,6 +18,7 @@ class Multiselect extends Field implements RelatableField
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
+    protected $asyncModelKey = null;
 
     /**
      * Sets the options available for select.
@@ -75,7 +76,7 @@ class Multiselect extends Field implements RelatableField
 
             try {
                 $modelObj = $resourceClass::newModel();
-                $models = $modelObj::whereIn($modelObj->getKeyName(), $value)->get();
+                $models = $modelObj::whereIn($this->asyncModelKey ?? $modelObj->getKeyName(), $value)->get();
 
                 $this->setOptionsFromModels($models, $resourceClass);
             } catch (Exception $e) {
@@ -306,7 +307,8 @@ class Multiselect extends Field implements RelatableField
     public function setOptionsFromModels(Collection $models, $resourceClass)
     {
         $options = $models->mapInto($resourceClass)->mapWithKeys(function ($associatedResource) {
-            return [$associatedResource->getKey() => $associatedResource->title()];
+            $customKey = $this->asyncModelKey;
+            return [$customKey ? $associatedResource->$customKey : $associatedResource->getKey() => $associatedResource->title()];
         });
         $this->options($options);
     }
@@ -352,5 +354,15 @@ class Multiselect extends Field implements RelatableField
     public function asHtml()
     {
         return $this->withMeta(['asHtml' => true]);
+    }
+
+    /**
+     * Set custom model key for custom desired list.
+     *
+     * @return $this
+     */
+    public function asyncModelKey($key)
+    {
+        return $this->asyncModelKey = $key;
     }
 }
