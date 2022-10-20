@@ -17,6 +17,7 @@ class Multiselect extends Field implements RelatableField
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
+    protected $keyName = null;
 
     /**
      * Sets the options available for select.
@@ -56,10 +57,12 @@ class Multiselect extends Field implements RelatableField
         ]);
     }
 
-    public function api($path, $resourceClass)
+    public function api($path, $resourceClass, $keyName = null)
     {
         if (empty($resourceClass)) throw new Exception('Multiselect requires resourceClass, none provided.');
         if (empty($path)) throw new Exception('Multiselect requires apiUrl, none provided.');
+
+        $this->resourceKeyName($keyName);
 
         $this->resolveUsing(function ($value) use ($resourceClass) {
             $this->options([]);
@@ -74,7 +77,7 @@ class Multiselect extends Field implements RelatableField
 
             try {
                 $modelObj = $resourceClass::newModel();
-                $models = $modelObj::whereIn($modelObj->getKeyName(), $value)->get();
+                $models = $modelObj::whereIn($this->keyName ?? $modelObj->getKeyName(), $value)->get();
 
                 $this->setOptionsFromModels($models, $resourceClass);
             } catch (Exception $e) {
@@ -86,10 +89,10 @@ class Multiselect extends Field implements RelatableField
         return $this->withMeta(['apiUrl' => $path, 'labelKey' => $resourceClass::$title]);
     }
 
-    public function asyncResource($resourceClass)
+    public function asyncResource($resourceClass, $keyName = null)
     {
         $apiUrl = "/nova-api/{$resourceClass::uriKey()}";
-        return $this->api($apiUrl, $resourceClass);
+        return $this->api($apiUrl, $resourceClass, $keyName);
     }
 
     protected function resolveAttribute($resource, $attribute)
@@ -158,6 +161,18 @@ class Multiselect extends Field implements RelatableField
     public function optionsLimit($optionsLimit)
     {
         return $this->withMeta(['optionsLimit' => $optionsLimit]);
+    }
+
+    /**
+     * Set custom key name for model.
+     *
+     * @param string|null $keyName
+     * @return \Outl1ne\MultiselectField\Multiselect
+     **/
+    public function resourceKeyName($keyName = null)
+    {
+        $this->keyName = $keyName;
+        return $this;
     }
 
     /**
@@ -296,10 +311,16 @@ class Multiselect extends Field implements RelatableField
      */
     public function setOptionsFromModels(Collection $models, $resourceClass)
     {
-        $options = $models->mapInto($resourceClass)->mapWithKeys(function ($associatedResource) {
-            return [$associatedResource->getKey() => $associatedResource->title()];
-        });
-        $this->options($options);
+        return $this->options(
+            $models
+                ->mapInto($resourceClass)
+                ->mapWithKeys(function ($associatedResource) {
+                    $keyName = $this->keyName ?? $associatedResource->getKeyName();
+                    $resourceKey = $associatedResource->{$keyName};
+
+                    return [$resourceKey => $associatedResource->title()];
+                })
+        );
     }
 
     /**
