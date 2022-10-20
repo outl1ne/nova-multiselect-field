@@ -90,6 +90,10 @@ trait MultiselectBelongsToSupport
     {
         $this->resourceClass = $resourceClass;
 
+        $this->withMeta([
+            'belongsToMany' => true,
+        ]);
+
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->associatableResource($resourceClass);
 
