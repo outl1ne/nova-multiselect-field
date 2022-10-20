@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added `resourceKeyName` helper function to Multiselect which allows specifying a custom key name for resource selects
+- Added model links support to BelongsToMany relationship field (thanks to [@mrleblanc101](https://github.com/mrleblanc101))
 
 ### Changed
 
-- Added `resourceId` to associatable request
+- Fixed `readOnly` not reacting to dependsOn changes (thanks to [@mrleblanc101](https://github.com/mrleblanc101))
+- Fixed `readOnly` field styles (thanks to [@mrleblanc101](https://github.com/mrleblanc101))
 
 ## [4.1.1] - 12-10-2022
 
