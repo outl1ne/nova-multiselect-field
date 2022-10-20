@@ -26,18 +26,19 @@ trait MultiselectBelongsToSupport
     public function belongsTo($resourceClass, $async = true)
     {
         $this->singleSelect();
-        $primaryKey =  $resourceClass::newModel()->getKeyName();
         $this->resourceClass = $resourceClass;
 
-        $this->resolveUsing(function ($value) use ($async, $primaryKey, $resourceClass) {
+        $this->resolveUsing(function ($value) use ($async, $resourceClass) {
+            $keyName = $this->keyName ?? $resourceClass::newModel()->getKeyName();
+
             if ($async) $this->associatableResource($resourceClass);
 
             $request = app(NovaRequest::class);
-            $value = $value->{$primaryKey} ?? null;
+            $value = $value->{$keyName} ?? null;
             $model = $resourceClass::newModel();
 
             $models = isset($value)
-                ? collect([$model::find($value)])
+                ? collect([$model::where($keyName, $value)->first()])
                 : forward_static_call($this->associatableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
 
             $this->setOptionsFromModels($models, $resourceClass);
@@ -66,8 +67,10 @@ trait MultiselectBelongsToSupport
                 throw new RuntimeException("{$modelClass}::{$attribute} does not appear to model a BelongsTo relationship.");
             }
 
-            // Sync
-            $relation->associate($resourceClass::newModel()::find($request->get($attribute)));
+            $model = $resourceClass::newModel();
+            $keyName = $this->keyName ?? $model->getKeyName();
+
+            $relation->associate($model::where($keyName, $request->get($attribute))->first());
         });
 
         return $this;
@@ -107,9 +110,7 @@ trait MultiselectBelongsToSupport
 
             $this->setOptionsFromModels($models, $resourceClass);
 
-            return $value->map(function ($model) {
-                return $model[$model->getKeyName()];
-            })->toArray();
+            return $value->map(fn ($model) => $model->{$this->keyName ?? $model->getKeyName()})->toArray();
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
