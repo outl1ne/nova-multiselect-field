@@ -18,7 +18,7 @@
           :options="currentField.apiUrl ? asyncOptions : computedOptions"
           :internal-search="!currentField.apiUrl"
           :class="errorClasses"
-          :disabled="isReadonly"
+          :disabled="currentField.readonly"
           :placeholder="currentField.placeholder || currentField.name"
           :close-on-select="currentField.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
@@ -625,7 +625,25 @@ $red500: #ef4444;
   }
 
   .multiselect__select {
-    height: 36px;
+    height: 34px;
+    width: 32px;
+  }
+
+  .multiselect--disabled {
+    opacity: 1;
+    .multiselect__tags {
+        background-color: rgba(var(--colors-gray-50));
+        color: rgba(var(--colors-gray-600));
+        .dark & {
+          background-color: rgba(var(--colors-gray-700));
+          color: rgba(var(--colors-gray-400));
+      }
+    }
+  }
+
+  .multiselect--disabled .multiselect__current,
+  .multiselect--disabled .multiselect__select {
+    background: none;
   }
 
   .multiselect__placeholder {
