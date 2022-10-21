@@ -576,6 +576,12 @@ $red500: #ef4444;
 
         .dark & {
           color: $slate400;
+
+          &--disabled {
+            color: $slate500 !important;
+            background-color: $slate800 !important;
+            opacity: 0.9;
+          }
         }
 
         &.multiselect__option--selected {
