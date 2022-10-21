@@ -38,6 +38,11 @@
       ]
     }
   },
+  "script": {
+    "post-autoload-dump": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+    ]
+  },
   "config": {
     "sort-packages": true
   },
