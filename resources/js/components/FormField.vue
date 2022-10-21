@@ -632,11 +632,11 @@ $red500: #ef4444;
   .multiselect--disabled {
     opacity: 0.7;
     .multiselect__tags {
-        background-color: rgba(var(--colors-gray-50));
-        color: rgba(var(--colors-gray-600));
-        .dark & {
-          background-color: rgba(var(--colors-gray-700));
-          color: rgba(var(--colors-gray-400));
+      background-color: rgba(var(--colors-gray-50));
+      color: rgba(var(--colors-gray-600));
+      .dark & {
+        background-color: rgba(var(--colors-gray-700));
+        color: rgba(var(--colors-gray-400));
       }
     }
   }
