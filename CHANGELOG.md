@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed belongsToMany detail view link styles (thanks to [@mrleblanc101](https://github.com/mrleblanc101))
 - Fixed disable state opacity (thanks to [@mrleblanc101](https://github.com/mrleblanc101))
 - Fixed missing nova-assets post-autoload command
+- Fixed group options dark mode style issues
 
 ## [4.2.1] - 20-10-2022
 
