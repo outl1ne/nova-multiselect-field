@@ -598,8 +598,7 @@ $red500: #ef4444;
           background-color: $white;
 
           .dark & {
-            font-weight: 700;
-            color: $slate400 !important;
+            color: $slate500 !important;
             background-color: $slate1000 !important;
           }
         }
