@@ -93,10 +93,6 @@ trait MultiselectBelongsToSupport
     {
         $this->resourceClass = $resourceClass;
 
-        $this->withMeta([
-            'belongsToMany' => true,
-        ]);
-
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
             if ($async) $this->associatableResource($resourceClass);
 
@@ -109,6 +105,13 @@ trait MultiselectBelongsToSupport
                 : forward_static_call($this->associatableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
 
             $this->setOptionsFromModels($models, $resourceClass);
+
+            $resource = isset($value) ? new $resourceClass($models->first()) : null;
+
+            $this->withMeta([
+                'belongsToManyResourceName' => $resource ? $resource::uriKey() : null,
+                'viewable' => $resource ? $resource->authorizedToView(request()) : false,
+            ]);
 
             return $value->map(fn ($model) => $model->{$this->keyName ?? $model->getKeyName()})->toArray();
         });
