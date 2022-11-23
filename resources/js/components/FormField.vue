@@ -582,6 +582,12 @@ $red500: #ef4444;
 
         .dark & {
           color: $slate400;
+
+          &--disabled {
+            color: $slate500 !important;
+            background-color: $slate800 !important;
+            opacity: 0.9;
+          }
         }
 
         &.multiselect__option--selected {
@@ -648,11 +654,11 @@ $red500: #ef4444;
   .multiselect--disabled {
     opacity: 0.7;
     .multiselect__tags {
-        background-color: rgba(var(--colors-gray-50));
-        color: rgba(var(--colors-gray-600));
-        .dark & {
-          background-color: rgba(var(--colors-gray-700));
-          color: rgba(var(--colors-gray-400));
+      background-color: rgba(var(--colors-gray-50));
+      color: rgba(var(--colors-gray-600));
+      .dark & {
+        background-color: rgba(var(--colors-gray-700));
+        color: rgba(var(--colors-gray-400));
       }
     }
   }

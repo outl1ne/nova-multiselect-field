@@ -6,10 +6,10 @@
       :href="$url(`/resources/${field.belongsToResourceName}/${field.value}`)"
       class="link-default no-underline font-bold dim"
     >
-      {{ field.belongsToDisplayValue }}
+      {{ value }}
     </Link>
     <span v-else-if="!field.asHtml">{{ value }}</span>
-    <span v-else-if="field.value">{{ field.value }}</span>
+    <span v-else-if="field.value" :html="field.value" />
     <span v-else>&mdash;</span>
   </div>
 </template>
@@ -39,8 +39,13 @@ export default {
 
         return this.__('novaMultiselect.nItemsSelected', { count: String(values.length || '') });
       } else {
-        const value = this.field.options.find(opt => String(opt.value) === String(this.field.value));
-        return (value && value.label) || '—';
+        // BelongsTo
+        if (this.field.belongsToResourceName && this.field.viewable && this.field.value) {
+          return this.limitIfNecessary(this.field.belongsToDisplayValue);
+        }
+
+        let value = this.field.options.find(opt => String(opt.value) === String(this.field.value));
+        return this.limitIfNecessary((value && value.label) || '—');
       }
     },
 
@@ -56,6 +61,18 @@ export default {
       // Set char limit to 9999 if we have value limit, but not char limit
       if (!!this.field.indexValueDisplayLimit && !this.field.indexCharDisplayLimit) return 9999;
       return this.field.indexCharDisplayLimit || 40;
+    },
+  },
+
+  methods: {
+    limitIfNecessary(value) {
+      if (!value) return value;
+
+      if (value.length > this.charDisplayLimit) {
+        value = value.slice(0, this.charDisplayLimit) + '...';
+      }
+
+      return value;
     },
   },
 };
