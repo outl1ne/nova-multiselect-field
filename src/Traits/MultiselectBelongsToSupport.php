@@ -37,9 +37,15 @@ trait MultiselectBelongsToSupport
             $value = $value->{$keyName} ?? null;
             $model = $resourceClass::newModel();
 
-            $models = isset($value)
-                ? collect([$model::where($keyName, $value)->first()])
-                : forward_static_call($this->associatableQueryCallable($request, $model, $resourceClass), $request, $model::query())->get();
+            if ($async) {
+                $models = isset($value) ? collect([$model::where($keyName, $value)->first()]) : collect();
+            } else {
+                $models = forward_static_call(
+                    $this->associatableQueryCallable($request, $model, $resourceClass),
+                    $request,
+                    $model::query()
+                )->limit(1000)->get();
+            }
 
             $this->setOptionsFromModels($models, $resourceClass);
 
