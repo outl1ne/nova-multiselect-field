@@ -17,7 +17,7 @@
           :value="selected"
           :options="currentField.apiUrl ? asyncOptions : computedOptions"
           :internal-search="!currentField.apiUrl"
-          :class="errorClasses"
+          :class="[errorClasses, { 'has-optiongroup': isOptionGroups }]"
           :disabled="currentField.readonly"
           :placeholder="currentField.placeholder || currentField.name"
           :close-on-select="currentField.max === 1 || !isMultiselect"
@@ -408,6 +408,7 @@ $slate600: #475569;
 $slate700: #334155;
 $slate800: #1e293b;
 $slate900: #0f172a;
+$slate1000: #070a13;
 
 $red400: #f87171;
 $red500: #ef4444;
@@ -419,6 +420,11 @@ $red500: #ef4444;
     border-radius: 0;
     background: none;
     display: block;
+    &.has-optiongroup {
+      .multiselect__option:not(.multiselect__option--group) {
+        padding-left: 24px;
+      }
+    }
   }
 
   .multiselect__tags {
@@ -590,6 +596,16 @@ $red500: #ef4444;
 
           .dark & {
             background-color: $slate900;
+          }
+        }
+
+        &.multiselect__option--group  {
+          color: rgba(var(--colors-primary-500));
+          background-color: $white;
+
+          .dark & {
+            color: $slate500 !important;
+            background-color: $slate1000 !important;
           }
         }
 
