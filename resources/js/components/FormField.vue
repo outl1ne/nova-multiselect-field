@@ -106,6 +106,7 @@ export default {
     distinctValues: [],
     isLoading: false,
     isInitialized: false,
+    asyncDependencies: [],
   }),
 
   mounted() {
@@ -124,13 +125,21 @@ export default {
         values.forEach(option => {
           if (!option) return;
 
-          Object.keys(this.field.dependsOnOptions[option.value] || {}).forEach(value => {
-            // Only add unique
-            if (newOptions.find(o => o.value === value)) return;
+          // Prepare params
+          if (this.field.apiUrl) {
+            this.asyncDependencies.push({
+              attribute: this.safeDependsOnAttribute,
+              value: option.value,
+            });
+          } else {
+            Object.keys(this.field.dependsOnOptions[option.value] || {}).forEach(value => {
+              // Only add unique
+              if (newOptions.find(o => o.value === value)) return;
 
-            let label = this.field.dependsOnOptions[option.value][value];
-            newOptions.push({ label, value });
-          });
+              let label = this.field.dependsOnOptions[option.value][value];
+              newOptions.push({ label, value });
+            });
+          }
         });
 
         this.options = newOptions;
@@ -319,7 +328,13 @@ export default {
     },
 
     fetchOptions: debounce(async function (search) {
-      const { data } = await Nova.request().get(`${this.field.apiUrl}`, { params: { search } });
+      let params = { search };
+      if (this.field.dependsOn) {
+        this.asyncDependencies.forEach(item => {
+          params[item.attribute.substring(item.attribute.search('__', item.attribute) + 2)] = item.value;
+        });
+      }
+      const { data } = await Nova.request().get(`${this.field.apiUrl}`, { params: params });
 
       // Response is not an array or an object
       if (typeof data !== 'object') throw new Error('Server response was invalid.');
