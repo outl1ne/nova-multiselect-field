@@ -119,7 +119,10 @@ trait MultiselectBelongsToSupport
                 'viewable' => $resource ? $resource->authorizedToView(request()) : false,
             ]);
 
-            return $value->map(fn ($model) => $model->{$this->keyName ?? $model->getKeyName()})->toArray();
+            return $value->map(function ($model) {
+                $tempKeyName = $this->keyName ?? $model->getKeyName();
+                return $model->$tempKeyName;
+            })->toArray();
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
