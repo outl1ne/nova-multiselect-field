@@ -214,17 +214,17 @@ export default {
       }
     },
 
-    fillIfVisible(formData) {
+    fillIfVisible(formData, attribute) {
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
           this.value.forEach((v, i) => {
-            formData.append(`${this.field.attribute}[${i}]`, v.value);
+            formData.append(attribute, v.value);
           });
         } else {
-          formData.append(this.field.attribute, '');
+          formData.append(attribute, '');
         }
       } else {
-        formData.append(this.field.attribute, (this.value && this.value.value) || '');
+        formData.append(attribute, (this.value && this.value.value) || '');
       }
     },
 
