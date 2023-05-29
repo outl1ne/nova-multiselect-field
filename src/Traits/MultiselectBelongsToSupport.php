@@ -2,6 +2,7 @@
 
 namespace Outl1ne\MultiselectField\Traits;
 
+use Exception;
 use RuntimeException;
 use Laravel\Nova\Nova;
 use Illuminate\Support\Str;
@@ -100,11 +101,22 @@ trait MultiselectBelongsToSupport
         $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
+            $request = app(NovaRequest::class);
+            $model = $resourceClass::newModel();
+
             if ($async) $this->associatableResource($resourceClass);
 
             $value = $value ?: collect();
-            $request = app(NovaRequest::class);
-            $model = $resourceClass::newModel();
+
+            // Default value support
+            if ($request->isCreateOrAttachRequest() && $value->isEmpty()) {
+                $defaultValue = $this->resolveDefaultValue($request);
+                $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
+                $defaultValue->each(function ($defaultValueItem) use ($model) {
+                    if (!$defaultValueItem instanceof $model) throw new Exception('Invalid default value. Value should be a single model or an array/collection of models.');
+                });
+                if ($defaultValue->isNotEmpty()) $value = $defaultValue;
+            }
 
             $models = $async
                 ? $value
