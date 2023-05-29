@@ -147,8 +147,12 @@ class Multiselect extends Field implements RelatableField
         }
 
         if ($defaultValue = $this->resolveDefaultValue($request)) {
-            $this->setOptionsFromModels($defaultValue, $this->resourceClass);
-            $this->value = $defaultValue->pluck($this->keyName ?? $this->resourceClass::newModel()->getKeyName());
+            if ($this->resourceClass) {
+                $this->setOptionsFromModels($defaultValue, $this->resourceClass);
+                $this->value = $defaultValue->pluck($this->keyName ?? $this->resourceClass::newModel()->getKeyName());
+            } else {
+                $this->value = $defaultValue;
+            }
         }
     }
 
