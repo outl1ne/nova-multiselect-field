@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.0] - 29-05-2023
+
+### Added
+
+- Added BelongsToMany default() support
+- Added Slovak language (thanks to [@wamesro](https://github.com/wamesro))
+
+### Changed
+
+- Fixed PHP arrow fn usage (thanks to [@Alvaro-Vidal-Azevedo-Pinheiro](https://github.com/Alvaro-Vidal-Azevedo-Pinheiro))
+- Fixed attribute usage when filling field (thanks to [@lonnylot](https://github.com/lonnylot))
+- Updated packages
+
 ## [4.2.3] - 23-11-2022
 
 ### Changed
