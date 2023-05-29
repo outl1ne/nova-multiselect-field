@@ -214,17 +214,17 @@ export default {
       }
     },
 
-    fillIfVisible(formData) {
+    fillIfVisible(formData, attribute) {
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
           this.value.forEach((v, i) => {
-            formData.append(`${this.field.attribute}[${i}]`, v.value);
+            formData.append(`${attribute}[${i}]`, v.value);
           });
         } else {
-          formData.append(this.field.attribute, '');
+          formData.append(attribute, '');
         }
       } else {
-        formData.append(this.field.attribute, (this.value && this.value.value) || '');
+        formData.append(attribute, (this.value && this.value.value) || '');
       }
     },
 
@@ -599,7 +599,7 @@ $red500: #ef4444;
           }
         }
 
-        &.multiselect__option--group  {
+        &.multiselect__option--group {
           color: rgba(var(--colors-primary-500));
           background-color: $white;
 
