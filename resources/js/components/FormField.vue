@@ -161,6 +161,9 @@ export default {
           });
           this.max = Math.max(...maxValues) || null;
         }
+
+        // Emit new value so fields down the line also get refreshed
+        Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
       });
     }
 
