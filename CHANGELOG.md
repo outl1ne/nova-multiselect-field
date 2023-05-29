@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added BelongsToMany default() support
+  - Default value should be a model or an array/collection of models
 - Added Slovak language (thanks to [@wamesro](https://github.com/wamesro))
 
 ### Changed
