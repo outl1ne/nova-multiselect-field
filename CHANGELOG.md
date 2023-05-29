@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fixed dependsOnOptions changes not propagating further than one layer down
 - Fixed PHP arrow fn usage (thanks to [@Alvaro-Vidal-Azevedo-Pinheiro](https://github.com/Alvaro-Vidal-Azevedo-Pinheiro))
 - Fixed attribute usage when filling field (thanks to [@lonnylot](https://github.com/lonnylot))
 - Updated packages
