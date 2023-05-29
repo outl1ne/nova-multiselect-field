@@ -2,6 +2,7 @@
 
 namespace Outl1ne\MultiselectField;
 
+use Closure;
 use Exception;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
@@ -64,12 +65,21 @@ class Multiselect extends Field implements RelatableField
         if (empty($path)) throw new Exception('Multiselect requires apiUrl, none provided.');
 
         $this->resourceKeyName($keyName);
+        $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) use ($resourceClass) {
-            $this->options([]);
-            $value = array_values((array)$value);
+            $request = app()->make(NovaRequest::class);
+            $model = $resourceClass::newModel();
 
-            if (empty($value)) return $value;
+            $this->options([]);
+            $value = array_values($value instanceof Collection ? $value->toArray() : (array)$value);
+
+            if (empty($value)) {
+                $defaultValue = $this->resolveDefaultValue($request);
+                if (!$defaultValue || $defaultValue->isEmpty()) return $value;
+
+                $value = $defaultValue->pluck($this->keyName ?? $model->getKeyName())->unique()->filter()->values();
+            }
 
             // Handle translatable/collection where values are an array of arrays
             if (is_array($value) && is_array($value[0] ?? null)) {
@@ -77,8 +87,7 @@ class Multiselect extends Field implements RelatableField
             }
 
             try {
-                $modelObj = $resourceClass::newModel();
-                $models = $modelObj::whereIn($this->keyName ?? $modelObj->getKeyName(), $value)->get();
+                $models = $model::whereIn($this->keyName ?? $model->getKeyName(), $value)->get();
 
                 $this->setOptionsFromModels($models, $resourceClass);
             } catch (Exception $e) {
@@ -129,6 +138,41 @@ class Multiselect extends Field implements RelatableField
             return $this->saveAsJSON || $isCastedToArray;
         }
         return false;
+    }
+
+    public function resolveForAction($request)
+    {
+        if (!is_null($this->value)) {
+            return;
+        }
+
+        if ($defaultValue = $this->resolveDefaultValue($request)) {
+            $this->setOptionsFromModels($defaultValue, $this->resourceClass);
+            $this->value = $defaultValue->pluck($this->keyName ?? $this->resourceClass::newModel()->getKeyName());
+        }
+    }
+
+    protected function resolveDefaultValue(NovaRequest $request)
+    {
+        if (!$this->resourceClass || !is_null($this->value)) return parent::resolveDefaultValue($request);
+
+        if ($request->isCreateOrAttachRequest() || $request->isActionRequest()) {
+            $model = $this->resourceClass::newModel();
+
+            if ($this->defaultCallback instanceof Closure) {
+                $defaultValue = call_user_func($this->defaultCallback, $request);
+            } else {
+                $defaultValue = $this->defaultCallback;
+            }
+
+            $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
+            $defaultValue->each(function ($defaultValueItem) use ($model) {
+                if (!$defaultValueItem instanceof $model) throw new Exception('Invalid default value. Value should be a single model or an array/collection of models.');
+            });
+            if ($defaultValue->isEmpty()) return null;
+
+            return $defaultValue;
+        }
     }
 
     /**

@@ -30,11 +30,18 @@ trait MultiselectBelongsToSupport
         $this->resourceClass = $resourceClass;
 
         $this->resolveUsing(function ($value) use ($async, $resourceClass) {
+            $request = app(NovaRequest::class);
             $keyName = $this->keyName ?? $resourceClass::newModel()->getKeyName();
 
             if ($async) $this->associatableResource($resourceClass);
 
-            $request = app(NovaRequest::class);
+            // Default value
+            if ($request->isCreateOrAttachRequest()) {
+                if ($value->isEmpty() && $defaultValue = $this->resolveDefaultValue($request)) {
+                    $value = $defaultValue->first();
+                }
+            }
+
             $value = $value->{$keyName} ?? null;
             $model = $resourceClass::newModel();
 
@@ -108,14 +115,9 @@ trait MultiselectBelongsToSupport
 
             $value = $value ?: collect();
 
-            // Default value support
-            if ($request->isCreateOrAttachRequest() && $value->isEmpty()) {
-                $defaultValue = $this->resolveDefaultValue($request);
-                $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
-                $defaultValue->each(function ($defaultValueItem) use ($model) {
-                    if (!$defaultValueItem instanceof $model) throw new Exception('Invalid default value. Value should be a single model or an array/collection of models.');
-                });
-                if ($defaultValue->isNotEmpty()) $value = $defaultValue;
+            // Default value
+            if ($request->isCreateOrAttachRequest()) {
+                if ($value->isEmpty()) $value = $this->resolveDefaultValue($request) ?? $value;
             }
 
             $models = $async
