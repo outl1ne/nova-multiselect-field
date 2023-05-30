@@ -78,7 +78,7 @@ export default {
           return {
             ...option,
             values: option.values.map(opt => {
-              const isDuplicate = allLabels.filter(l => l === opt.label).length > 1;
+              const isDuplicate = this.mode === 'form' ? false : allLabels.filter(l => l === opt.label).length > 1;
               return { ...opt, label: isDuplicate ? `${opt.label} (${option.label})` : opt.label };
             }),
           };

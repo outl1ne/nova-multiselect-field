@@ -102,7 +102,7 @@ export default {
 
   mixins: [HandlesValidationErrors, HandlesFieldValue, DependentFormField],
 
-  props: ['resourceName', 'resourceId', 'field'],
+  props: ['resourceName', 'resourceId', 'field', 'mode'],
 
   data: () => ({
     reorderMode: false,
