@@ -161,15 +161,18 @@ class Multiselect extends Field implements RelatableField
         if (!$this->resourceClass || !is_null($this->value)) return parent::resolveDefaultValue($request);
 
         if ($request->isCreateOrAttachRequest() || $request->isActionRequest()) {
-            $model = $this->resourceClass::newModel();
-
             if ($this->defaultCallback instanceof Closure) {
                 $defaultValue = call_user_func($this->defaultCallback, $request);
             } else {
                 $defaultValue = $this->defaultCallback;
             }
 
+            if (is_null($defaultValue)) return null;
+
             $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
+            $defaultValue = $defaultValue->filter();
+
+            $model = $this->resourceClass::newModel();
             $defaultValue->each(function ($defaultValueItem) use ($model) {
                 if (!$defaultValueItem instanceof $model) throw new Exception('Invalid default value. Value should be a single model or an array/collection of models.');
             });
