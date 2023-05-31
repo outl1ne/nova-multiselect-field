@@ -215,6 +215,9 @@ export default {
       } else {
         this.value = this.getValueFromOptions(this.currentField.value);
       }
+
+      // Emit new value so fields down the line also get refreshed
+      this.currentField.value = !this.value ? '' : this.isMultiselect ? this.value.map(v => v.value) : this.value.value;
     },
 
     fillIfVisible(formData, attribute) {
