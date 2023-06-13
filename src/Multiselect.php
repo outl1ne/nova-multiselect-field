@@ -170,7 +170,14 @@ class Multiselect extends Field implements RelatableField
             if (is_null($defaultValue)) return null;
 
             $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
-            $defaultValue = $defaultValue->filter();
+            $defaultValue = $defaultValue->filter(function ($val) {
+                if (empty($val)) return false;
+                if (is_object($val) && $class = get_class($val)) {
+                    if ($class === 'Laravel\Nova\Support\UndefinedValue') return false;
+                }
+                return true;
+            });
+
 
             $model = $this->resourceClass::newModel();
             $defaultValue->each(function ($defaultValueItem) use ($model) {
@@ -180,6 +187,8 @@ class Multiselect extends Field implements RelatableField
 
             return $defaultValue;
         }
+
+        return parent::resolveDefaultValue($request);
     }
 
     /**
