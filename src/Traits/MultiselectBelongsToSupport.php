@@ -37,7 +37,7 @@ trait MultiselectBelongsToSupport
 
             // Default value
             if ($request->isCreateOrAttachRequest()) {
-                if ($value->isEmpty() && $defaultValue = $this->resolveDefaultValue($request)) {
+                if ((is_null($value) || $value->isEmpty()) && $defaultValue = $this->resolveDefaultValue($request)) {
                     $value = $defaultValue->first();
                 }
             }
@@ -117,7 +117,7 @@ trait MultiselectBelongsToSupport
 
             // Default value
             if ($request->isCreateOrAttachRequest()) {
-                if ($value->isEmpty()) $value = $this->resolveDefaultValue($request) ?? $value;
+                if (is_null($value) || $value->isEmpty()) $value = $this->resolveDefaultValue($request) ?? $value;
             }
 
             $models = $async
