@@ -139,7 +139,7 @@ trait MultiselectBelongsToSupport
         });
 
         $this->fillUsing(function ($request, $model, $requestAttribute, $attribute) {
-            $model::saved(function ($model) use ($attribute, $request) {
+            return function () use ($model, $attribute, $request) {
                 // Validate
                 if (!method_exists($model, $attribute)) {
                     throw new RuntimeException("{$model}::{$attribute} must be a relation method.");
@@ -153,7 +153,7 @@ trait MultiselectBelongsToSupport
 
                 // Sync
                 $relation->sync($request->get($attribute) ?: []);
-            });
+            };
         });
 
         return $this;
