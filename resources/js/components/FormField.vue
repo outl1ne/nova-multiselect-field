@@ -221,10 +221,6 @@ export default {
     },
 
     fillIfVisible(formData, attribute) {
-      // if (!this.field.visible) {
-      //   return;
-      // }
-
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
           this.value.forEach((v, i) => {
