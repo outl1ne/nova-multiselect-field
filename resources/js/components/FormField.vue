@@ -32,7 +32,7 @@
           selectedLabel=""
           deselectLabel=""
           deselectGroupLabel=""
-          :tagPlaceholder="`${__('novaMultiselect.tagPlaceholder')}`"
+          tagPlaceholder=""
           :clearOnSelect="currentField.clearOnSelect || false"
           :taggable="currentField.taggable || false"
           @tag="addTag"
