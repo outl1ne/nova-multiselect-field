@@ -231,7 +231,7 @@ export default {
             formData.append(`${attribute}[${i}]`, v.value);
           });
         } else {
-          formData.append(attribute, '');
+          formData.append(attribute, null);
         }
       } else {
         formData.append(attribute, (this.value && this.value.value) || null);
