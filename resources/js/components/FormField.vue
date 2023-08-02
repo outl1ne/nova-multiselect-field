@@ -190,6 +190,10 @@ export default {
       return this.value || [];
     },
 
+    isVisible() {
+      return this.visible;
+    },
+
     flexibleKey() {
       const flexRegex = /^([a-zA-Z0-9]+)(?=__)/;
       const match = this.field.attribute.match(flexRegex);
@@ -221,6 +225,10 @@ export default {
     },
 
     fillIfVisible(formData, attribute) {
+      if (!this.isVisible()) {
+        return;
+      }
+
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
           this.value.forEach((v, i) => {
