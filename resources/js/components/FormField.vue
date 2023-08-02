@@ -191,7 +191,7 @@ export default {
     },
 
     isVisible() {
-      return this.visible;
+      return this.field.visible;
     },
 
     flexibleKey() {
