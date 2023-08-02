@@ -30,6 +30,7 @@
           :loading="isLoading"
           selectGroupLabel=""
           selectedLabel=""
+          :tagPlaceholder="__('novaMultiselect.tagPlaceholder')"
           deselectLabel=""
           deselectGroupLabel=""
           :clearOnSelect="currentField.clearOnSelect || false"
