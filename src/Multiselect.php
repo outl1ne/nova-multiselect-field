@@ -21,7 +21,7 @@ class Multiselect extends Field implements RelatableField
     protected $saveAsJSON = false;
     protected $keyName = null;
 
-    protected $visible = true;
+    public $visible = true;
 
     /**
      * Sets the options available for select.
