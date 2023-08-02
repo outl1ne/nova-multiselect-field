@@ -225,6 +225,7 @@ export default {
     },
 
     fillIfVisible(formData, attribute) {
+        console.log(this.field)
       if (!this.isVisible()) {
         return;
       }
