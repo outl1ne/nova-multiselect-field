@@ -190,10 +190,6 @@ export default {
       return this.value || [];
     },
 
-    isVisible() {
-      return this.field.visible;
-    },
-
     flexibleKey() {
       const flexRegex = /^([a-zA-Z0-9]+)(?=__)/;
       const match = this.field.attribute.match(flexRegex);
@@ -226,7 +222,7 @@ export default {
 
     fillIfVisible(formData, attribute) {
         console.log(this.field)
-      if (!this.isVisible()) {
+      if (!this.field.visible) {
         return;
       }
 
