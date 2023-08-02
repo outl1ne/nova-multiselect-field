@@ -222,6 +222,9 @@ export default {
 
     fillIfVisible(formData, attribute) {
         console.log(this.field)
+      if (!this.field.visible) {
+        return;
+      }
 
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
@@ -232,7 +235,7 @@ export default {
           formData.append(attribute, '');
         }
       } else {
-        formData.append(attribute, (this.value && this.value.value) || null);
+        formData.append(attribute, (this.value && this.value.value) || '');
       }
     },
 
