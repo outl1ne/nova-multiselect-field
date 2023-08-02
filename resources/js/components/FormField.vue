@@ -32,7 +32,7 @@
           selectedLabel=""
           deselectLabel=""
           deselectGroupLabel=""
-          :tagPlaceholder="__('novaMultiselect.tagPlaceholder')"
+          :tagPlaceholder="getTagPlaceholder"
           :clearOnSelect="currentField.clearOnSelect || false"
           :taggable="currentField.taggable || false"
           @tag="addTag"
@@ -209,6 +209,10 @@ export default {
   },
 
   methods: {
+      getTagPlaceholder() {
+          return __('novaMultiselect.tagPlaceholder') ?? ''
+      },
+
     setInitialValue() {
       if (this.isMultiselect) {
         const valuesArray = this.getInitialFieldValuesArray();
