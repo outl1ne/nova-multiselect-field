@@ -21,6 +21,8 @@ class Multiselect extends Field implements RelatableField
     protected $saveAsJSON = false;
     protected $keyName = null;
 
+    protected $visible = true;
+
     /**
      * Sets the options available for select.
      *
@@ -234,6 +236,22 @@ class Multiselect extends Field implements RelatableField
     public function optionsLimit($optionsLimit)
     {
         return $this->withMeta(['optionsLimit' => $optionsLimit]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function show()
+    {
+        return $this->withMeta(['visible' => true]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function hide()
+    {
+        return $this->withMeta(['visible' => false]);
     }
 
     /**
