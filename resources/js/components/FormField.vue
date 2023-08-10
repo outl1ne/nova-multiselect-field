@@ -30,6 +30,7 @@
           :loading="isLoading"
           selectGroupLabel=""
           selectedLabel=""
+          tagPlaceholder=""
           deselectLabel=""
           deselectGroupLabel=""
           :clearOnSelect="currentField.clearOnSelect || false"
@@ -227,10 +228,10 @@ export default {
             formData.append(`${attribute}[${i}]`, v.value);
           });
         } else {
-          formData.append(attribute, '');
+          formData.append(attribute, null);
         }
       } else {
-        formData.append(attribute, (this.value && this.value.value) || '');
+        formData.append(attribute, (this.value && this.value.value) || null);
       }
     },
 
