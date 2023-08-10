@@ -156,7 +156,7 @@ class Multiselect extends Field implements RelatableField
         }
     }
 
-    protected function resolveDefaultValue(NovaRequest $request)
+    public function resolveDefaultValue(NovaRequest $request)
     {
         if (!$this->resourceClass || !is_null($this->value)) return parent::resolveDefaultValue($request);
 
