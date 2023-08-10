@@ -230,10 +230,10 @@ export default {
             formData.append(`${attribute}[${i}]`, v.value);
           });
         } else {
-          formData.append(attribute, null);
+          formData.append(attribute, '');
         }
       } else {
-        formData.append(attribute, (this.value && this.value.value) || null);
+        formData.append(attribute, (this.value && this.value.value) || '');
       }
     },
 
