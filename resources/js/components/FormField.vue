@@ -206,6 +206,10 @@ export default {
       if (!flexibleKey) return this.field.optionsDependOn;
       return `${flexibleKey}__${this.field.optionsDependOn}`;
     },
+
+    currentlyIsVisible() {
+      return this.currentField.visible;
+    },
   },
 
   methods: {
@@ -222,7 +226,7 @@ export default {
     },
 
     fillIfVisible(formData, attribute) {
-      if (!this.isVisible) return;
+      if (!this.currentlyIsVisible) return;
 
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
