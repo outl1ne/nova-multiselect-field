@@ -222,7 +222,7 @@ export default {
     },
 
     fillIfVisible(formData, attribute) {
-      if (!this.isVisible) return;
+      if (!this.currentlyIsVisible) return;
 
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
