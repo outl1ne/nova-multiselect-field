@@ -5,6 +5,7 @@ namespace Workbench\App\Providers;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use NovaKit\NovaDevTool\Nova;
+use Orchestra\Workbench\Workbench;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
