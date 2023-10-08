@@ -16,7 +16,7 @@
     "cross-env": "^7.0.3",
     "form-backend-validation": "^2.4.0",
     "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.17",
+    "postcss": "^8.4.31",
     "postcss-import": "^15.0.0",
     "prettier": "^2.7.1",
     "resolve-url-loader": "^5.0.0",
