@@ -313,6 +313,16 @@ export default {
         const { top, height, bottom } = el.getBoundingClientRect();
         if (onOpen) ms.$refs.list.scrollTop = 0;
 
+        // Find parent with 'fixed' class
+        let parent = el.parentElement;
+        let fixedModal = void 0;
+        if (document.querySelectorAll('.fixed.modal').length > 0) {
+          while (parent && !fixedModal) {
+            if (parent.classList.contains('fixed')) fixedModal = parent;
+            parent = parent.parentElement;
+          }
+        }
+
         const fromBottom = (window.innerHeight || document.documentElement.clientHeight) - bottom;
 
         ms.$refs.list.style.position = 'fixed';
@@ -323,8 +333,11 @@ export default {
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
           ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
         } else {
+          const adjustedTop = fixedModal
+            ? top - (parseInt(window.getComputedStyle(fixedModal)['padding-top']) || 0)
+            : top;
           ms.$refs.list.style.bottom = 'auto';
-          ms.$refs.list.style.top = `${top + height}px`;
+          ms.$refs.list.style.top = `${adjustedTop + height}px`;
           ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
         }
       };
