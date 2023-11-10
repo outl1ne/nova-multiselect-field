@@ -4,38 +4,38 @@
       <div class="outl1ne-multiselect-field flex flex-col">
         <!-- Multi select field -->
         <multiselect
-          v-if="!reorderMode"
-          @input="handleChange"
-          @open="handleOpen"
-          @search-change="tryToFetchOptions"
-          track-by="value"
-          label="label"
-          :group-label="isOptionGroups ? 'label' : void 0"
-          :group-values="isOptionGroups ? 'values' : void 0"
-          :group-select="currentField.groupSelect || false"
-          ref="multiselect"
-          :value="selected"
-          :options="currentField.apiUrl ? asyncOptions : computedOptions"
-          :internal-search="!currentField.apiUrl"
-          :class="[errorClasses, { 'has-optiongroup': isOptionGroups }]"
-          :disabled="currentField.readonly"
-          :placeholder="currentField.placeholder || currentField.name"
-          :close-on-select="currentField.max === 1 || !isMultiselect"
-          :multiple="isMultiselect"
-          :max="max || currentField.max || null"
-          :optionsLimit="currentField.optionsLimit || 1000"
-          :limit="currentField.limit"
-          :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
-          selectLabel=""
-          :loading="isLoading"
-          selectGroupLabel=""
-          selectedLabel=""
-          tagPlaceholder=""
-          deselectLabel=""
-          deselectGroupLabel=""
-          :clearOnSelect="currentField.clearOnSelect || false"
-          :taggable="currentField.taggable || false"
-          @tag="addTag"
+            v-if="!reorderMode"
+            @input="handleChange"
+            @open="handleOpen"
+            @search-change="tryToFetchOptions"
+            track-by="value"
+            label="label"
+            :group-label="isOptionGroups ? 'label' : void 0"
+            :group-values="isOptionGroups ? 'values' : void 0"
+            :group-select="currentField.groupSelect || false"
+            ref="multiselect"
+            :value="selected"
+            :options="currentField.apiUrl ? asyncOptions : computedOptions"
+            :internal-search="!currentField.apiUrl"
+            :class="[errorClasses, { 'has-optiongroup': isOptionGroups }]"
+            :disabled="currentField.readonly"
+            :placeholder="currentField.placeholder || currentField.name"
+            :close-on-select="currentField.max === 1 || !isMultiselect"
+            :multiple="isMultiselect"
+            :max="max || currentField.max || null"
+            :optionsLimit="currentField.optionsLimit || 1000"
+            :limit="currentField.limit"
+            :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
+            selectLabel=""
+            :loading="isLoading"
+            selectGroupLabel=""
+            selectedLabel=""
+            tagPlaceholder=""
+            deselectLabel=""
+            deselectGroupLabel=""
+            :clearOnSelect="currentField.clearOnSelect || false"
+            :taggable="currentField.taggable || false"
+            @tag="addTag"
         >
           <template #maxElements>
             {{ __('novaMultiselect.maxElements', { max: String(currentField.max || '') }) }}
@@ -51,9 +51,9 @@
 
           <template #clear>
             <div
-              class="multiselect__clear"
-              v-if="currentField.nullable && (isMultiselect ? value.length : value)"
-              @mousedown.prevent.stop="value = isMultiselect ? [] : null"
+                class="multiselect__clear"
+                v-if="currentField.nullable && (isMultiselect ? value.length : value)"
+                @mousedown.prevent.stop="value = isMultiselect ? [] : null"
             />
           </template>
 
@@ -80,9 +80,9 @@
         </div>
 
         <div
-          v-if="currentField.reorderable"
-          class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
-          @click="reorderMode = !reorderMode"
+            v-if="currentField.reorderable"
+            class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
+            @click="reorderMode = !reorderMode"
         >
           {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
         </div>
@@ -210,7 +210,12 @@ export default {
 
   methods: {
     setInitialValue() {
-      if (this.isMultiselect) {
+      if (this.isOptionGroups) {
+        const valuesArray = this.options.map((option) => {
+          return option.values.filter((subOption) => { return subOption.selected }
+          )});
+        this.value = valuesArray.flat();
+      } else if (this.isMultiselect) {
         const valuesArray = this.getInitialFieldValuesArray();
         this.value = valuesArray && valuesArray.length ? valuesArray.map(this.getValueFromOptions).filter(Boolean) : [];
       } else {
@@ -251,8 +256,8 @@ export default {
       this.$nextTick(() => this.repositionDropdown());
       Nova.$emit(`multiselect-${this.field.attribute}-input`, this.value);
       this.emitFieldValueChange(
-        this.field.attribute,
-        !this.value ? '' : this.isMultiselect ? this.value.map(v => v.value) : this.value.value
+          this.field.attribute,
+          !this.value ? '' : this.isMultiselect ? this.value.map(v => v.value) : this.value.value
       );
     },
 
@@ -334,8 +339,8 @@ export default {
           ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
         } else {
           const adjustedTop = fixedModal
-            ? top - (parseInt(window.getComputedStyle(fixedModal)['padding-top']) || 0)
-            : top;
+              ? top - (parseInt(window.getComputedStyle(fixedModal)['padding-top']) || 0)
+              : top;
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${adjustedTop + height}px`;
           ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
