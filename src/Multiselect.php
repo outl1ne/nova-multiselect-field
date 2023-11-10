@@ -43,7 +43,7 @@ class Multiselect extends Field implements RelatableField
                 })
                 ->groupBy('group')
                 ->map(function ($value, $key) {
-                    return ['label' => $key, 'values' => $value->map->only(['label', 'value'])->toArray()];
+                    return ['label' => $key, 'values' => $value->map->only(['label', 'value', 'selected'])->toArray()];
                 })
                 ->values()
                 ->toArray();
