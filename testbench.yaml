@@ -2,6 +2,7 @@ providers:
   - Laravel\Nova\NovaCoreServiceProvider
   - Workbench\App\Providers\NovaServiceProvider
   - Inertia\ServiceProvider
+  - Outl1ne\MultiselectField\FieldServiceProvider
 
 migrations:
   - workbench/database/migrations
