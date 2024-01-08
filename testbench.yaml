@@ -1,6 +1,7 @@
 providers:
   - Laravel\Nova\NovaCoreServiceProvider
   - Workbench\App\Providers\NovaServiceProvider
+  - Inertia\ServiceProvider
 
 migrations:
   - workbench/database/migrations
@@ -18,6 +19,8 @@ workbench:
   assets:
     - nova-assets
   sync: []
+  discoverss:
+    web: true
 
 purge:
   directories:

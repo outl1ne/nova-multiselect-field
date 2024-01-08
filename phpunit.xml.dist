@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd"
+  backupGlobals="false"
+  bootstrap="vendor/autoload.php"
+  colors="true"
+  processIsolation="false"
+  stopOnFailure="false"
+  cacheDirectory=".phpunit.cache"
+  backupStaticProperties="false">
+  <coverage includeUncoveredFiles="false" />
+  <testsuites>
+    <!-- <testsuite name="Feature"> -->
+    <!--   <directory suffix="Test.php">./tests/Feature</directory> -->
+    <!-- </testsuite> -->
+    <!-- <testsuite name="Unit"> -->
+    <!--   <directory suffix="Test.php">./tests/Unit</directory> -->
+    <!-- </testsuite> -->
+    <testsuite name="Browser">
+      <directory suffix="Test.php">./tests/Browser</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="APP_ENV" value="testing" />
+    <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF" />
+    <env name="DB_CONNECTION" value="sqlite" />
+  </php>
+</phpunit>
