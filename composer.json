@@ -1,89 +1,87 @@
 {
-    "name": "outl1ne/nova-multiselect-field",
-    "description": "A multiple select field for Laravel Nova.",
-    "keywords": [
-        "laravel",
-        "nova",
-        "multiselect",
-        "select"
-    ],
-    "authors": [
-        {
-            "name": "Tarvo Reinpalu",
-            "email": "tarvoreinpalu@gmail.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Optimist Digital",
-            "email": "info@optimistdigital.com",
-            "role": "Maintainer"
-        }
-    ],
-    "license": "MIT",
-    "require": {
-        "php": ">=8.0",
-        "laravel/nova": "^4.27",
-        "nova-kit/nova-packages-tool": "^1.12",
-        "outl1ne/nova-translations-loader": "^5.0"
+  "name": "outl1ne/nova-multiselect-field",
+  "description": "A multiple select field for Laravel Nova.",
+  "keywords": [
+    "laravel",
+    "nova",
+    "multiselect",
+    "select"
+  ],
+  "authors": [
+    {
+      "name": "Tarvo Reinpalu",
+      "email": "tarvoreinpalu@gmail.com",
+      "role": "Developer"
     },
-    "require-dev": {
-        "laravel/dusk": "^7.12",
-        "nova-kit/nova-devtool": "^1.2.1",
-        "nunomaduro/collision": "^7.8",
-        "orchestra/testbench": "^8.19",
-        "orchestra/testbench-dusk": "^8.19"
-    },
-    "autoload": {
-        "psr-4": {
-            "Outl1ne\\MultiselectField\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Outl1ne\\MultiselectField\\FieldServiceProvider"
-            ]
-        }
-    },
-    "script": {
-        "post-autoload-dump": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ]
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
-        }
-    ],
-    "autoload-dev": {
-        "psr-4": {
-            "Outl1ne\\MultiselectField\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "@clear",
-            "@prepare",
-            "@dusk:install-chromedriver"
-        ],
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": "@php vendor/bin/testbench workbench:build --ansi",
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "@build",
-            "@php vendor/bin/testbench serve"
-        ],
-        "test": "@php vendor/bin/testbench package:test",
-        "dusk:install-chromedriver": "@php vendor/bin/dusk-updater detect --auto-update --ansi"
+    {
+      "name": "Optimist Digital",
+      "email": "info@optimistdigital.com",
+      "role": "Maintainer"
     }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=8.0",
+    "laravel/nova": "^4.27",
+    "nova-kit/nova-packages-tool": "^1.12",
+    "outl1ne/nova-translations-loader": "^5.0"
+  },
+  "require-dev": {
+    "nova-kit/nova-devtool": "^1.2.1",
+    "nunomaduro/collision": "^7.8",
+    "orchestra/testbench": "^8.19"
+  },
+  "autoload": {
+    "psr-4": {
+      "Outl1ne\\MultiselectField\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Outl1ne\\MultiselectField\\FieldServiceProvider"
+      ]
+    }
+  },
+  "script": {
+    "post-autoload-dump": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "autoload-dev": {
+    "psr-4": {
+      "Outl1ne\\MultiselectField\\Tests\\": "tests/",
+      "Workbench\\App\\": "workbench/app/",
+      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare",
+      "@dusk:install-chromedriver"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve"
+    ],
+    "test": "@php vendor/bin/testbench package:test",
+    "dusk:install-chromedriver": "@php vendor/bin/dusk-updater detect --auto-update --ansi"
+  }
 }
