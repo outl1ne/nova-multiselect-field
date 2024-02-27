@@ -383,6 +383,7 @@ class Multiselect extends Field implements RelatableField
         return $this->options(
             $models
                 ->mapInto($resourceClass)
+                ->filter()
                 ->mapWithKeys(function ($associatedResource) {
                     $keyName = $this->keyName ?? $associatedResource->getKeyName();
                     $resourceKey = $associatedResource->{$keyName};
