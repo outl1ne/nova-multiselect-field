@@ -55,9 +55,11 @@ trait MultiselectBelongsToSupport
                 )->limit(1000)->get();
             }
 
+            $models = $models->filter()->values();
+
             $this->setOptionsFromModels($models, $resourceClass);
 
-            $resource = isset($value) ? new $resourceClass($models->first()) : null;
+            $resource = isset($value) && $models->count() > 0 ? new $resourceClass($models->first()) : null;
             $this->withMeta([
                 'belongsToDisplayValue' => $resource ? (string) $resource->title() : null,
                 'belongsToResourceName' => $resource ? $resource::uriKey() : null,
