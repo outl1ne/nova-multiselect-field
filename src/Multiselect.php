@@ -392,7 +392,6 @@ class Multiselect extends Field implements RelatableField
                     return [$resourceKey => $associatedResource->title()];
                 })
                 ->filter()
-                ->values()
         );
     }
 
