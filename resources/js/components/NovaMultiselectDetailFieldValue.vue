@@ -4,7 +4,11 @@
     v-if="values"
   >
     <div v-if="field.belongsToManyResourceName && field.viewable" class="overflow-hidden">
-      <div v-for="(option, i) of values" :key="i" class="multiselect-detail-row border-b o1-border-gray-200 dark:o1-border-slate-800 o1-text-sm hover:o1-bg-slate-50 dark:hover:o1-bg-gray-800">
+      <div
+        v-for="(option, i) of values"
+        :key="i"
+        class="multiselect-detail-row border-b o1-border-gray-200 dark:o1-border-slate-800 o1-text-sm hover:o1-bg-slate-50 dark:hover:o1-bg-gray-800"
+      >
         <Link
           class="link-default block o1-py-1 o1-px-2"
           :href="$url(`/resources/${field.belongsToManyResourceName}/${field.value[i]}`)"
