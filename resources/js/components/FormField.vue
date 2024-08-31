@@ -64,6 +64,10 @@
           <template #tag="{ option, remove }">
             <form-multiselect-field-tag :option="option" :remove="remove" />
           </template>
+          
+          <slot name="option" :option="option" :search="search" :index="index">
+            <span>{{ value ? value.label : '' }}</span>
+          </template>
         </multiselect>
 
         <!-- Reorder mode field -->
