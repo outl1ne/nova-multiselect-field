@@ -65,7 +65,7 @@
             <form-multiselect-field-tag :option="option" :remove="remove" />
           </template>
           
-          <slot name="option" :option="option" :search="search" :index="index">
+          <template #option="{ option, search, index }">
             <form-multiselect-field-option :option="option" :search="search" :index="index" />
           </template>
         </multiselect>
