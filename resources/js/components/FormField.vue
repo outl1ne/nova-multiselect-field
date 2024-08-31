@@ -66,7 +66,7 @@
           </template>
           
           <slot name="option" :option="option" :search="search" :index="index">
-            <span>{{ value ? value.label : '' }}</span>
+            <form-multiselect-field-option :option="option" :search="search" :index="index" />
           </template>
         </multiselect>
 
