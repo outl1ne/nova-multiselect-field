@@ -7,7 +7,7 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Requirements
 
-- `php: >=8.1`
+- `php: >=8.0`
 - `laravel/nova: ^4.1`
 
 ## Features
@@ -21,13 +21,9 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 
 ## Screenshots
 
-![Detail View](docs/detail.png)
+![Detail View](docs/detail-light.jpeg)
 
-![Form View](docs/form.png)
-
-![Index View](docs/index.png)
-
-![Reorder GIF](docs/reorder.gif)
+![Form View](docs/form-dark.jpeg)
 
 ## Installation
 
@@ -90,7 +86,7 @@ In this example (from Nova docs), all values are grouped by the `group` key:
 
 ### Dependencies
 
-You can make a Multiselect depend on another by using `dependsOn`. This also requires specifying `->dependsOnOptions()`. The value from the `dependsOn` Multiselect has to be the key to the options and the value must be a key-value dictionary of options as usual.
+You can make a Multiselect depend on another by using `optionsDependOn`. The value from the `optionsDependOn` Multiselect has to be the key to the options and the value must be a key-value dictionary of options as usual.
 
 Usage:
 
@@ -102,8 +98,7 @@ Multiselect::make('Country', 'country')
     ]),
 
 Multiselect::make('Language', 'language')
-    ->dependsOn('country')
-    ->dependsOnOptions([
+    ->optionsDependOn('country', [
         'IT' => [
             'it' => 'Italian',
         ],
@@ -115,7 +110,7 @@ Multiselect::make('Language', 'language')
     ]),
 
     // Optionally define max number of values
-    ->dependsOnMax([
+    ->optionsDependOnMax([
         'IT' => 1,
         'SG' => 3,
     ])
@@ -161,8 +156,7 @@ Possible options you can pass to the field using the option name as a function, 
 | `optionsLimit`             | Number                    | 1000            | The maximum number of options displayed at once. Other options are still accessible through searching.                                                                                            |
 | `nullable`                 | Boolean                   | false           | If the field is nullable an empty select will result in `null` else an empty array (`[]`) is stored.                                                                                              |
 | `reorderable`              | Boolean                   | false           | Enables (or disables) the reordering functionality of the multiselect field.                                                                                                                      |
-| `dependsOn`                | String                    | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
-| `dependsOnOptions`         | Array                     | null            | Determines the options for `dependsOn`. See example above on how to format it correctly.                                                                                                          |
+| `optionsDependOn`          | String, Array             | null            | Determines which Multiselect this field depends on.                                                                                                                                               |
 | `belongsToMany`            | String (Resource)         | null            | Allows the Multiselect to function as a BelongsToMany field.                                                                                                                                      |
 | `belongsTo`                | String (Resource)         | null            | Allows the Multiselect to function as a BelongsTo field.                                                                                                                                          |
 | `taggable`                 | Boolean                   | false           | Makes the Multiselet to support tags (dynamically entered values).                                                                                                                                |
@@ -217,6 +211,39 @@ import NovaMultiselectDetailFieldValue from './NovaMultiselectDetailFieldValue';
 
 Nova.booting((Vue, router, store) => {
   Vue.component('nova-multiselect-detail-field-value', NovaMultiselectDetailFieldValue);
+});
+```
+
+## Overwriting the form tag field
+
+You can overwrite the tag template in the form-field component to customize it as you see fit.
+
+Create a new component for `FormFieldTag` and register it in your `app.js`. The component receives two props: `option` and `remove`. The `option` prop is an object with, for example, the `label`.
+
+```js
+// in FormFieldTag.vue
+
+<template>
+  <span class="multiselect__tag">
+    <span>{{ option.label.trim() }}</span>
+    <i class="multiselect__tag-icon" @click="remove(option)"></i>
+  </span>
+</template>
+
+<script>
+export default {
+  props: ['option', 'remove'],
+};
+</script>
+```
+
+```js
+// in app.js
+
+import FormFieldTag from './FormFieldTag';
+
+Nova.booting((Vue, router, store) => {
+  Vue.component('form-multiselect-field-tag', FormFieldTag);
 });
 ```
 

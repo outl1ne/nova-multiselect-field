@@ -1,0 +1,11 @@
+{
+  "novaMultiselect.maxElements": "Označené maximum z :max.",
+  "novaMultiselect.noResult": "Neboli nájdené žiadne výsledky.",
+  "novaMultiselect.noOptions": "Zoznam je prázdny.",
+  "novaMultiselect.limitText": "a :count ďalšie",
+  "novaMultiselect.placeholder": "Vyberte položky",
+  "novaMultiselect.nItemsSelected": ":count zvolené položky",
+  "novaMultiselect.reorder": "Zmeniť poradie",
+  "novaMultiselect.doneReordering": "Dokončiť zmenu poradia",
+  "novaMultiSelect.startTypingForOptions": "Začnite písať pre zobrazenie položiek"
+}

@@ -2,21 +2,24 @@
 
 namespace Outl1ne\MultiselectField;
 
+use Closure;
 use Exception;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Contracts\RelatableField;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\SupportsDependentFields;
 use Outl1ne\MultiselectField\Traits\MultiselectBelongsToSupport;
 
 class Multiselect extends Field implements RelatableField
 {
-    use MultiselectBelongsToSupport;
+    use MultiselectBelongsToSupport, SupportsDependentFields;
 
     public $component = 'multiselect-field';
 
     protected $pageResponseResolveCallback;
     protected $saveAsJSON = false;
+    protected $keyName = null;
 
     /**
      * Sets the options available for select.
@@ -60,16 +63,27 @@ class Multiselect extends Field implements RelatableField
         ]);
     }
 
-    public function api($path, $resourceClass)
+    public function api($path, $resourceClass, $keyName = null)
     {
         if (empty($resourceClass)) throw new Exception('Multiselect requires resourceClass, none provided.');
         if (empty($path)) throw new Exception('Multiselect requires apiUrl, none provided.');
 
-        $this->resolveUsing(function ($value) use ($resourceClass) {
-            $this->options([]);
-            $value = array_values((array)$value);
+        $this->resourceKeyName($keyName);
+        $this->resourceClass = $resourceClass;
 
-            if (empty($value)) return $value;
+        $this->resolveUsing(function ($value) use ($resourceClass) {
+            $request = app()->make(NovaRequest::class);
+            $model = $resourceClass::newModel();
+
+            $this->options([]);
+            $value = array_values($value instanceof Collection ? $value->toArray() : (array)$value);
+
+            if (empty($value)) {
+                $defaultValue = $this->resolveDefaultValue($request);
+                if (!$defaultValue || $defaultValue->isEmpty()) return $value;
+
+                $value = $defaultValue->pluck($this->keyName ?? $model->getKeyName())->unique()->filter()->values();
+            }
 
             // Handle translatable/collection where values are an array of arrays
             if (is_array($value) && is_array($value[0] ?? null)) {
@@ -77,8 +91,7 @@ class Multiselect extends Field implements RelatableField
             }
 
             try {
-                $modelObj = $resourceClass::newModel();
-                $models = $modelObj::whereIn($modelObj->getKeyName(), $value)->get();
+                $models = $model::whereIn($this->keyName ?? $model->getKeyName(), $value)->get();
 
                 $this->setOptionsFromModels($models, $resourceClass);
             } catch (Exception $e) {
@@ -90,10 +103,10 @@ class Multiselect extends Field implements RelatableField
         return $this->withMeta(['apiUrl' => $path, 'labelKey' => $resourceClass::$title]);
     }
 
-    public function asyncResource($resourceClass)
+    public function asyncResource($resourceClass, $keyName = null)
     {
         $apiUrl = "/nova-api/{$resourceClass::uriKey()}";
-        return $this->api($apiUrl, $resourceClass);
+        return $this->api($apiUrl, $resourceClass, $keyName);
     }
 
     protected function resolveAttribute($resource, $attribute)
@@ -123,12 +136,63 @@ class Multiselect extends Field implements RelatableField
 
     private function shouldSaveAsJson($model, $attribute)
     {
-        if (!is_array($model) && method_exists($model, 'getCasts')) {
+        if (!empty($model) && !is_array($model) && method_exists($model, 'getCasts')) {
             $casts = $model->getCasts();
             $isCastedToArray = ($casts[$attribute] ?? null) === 'array';
             return $this->saveAsJSON || $isCastedToArray;
         }
         return false;
+    }
+
+    public function resolveForAction($request)
+    {
+        if (!is_null($this->value)) {
+            return;
+        }
+
+        if ($defaultValue = $this->resolveDefaultValue($request)) {
+            if ($this->resourceClass) {
+                $this->setOptionsFromModels($defaultValue, $this->resourceClass);
+                $this->value = $defaultValue->pluck($this->keyName ?? $this->resourceClass::newModel()->getKeyName());
+            } else {
+                $this->value = $defaultValue;
+            }
+        }
+    }
+
+    public function resolveDefaultValue(NovaRequest $request)
+    {
+        if (!$this->resourceClass || !is_null($this->value)) return parent::resolveDefaultValue($request);
+
+        if ($request->isCreateOrAttachRequest() || $request->isActionRequest()) {
+            if ($this->defaultCallback instanceof Closure) {
+                $defaultValue = call_user_func($this->defaultCallback, $request);
+            } else {
+                $defaultValue = $this->defaultCallback;
+            }
+
+            if (is_null($defaultValue)) return null;
+
+            $defaultValue = is_countable($defaultValue) ? collect($defaultValue) : collect([$defaultValue]);
+            $defaultValue = $defaultValue->filter(function ($val) {
+                if (empty($val)) return false;
+                if (is_object($val) && $class = get_class($val)) {
+                    if ($class === 'Laravel\Nova\Support\UndefinedValue') return false;
+                }
+                return true;
+            });
+
+
+            $model = $this->resourceClass::newModel();
+            $defaultValue->each(function ($defaultValueItem) use ($model) {
+                if (!$defaultValueItem instanceof $model) throw new Exception('Invalid default value. Value should be a single model or an array/collection of models.');
+            });
+            if ($defaultValue->isEmpty()) return null;
+
+            return $defaultValue;
+        }
+
+        return parent::resolveDefaultValue($request);
     }
 
     /**
@@ -188,14 +252,15 @@ class Multiselect extends Field implements RelatableField
     }
 
     /**
-     * Enables or disables taggable of the field values.
+     * Set custom key name for model.
      *
-     * @param bool $reorderable
+     * @param string|null $keyName
      * @return \Outl1ne\MultiselectField\Multiselect
      **/
-    public function taggable($taggable = true)
+    public function resourceKeyName($keyName = null)
     {
-        return $this->withMeta(['taggable' => $taggable]);
+        $this->keyName = $keyName;
+        return $this;
     }
 
     /**
@@ -209,6 +274,11 @@ class Multiselect extends Field implements RelatableField
     public function singleSelect($singleSelect = true)
     {
         return $this->withMeta(['singleSelect' => $singleSelect]);
+    }
+
+    public function taggable($taggable = true)
+    {
+        return $this->withMeta(['taggable' => $taggable]);
     }
 
     /**
@@ -314,10 +384,19 @@ class Multiselect extends Field implements RelatableField
      */
     public function setOptionsFromModels(Collection $models, $resourceClass)
     {
-        $options = $models->mapInto($resourceClass)->mapWithKeys(function ($associatedResource) {
-            return [$associatedResource->getKey() => $associatedResource->title()];
-        });
-        $this->options($options);
+        return $this->options(
+            $models
+                ->mapInto($resourceClass)
+                ->mapWithKeys(function ($associatedResource) {
+                    $keyName = $this->keyName ?? ($associatedResource ? $associatedResource->getKeyName() : null);
+                    if (!$keyName) return null;
+
+                    $resourceKey = $associatedResource->{$keyName};
+
+                    return [$resourceKey => $associatedResource->title()];
+                })
+                ->filter()
+        );
     }
 
     /**
