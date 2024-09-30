@@ -24,7 +24,7 @@ trait MultiselectBelongsToSupport
      * @param string $resourceClass The Nova Resource class for the other model.
      * @return \Outl1ne\MultiselectField\Multiselect
      **/
-    public function belongsTo($resourceClass, $async = true)
+    public function belongsTo($resourceClass, $async = false)
     {
         $this->singleSelect();
         $this->resourceClass = $resourceClass;
