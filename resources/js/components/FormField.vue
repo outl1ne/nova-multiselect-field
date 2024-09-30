@@ -419,22 +419,6 @@ export default {
 </script>
 
 <style lang="scss">
-$white: #fff;
-$slate50: #f8fafc;
-$slate100: #f1f5f9;
-$slate200: #e2e8f0;
-$slate300: #cbd5e1;
-$slate400: #94a3b8;
-$slate500: #64748b;
-$slate600: #475569;
-$slate700: #334155;
-$slate800: #1e293b;
-$slate900: #0f172a;
-$slate1000: #070a13;
-
-$red400: #f87171;
-$red500: #ef4444;
-
 .outl1ne-multiselect-field {
   .multiselect {
     min-height: 36px;
@@ -452,63 +436,57 @@ $red500: #ef4444;
   .multiselect__tags {
     --tw-border-opacity: 1;
     border-width: 1px;
-
-    border-color: $slate300;
-    background-color: $white;
-    color: $slate600;
+    min-height: 18px;
+    min-height: 2.25rem;
+    border-radius: 0.25rem;
 
     padding: 6px 56px 0 6px;
-    min-height: 36px;
-
-    border-radius: 4px;
     overflow: hidden;
+    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 
     .dark & {
-      border-color: $slate700;
-      background-color: $slate900;
-      color: $slate400;
+      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
   }
 
   .multiselect__input {
     border: none;
-    border-color: rgba(var(--colors-gray-100), var(--tw-border-opacity));
-    background-color: $white;
-    color: rgba(var(--colors-gray-400));
-
-    font-size: 14px;
-    line-height: 14px;
-
-    padding-left: 8px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-500), var(--tw-text-opacity));
 
     .dark & {
-      background-color: $slate900;
-      color: $slate400;
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
   }
 
   .multiselect__tag {
     background-color: rgba(var(--colors-primary-500));
-    color: $white;
     font-weight: 600;
-
-    /* .dark & {
-      color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
-    } */
-
     padding: 4px 24px 4px 8px;
     margin: 1px 8px 1px 0;
+    color: rgba(var(--colors-white));
+    --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
     .multiselect__tag-icon {
       &::after {
-        color: $white;
+        color: rgba(var(--colors-white));
       }
 
       &:hover {
         background: rgba(var(--colors-primary-500));
 
         &::after {
-          color: $red500;
+          color: rgba(var(--colors-red-500));
         }
       }
     }
@@ -530,32 +508,27 @@ $red500: #ef4444;
   }
 
   .multiselect__single {
-    background-color: $white;
-    color: $slate600;
-
-    font-size: 14px;
-    line-height: 18px;
-    font-weight: 700;
     min-height: 18px;
+    color: rgba(var(--colors-gray-600));
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 
-    padding-top: 2px;
-    padding-left: 8px;
-
-    color: $slate600;
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
     .dark & {
-      color: rgba(var(--colors-gray-400));
-      background-color: $slate900;
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
   }
 
   .multiselect__spinner {
-    background-color: $white;
-    color: $slate600;
+    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
+    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
     .dark & {
-      background-color: $slate900;
-      color: $slate400;
+      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
+      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
     }
 
     &:before,
@@ -565,75 +538,71 @@ $red500: #ef4444;
   }
 
   .multiselect__content-wrapper {
-    border-color: $slate300;
-    transition: none;
+    border-color: rgb(var(--colors-gray-300));
 
     .dark & {
-      border-color: $slate700;
+      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
     }
 
     li > span.multiselect__option {
-      background-color: #fff;
-      color: $slate400;
-
       min-height: 32px;
       font-size: 14px;
       line-height: 14px;
+      background-color: #fff;
+      color: rgba(var(--colors-gray-400));
 
       .dark & {
-        background-color: $slate900;
+        background-color: rgba(var(--colors-gray-900));
       }
     }
 
     .multiselect__element {
-      background-color: $white;
-      color: $slate600;
+      background-color: rgba(var(--colors-white));
+      color: rgba(var(--colors-gray-600));
 
       .dark & {
-        background-color: $slate900;
-        color: $slate400;
+        background-color: rgba(var(--colors-gray-900));
+        color: rgba(var(--colors-gray-400));
       }
 
       .multiselect__option {
-        color: $slate600;
-
         padding: 8px 12px;
         min-height: 32px;
         font-size: 14px;
         line-height: 14px;
+        color: rgba(var(--colors-gray-600));
 
         .dark & {
-          color: $slate400;
-
           &--disabled {
-            color: $slate500 !important;
-            background-color: $slate800 !important;
+            color: rgba(var(--colors-gray-500)) !important;
+            background-color: rgba(var(--colors-gray-800)) !important;
             opacity: 0.9;
           }
+          color: rgba(var(--colors-gray-400));
         }
 
         &.multiselect__option--selected {
-          color: rgba(var(--colors-primary-500));
-          background-color: $white;
+          color: rgba(var(--colors-primary-400));
+          background-color: rgba(var(--colors-white));
 
           .dark & {
-            background-color: $slate900;
+            background-color: rgba(var(--colors-gray-900));
           }
         }
 
         &.multiselect__option--group {
           color: rgba(var(--colors-primary-500));
-          background-color: $white;
+          background-color: rgba(var(--colors-white));
 
           .dark & {
-            color: $slate500 !important;
-            background-color: $slate1000 !important;
+            color: rgba(var(--colors-gray-500)) !important;
+            background-color: rgba(var(--colors-gray-900)) !important;
           }
         }
 
         &.multiselect__option--highlight {
           background-color: rgba(var(--colors-primary-500));
-          color: $white;
+          color: rgba(var(--colors-white));
 
           &::after {
             background-color: rgba(var(--colors-primary-500));
@@ -641,10 +610,10 @@ $red500: #ef4444;
           }
 
           &.multiselect__option--selected {
-            background-color: $red400;
+            background-color: rgba(var(--colors-primary-500));
 
             .dark & {
-              background-color: $red400;
+              background-color: rgba(var(--colors-primary-400));
             }
           }
         }
@@ -654,7 +623,7 @@ $red500: #ef4444;
 
   .reorder__tag {
     background-color: rgba(var(--colors-primary-500));
-    border-radius: 5px;
+    border-radius: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -698,10 +667,10 @@ $red500: #ef4444;
     line-height: 16px;
     cursor: default;
 
-    color: #475569;
+    color: rgba(var(--colors-gray-400));
 
     .dark & {
-      color: #64748b;
+      color: rgba(var(--colors-gray-300));
     }
   }
 
