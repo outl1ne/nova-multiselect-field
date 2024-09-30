@@ -496,7 +496,7 @@ export default {
     &::before,
     &::after {
       width: 2px;
-      background: rgba(var(--colors-gray-400));
+      background: rgb(var(--colors-gray-400));
     }
 
     &:hover {
@@ -549,7 +549,7 @@ export default {
       font-size: 14px;
       line-height: 14px;
       background-color: #fff;
-      color: rgba(var(--colors-gray-400));
+      color: rgb(var(--colors-gray-400));
 
       .dark & {
         background-color: rgba(var(--colors-gray-900));
@@ -562,7 +562,7 @@ export default {
 
       .dark & {
         background-color: rgba(var(--colors-gray-900));
-        color: rgba(var(--colors-gray-400));
+        color: rgb(var(--colors-gray-400));
       }
 
       .multiselect__option {
@@ -578,7 +578,7 @@ export default {
             background-color: rgba(var(--colors-gray-800)) !important;
             opacity: 0.9;
           }
-          color: rgba(var(--colors-gray-400));
+          color: rgb(var(--colors-gray-400));
         }
 
         &.multiselect__option--selected {
@@ -649,7 +649,7 @@ export default {
       color: rgba(var(--colors-gray-600));
       .dark & {
         background-color: rgba(var(--colors-gray-700));
-        color: rgba(var(--colors-gray-400));
+        color: rgb(var(--colors-gray-400));
       }
     }
   }
@@ -667,7 +667,7 @@ export default {
     line-height: 16px;
     cursor: default;
 
-    color: rgba(var(--colors-gray-400));
+    color: rgb(var(--colors-gray-400));
 
     .dark & {
       color: rgba(var(--colors-gray-300));
