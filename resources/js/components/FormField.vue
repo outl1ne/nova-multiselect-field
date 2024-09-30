@@ -523,6 +523,8 @@ export default {
   }
 
   .multiselect__spinner {
+    height: 32px;
+    width: 32px;
     background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
     color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
 
