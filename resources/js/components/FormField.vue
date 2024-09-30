@@ -1,7 +1,7 @@
 <template>
   <DefaultField :field="currentField" :showHelpText="showHelpText" :errors="errors">
     <template #field>
-      <div class="outl1ne-multiselect-field flex flex-col">
+      <div class="flex flex-col outl1ne-multiselect-field">
         <!-- Multi select field -->
         <multiselect
           v-if="!reorderMode"
@@ -67,11 +67,11 @@
         </multiselect>
 
         <!-- Reorder mode field -->
-        <div v-if="reorderMode" class="form-input-bordered py-1 px-2 rounded-lg">
+        <div v-if="reorderMode" class="px-2 py-1 rounded-md form-input-bordered">
           <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <VueDraggable v-model="value" tag="transition-group">
               <template #item="{ element }">
-                <li class="reorder__tag text-sm mb-1 px-2 py-1 text-white">
+                <li class="px-2 py-1 mb-1 text-sm text-white reorder__tag">
                   {{ element.label }}
                 </li>
               </template>
@@ -81,7 +81,7 @@
 
         <div
           v-if="currentField.reorderable"
-          class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
+          class="mt-2 ml-auto text-sm font-bold cursor-pointer text-primary dim"
           @click="reorderMode = !reorderMode"
         >
           {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
@@ -237,6 +237,17 @@ export default {
       }
     },
 
+    addTag(newTag) {
+      if (this.isTaggable) {
+        const parts = newTag.split(', ');
+        const tag = {
+          label: newTag,
+          value: newTag,
+        };
+        this.value.push(tag);
+      }
+    },
+
     handleChange(value) {
       // For some reason, after upgrading to Vue 3, this callback
       // Sometimes receives an InputEvent as an argument - my only
@@ -331,14 +342,14 @@ export default {
         if (fromBottom < 300) {
           ms.$refs.list.style.top = 'auto';
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
-          ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
+          ms.$refs.list.style['border-radius'] = '3px 3px 0 0';
         } else {
           const adjustedTop = fixedModal
             ? top - (parseInt(window.getComputedStyle(fixedModal)['padding-top']) || 0)
             : top;
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${adjustedTop + height}px`;
-          ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
+          ms.$refs.list.style['border-radius'] = '0 0 3px 3px';
         }
       };
 
