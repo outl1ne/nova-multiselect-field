@@ -67,7 +67,7 @@
         </multiselect>
 
         <!-- Reorder mode field -->
-        <div v-if="reorderMode" class="px-2 py-1 rounded-md form-input-bordered">
+        <div v-if="reorderMode" class="px-2 py-1 rounded-lg form-input-bordered">
           <ul class="flex flex-col pl-0" style="list-style: none; margin-top: 5px">
             <VueDraggable v-model="value" tag="transition-group">
               <template #item="{ element }">
@@ -237,17 +237,6 @@ export default {
       }
     },
 
-    addTag(newTag) {
-      if (this.isTaggable) {
-        const parts = newTag.split(', ');
-        const tag = {
-          label: newTag,
-          value: newTag,
-        };
-        this.value.push(tag);
-      }
-    },
-
     handleChange(value) {
       // For some reason, after upgrading to Vue 3, this callback
       // Sometimes receives an InputEvent as an argument - my only
@@ -342,14 +331,14 @@ export default {
         if (fromBottom < 300) {
           ms.$refs.list.style.top = 'auto';
           ms.$refs.list.style.bottom = `${fromBottom + height}px`;
-          ms.$refs.list.style['border-radius'] = '3px 3px 0 0';
+          ms.$refs.list.style['border-radius'] = '5px 5px 0 0';
         } else {
           const adjustedTop = fixedModal
             ? top - (parseInt(window.getComputedStyle(fixedModal)['padding-top']) || 0)
             : top;
           ms.$refs.list.style.bottom = 'auto';
           ms.$refs.list.style.top = `${adjustedTop + height}px`;
-          ms.$refs.list.style['border-radius'] = '0 0 3px 3px';
+          ms.$refs.list.style['border-radius'] = '0 0 5px 5px';
         }
       };
 
@@ -430,53 +419,96 @@ export default {
 </script>
 
 <style lang="scss">
+$white: #fff;
+$slate50: #f8fafc;
+$slate100: #f1f5f9;
+$slate200: #e2e8f0;
+$slate300: #cbd5e1;
+$slate400: #94a3b8;
+$slate500: #64748b;
+$slate600: #475569;
+$slate700: #334155;
+$slate800: #1e293b;
+$slate900: #0f172a;
+$slate1000: #070a13;
+
+$red400: #f87171;
+$red500: #ef4444;
+
 .outl1ne-multiselect-field {
+  .multiselect {
+    min-height: 36px;
+    border: none;
+    border-radius: 0;
+    background: none;
+    display: block;
+    &.has-optiongroup {
+      .multiselect__option:not(.multiselect__option--group) {
+        padding-left: 24px;
+      }
+    }
+  }
+
   .multiselect__tags {
     --tw-border-opacity: 1;
-    border-width: 0px;
+    border-width: 1px;
 
-    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    border-color: $slate300;
+    background-color: $white;
+    color: $slate600;
+
+    padding: 6px 56px 0 6px;
+    min-height: 36px;
+
+    border-radius: 4px;
+    overflow: hidden;
 
     .dark & {
-      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      border-color: $slate700;
+      background-color: $slate900;
+      color: $slate400;
     }
   }
 
   .multiselect__input {
     border: none;
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    border-color: rgba(var(--colors-gray-100), var(--tw-border-opacity));
+    background-color: $white;
+    color: rgba(var(--colors-gray-400));
+
+    font-size: 14px;
+    line-height: 14px;
+
+    padding-left: 8px;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      background-color: $slate900;
+      color: $slate400;
     }
   }
 
   .multiselect__tag {
     background-color: rgba(var(--colors-primary-500));
-    color: var(--colors-white) !important;
-    --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    font-weight: 700;
+    color: $white;
+    font-weight: 600;
 
     /* .dark & {
       color: rgba(var(--colors-gray-900), var(--tw-text-opacity));
     } */
 
+    padding: 4px 24px 4px 8px;
+    margin: 1px 8px 1px 0;
+
     .multiselect__tag-icon {
       &::after {
-        color: rgba(var(--colors-white));
+        color: $white;
       }
 
       &:hover {
-        background: rgba(var(--colors-primary-400));
+        background: rgba(var(--colors-primary-500));
 
         &::after {
-          color: rgba(var(--colors-primary-500));
+          color: $red500;
         }
       }
     }
@@ -492,28 +524,38 @@ export default {
     &:hover {
       &::before,
       &::after {
-        background: rgba(var(--colors-primary-400));
+        background: rgba(var(--colors-red-400));
       }
     }
   }
 
   .multiselect__single {
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    background-color: $white;
+    color: $slate600;
+
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+    min-height: 18px;
+
+    padding-top: 2px;
+    padding-left: 8px;
+
+    color: $slate600;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      color: rgba(var(--colors-gray-400));
+      background-color: $slate900;
     }
   }
 
   .multiselect__spinner {
-    background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-    color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+    background-color: $white;
+    color: $slate600;
 
     .dark & {
-      background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+      background-color: $slate900;
+      color: $slate400;
     }
 
     &:before,
@@ -523,60 +565,86 @@ export default {
   }
 
   .multiselect__content-wrapper {
-    border-color: rgba(var(--colors-gray-300), var(--tw-border-opacity));
+    border-color: $slate300;
+    transition: none;
 
     .dark & {
-      border-color: rgba(var(--colors-gray-700), var(--tw-border-opacity));
+      border-color: $slate700;
     }
 
     li > span.multiselect__option {
       background-color: #fff;
-      color: rgba(var(--colors-gray-400));
+      color: $slate400;
+
+      min-height: 32px;
+      font-size: 14px;
+      line-height: 14px;
 
       .dark & {
-        background-color: rgba(var(--colors-gray-900));
+        background-color: $slate900;
       }
     }
 
     .multiselect__element {
-      background-color: rgba(var(--colors-white), var(--tw-bg-opacity));
-      color: rgba(var(--colors-gray-600), var(--tw-text-opacity));
+      background-color: $white;
+      color: $slate600;
 
       .dark & {
-        background-color: rgba(var(--colors-gray-900), var(--tw-bg-opacity));
-        color: rgba(var(--colors-gray-400), var(--tw-text-opacity));
+        background-color: $slate900;
+        color: $slate400;
       }
 
       .multiselect__option {
-        color: rgba(var(--colors-gray-600));
+        color: $slate600;
+
+        padding: 8px 12px;
+        min-height: 32px;
+        font-size: 14px;
+        line-height: 14px;
 
         .dark & {
-          color: rgba(var(--colors-gray-400));
+          color: $slate400;
+
+          &--disabled {
+            color: $slate500 !important;
+            background-color: $slate800 !important;
+            opacity: 0.9;
+          }
         }
 
         &.multiselect__option--selected {
-          color: rgba(var(--colors-primary-400));
-          background-color: rgba(var(--colors-white));
+          color: rgba(var(--colors-primary-500));
+          background-color: $white;
 
           .dark & {
-            background-color: rgba(var(--colors-gray-900));
+            background-color: $slate900;
+          }
+        }
+
+        &.multiselect__option--group {
+          color: rgba(var(--colors-primary-500));
+          background-color: $white;
+
+          .dark & {
+            color: $slate500 !important;
+            background-color: $slate1000 !important;
           }
         }
 
         &.multiselect__option--highlight {
           background-color: rgba(var(--colors-primary-500));
-          color: rgba(var(--colors-white));
+          color: $white;
 
           &::after {
             background-color: rgba(var(--colors-primary-500));
-            font-weight: 700;
+            font-weight: 600;
           }
 
           &.multiselect__option--selected {
-            background-color: rgba(var(--colors-primary-400));
+            background-color: $red400;
 
             .dark & {
-              background-color: rgba(var(--colors-primary-200));
+              background-color: $red400;
             }
           }
         }
@@ -586,12 +654,12 @@ export default {
 
   .reorder__tag {
     background-color: rgba(var(--colors-primary-500));
-    border-radius: 3px;
+    border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 5px;
-    font-weight: 700;
+    font-weight: 600;
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -600,11 +668,49 @@ export default {
     }
   }
 
+  .multiselect__select {
+    height: 34px;
+    width: 32px;
+  }
+
+  .multiselect--disabled {
+    opacity: 0.7;
+    .multiselect__tags {
+      background-color: rgba(var(--colors-gray-50));
+      color: rgba(var(--colors-gray-600));
+      .dark & {
+        background-color: rgba(var(--colors-gray-700));
+        color: rgba(var(--colors-gray-400));
+      }
+    }
+  }
+
+  .multiselect--disabled .multiselect__current,
+  .multiselect--disabled .multiselect__select {
+    background: none;
+  }
+
+  .multiselect__placeholder {
+    margin-bottom: 8px;
+    padding-top: 0px;
+    padding-left: 8px;
+    min-height: 16px;
+    line-height: 16px;
+    cursor: default;
+
+    color: #475569;
+
+    .dark & {
+      color: #64748b;
+    }
+  }
+
   .multiselect__clear {
     position: absolute;
-    right: 41px;
-    height: 40px;
-    width: 40px;
+    right: 36px;
+    top: 8px;
+    height: 20px;
+    width: 20px;
     display: block;
     cursor: pointer;
     z-index: 2;
@@ -617,8 +723,11 @@ export default {
       width: 3px;
       height: 16px;
       background: #aaa;
-      top: 12px;
-      right: 4px;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
     }
 
     &::before {
