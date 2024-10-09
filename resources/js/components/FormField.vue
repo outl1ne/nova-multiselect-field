@@ -64,6 +64,10 @@
           <template #tag="{ option, remove }">
             <form-multiselect-field-tag :option="option" :remove="remove" />
           </template>
+          
+          <template #option="{ option, search, index }">
+            <form-multiselect-field-option :option="option" :search="search" :index="index" />
+          </template>
         </multiselect>
 
         <!-- Reorder mode field -->
