@@ -27,7 +27,9 @@
     "outl1ne/nova-translations-loader": "^5.0"
   },
   "require-dev": {
-    "nova-kit/nova-devtool": "^1.2.1"
+    "nova-kit/nova-devtool": "^1.2.1",
+    "nunomaduro/collision": "^7.8",
+    "orchestra/testbench": "^8.19"
   },
   "autoload": {
     "psr-4": {
@@ -59,6 +61,7 @@
   ],
   "autoload-dev": {
     "psr-4": {
+      "Outl1ne\\MultiselectField\\Tests\\": "tests/",
       "Workbench\\App\\": "workbench/app/",
       "Workbench\\Database\\Factories\\": "workbench/database/factories/",
       "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -73,8 +76,10 @@
     "prepare": "@php vendor/bin/testbench package:discover --ansi",
     "build": "@php vendor/bin/testbench workbench:build --ansi",
     "serve": [
+      "Composer\\Config::disableProcessTimeout",
       "@build",
       "@php vendor/bin/testbench serve"
-    ]
+    ],
+    "test": "@php vendor/bin/testbench package:test"
   }
 }
