@@ -336,7 +336,6 @@ export default {
         if (onOpen) ms.$refs.list.scrollTop = 0;
 
         const fromBottom = (window.innerHeight || document.documentElement.clientHeight) - bottom;
-        console.info(fromBottom);
 
         ms.$refs.list.style.position = 'absolute';
         ms.$refs.list.style.width = `${el.clientWidth + 1}px`;
