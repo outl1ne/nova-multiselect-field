@@ -1,5 +1,6 @@
 {
   "name": "optimistdigital/nova-multiselect-field",
+  "version": "2.4.3",
   "description": "A multiple select field for Laravel Nova.",
   "keywords": [
     "laravel",
@@ -21,9 +22,9 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.2.0",
+    "php": "^8.2",
     "laravel/nova": "^3.0",
-    "optimistdigital/nova-translations-loader": "^3.0.0"
+    "optimistdigital/nova-translations-loader": "^5.0.2"
   },
   "autoload": {
     "psr-4": {
