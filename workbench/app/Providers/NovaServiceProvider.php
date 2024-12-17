@@ -3,8 +3,8 @@
 namespace Workbench\App\Providers;
 
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\DevTool\DevTool;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use NovaKit\NovaDevTool\Nova;
 use Orchestra\Workbench\Workbench;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -26,7 +26,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function routes()
     {
-        Nova::routes()
+        DevTool::routes()
             ->withAuthenticationRoutes()
             ->withPasswordResetRoutes()
             ->register();

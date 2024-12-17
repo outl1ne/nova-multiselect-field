@@ -10,12 +10,12 @@
   "authors": [
     {
       "name": "Tarvo Reinpalu",
-      "email": "tarvoreinpalu@gmail.com",
+      "email": "tarvo@outl1ne.com",
       "role": "Developer"
     },
     {
-      "name": "Optimist Digital",
-      "email": "info@optimistdigital.com",
+      "name": "Outl1ne",
+      "email": "info@outl1ne.com",
       "role": "Maintainer"
     }
   ],
@@ -27,7 +27,6 @@
   },
   "require-dev": {
     "laravel/nova-devtool": "^1.0",
-    "nova-kit/nova-devtool": "^1.2.1",
     "nunomaduro/collision": "^7.8",
     "orchestra/testbench": "^8.19"
   },
