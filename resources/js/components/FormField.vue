@@ -23,7 +23,7 @@
           :placeholder="currentField.placeholder || currentField.name"
           :close-on-select="currentField.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
-          :max="max || currentField.max || null"
+          :max="isMultiselect ? (max || currentField.max || null) : null"
           :optionsLimit="currentField.optionsLimit || 1000"
           :limit="currentField.limit"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
@@ -85,7 +85,7 @@
         </div>
 
         <div
-          v-if="currentField.reorderable"
+          v-if="currentField.reorderable && isMultiselect"
           class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
           @click="reorderMode = !reorderMode"
         >
