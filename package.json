@@ -9,12 +9,12 @@
     "format": "prettier --write 'resources/**/*.{js,scss,vue}'"
   },
   "devDependencies": {
+    "laravel-nova-devtool": "file:vendor/laravel/nova-devtool",
     "@inertiajs/inertia": "^0.11.1",
     "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compiler-sfc": "^3.2.40",
     "axios": "^1.6.0",
     "cross-env": "^7.0.3",
-    "form-backend-validation": "^2.4.0",
     "laravel-mix": "^6.0.49",
     "postcss": "^8.4.17",
     "postcss-import": "^15.0.0",

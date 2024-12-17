@@ -21,12 +21,12 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=8.0",
-    "laravel/nova": "^4.32",
-    "nova-kit/nova-packages-tool": "^1.12",
+    "php": "^8.1",
+    "laravel/nova": "^5.0",
     "outl1ne/nova-translations-loader": "^5.0"
   },
   "require-dev": {
+    "laravel/nova-devtool": "^1.0",
     "nova-kit/nova-devtool": "^1.2.1",
     "nunomaduro/collision": "^7.8",
     "orchestra/testbench": "^8.19"
