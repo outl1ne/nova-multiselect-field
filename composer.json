@@ -1,84 +1,84 @@
 {
-    "name": "outl1ne/nova-multiselect-field",
-    "description": "A multiple select field for Laravel Nova.",
-    "keywords": [
-        "laravel",
-        "nova",
-        "multiselect",
-        "select"
-    ],
-    "authors": [
-        {
-            "name": "Tarvo Reinpalu",
-            "email": "tarvo@outl1ne.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Outl1ne",
-            "email": "info@outl1ne.com",
-            "role": "Maintainer"
-        }
-    ],
-    "license": "MIT",
-    "require": {
-        "php": "^8.1",
-        "laravel/nova": "^5.0",
-        "outl1ne/nova-translations-loader": "^5.0"
+  "name": "outl1ne/nova-multiselect-field",
+  "description": "A multiple select field for Laravel Nova.",
+  "keywords": [
+    "laravel",
+    "nova",
+    "multiselect",
+    "select"
+  ],
+  "authors": [
+    {
+      "name": "Tarvo Reinpalu",
+      "email": "tarvo@outl1ne.com",
+      "role": "Developer"
     },
-    "require-dev": {
-        "laravel/nova-devtool": "^1.0",
-        "nunomaduro/collision": "^7.8",
-        "orchestra/testbench": "^8.30|^9.8"
-    },
-    "autoload": {
-        "psr-4": {
-            "Outl1ne\\MultiselectField\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Outl1ne\\MultiselectField\\FieldServiceProvider"
-            ]
-        }
-    },
-    "script": {
-        "post-autoload-dump": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ]
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
-        }
-    ],
-    "autoload-dev": {
-        "psr-4": {
-            "Outl1ne\\MultiselectField\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "@clear",
-            "@prepare"
-        ],
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": "@php vendor/bin/testbench workbench:build --ansi",
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "@build",
-            "@php vendor/bin/testbench serve --ansi"
-        ],
-        "test": "@php vendor/bin/testbench package:test"
+    {
+      "name": "Outl1ne",
+      "email": "info@outl1ne.com",
+      "role": "Maintainer"
     }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "laravel/nova": "^5.0",
+    "outl1ne/nova-translations-loader": "^5.0"
+  },
+  "require-dev": {
+    "laravel/nova-devtool": "^1.0",
+    "nunomaduro/collision": "^7.8",
+    "orchestra/testbench": "^8.30|^9.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Outl1ne\\MultiselectField\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Outl1ne\\MultiselectField\\FieldServiceProvider"
+      ]
+    }
+  },
+  "script": {
+    "post-autoload-dump": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "autoload-dev": {
+    "psr-4": {
+      "Outl1ne\\MultiselectField\\Tests\\": "tests/",
+      "Workbench\\App\\": "workbench/app/",
+      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve --ansi"
+    ],
+    "test": "@php vendor/bin/testbench package:test"
+  }
 }
