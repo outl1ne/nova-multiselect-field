@@ -28,7 +28,7 @@
   "require-dev": {
     "laravel/nova-devtool": "^1.0",
     "nunomaduro/collision": "^7.8",
-    "orchestra/testbench": "^8.19"
+    "orchestra/testbench": "^8.30|^9.8"
   },
   "autoload": {
     "psr-4": {
@@ -77,7 +77,7 @@
     "serve": [
       "Composer\\Config::disableProcessTimeout",
       "@build",
-      "@php vendor/bin/testbench serve"
+      "@php vendor/bin/testbench serve --ansi"
     ],
     "test": "@php vendor/bin/testbench package:test"
   }
