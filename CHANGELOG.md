@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.1] - 18-12-2024
+
+### Changed
+
+- Allow Laravel Framework 11 during development (thanks to [@crynobone](https://github.com/crynobone))
+- Fixed reorder button showing with singleSelect() (thanks to [@crynobone](https://github.com/crynobone))
+- Removed dependencies covered by laravel/nova-devtool (thanks to [@crynobone](https://github.com/crynobone))
+
 ## [5.0.0] - 17-12-2024
 
 ### Added
