@@ -10,6 +10,10 @@ This [Laravel Nova](https://nova.laravel.com) package adds a multiselect to Nova
 - `php: ^8.1`
 - `laravel/nova: ^5.0`
 
+## Other Versions
+[`laravel/nova: ^4.0`](https://github.com/outl1ne/nova-multiselect-field/tree/nova-v4)<br>
+[`laravel/nova: ^3.0`](https://github.com/outl1ne/nova-multiselect-field/tree/nova-v3)
+
 ## Features
 
 - Multi- and singleselect with search
