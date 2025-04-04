@@ -59,8 +59,12 @@
           </template>
 
           <template #singleLabel>
-            <span>{{ value ? value.label : '' }}</span>
+            <span><div v-html="value ? value.label : ''" style="display: flex; flex-direction: row; align-items: center;"></div></span>
           </template>
+
+          <template #option="{ option }">
+                <div v-html="option.label" style="display: flex; flex-direction: row; align-items: center;"></div>
+            </template>
 
           <template #tag="{ option, remove }">
             <form-multiselect-field-tag :option="option" :remove="remove" />
