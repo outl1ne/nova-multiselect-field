@@ -8,3 +8,4 @@ phpunit.xml
 /.phpunit.cache
 .DS_Store
 Thumbs.db
+auth.json
