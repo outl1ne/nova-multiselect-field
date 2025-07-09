@@ -1,5 +1,7 @@
 <template>
-  <span>{{ option ? option.label : '' }}</span>
+  <span>
+    {{ option.$isLabel ? option.$groupLabel : option.label }}
+  </span>
 </template>
 <script>
 export default {
