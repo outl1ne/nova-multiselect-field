@@ -7,5 +7,6 @@
   "novaMultiselect.nItemsSelected": ":count valitud",
   "novaMultiselect.reorder": "Järjesta",
   "novaMultiselect.doneReordering": "Lõpeta järjestamine",
+  "novaMultiselect.selectAll": "Vali kõik",
   "novaMultiSelect.startTypingForOptions": "Alusta kirjutamist, et näha valikuid"
 }

@@ -248,6 +248,17 @@ class Multiselect extends Field implements RelatableField
     }
 
     /**
+     * Enables or disables the "Select all" button.
+     *
+     * @param bool $showSelectAll
+     * @return \Outl1ne\MultiselectField\Multiselect
+     **/
+    public function showSelectAll($showSelectAll = true)
+    {
+        return $this->withMeta(['showSelectAll' => $showSelectAll]);
+    }
+
+    /**
      * Set custom key name for model.
      *
      * @param string|null $keyName

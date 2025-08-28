@@ -7,5 +7,6 @@
   "novaMultiselect.nItemsSelected": ":count items sélectionnés",
   "novaMultiselect.reorder": "Réorganiser",
   "novaMultiselect.doneReordering": "Terminer la réorganisation",
+  "novaMultiselect.selectAll": "Tout sélectionner",
   "novaMultiSelect.startTypingForOptions": "Commencez à taper pour voir les options"
 }

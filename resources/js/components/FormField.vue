@@ -23,7 +23,7 @@
           :placeholder="currentField.placeholder || currentField.name"
           :close-on-select="currentField.max === 1 || !isMultiselect"
           :multiple="isMultiselect"
-          :max="isMultiselect ? (max || currentField.max || null) : null"
+          :max="isMultiselect ? max || currentField.max || null : null"
           :optionsLimit="currentField.optionsLimit || 1000"
           :limit="currentField.limit"
           :limitText="count => __('novaMultiselect.limitText', { count: String(count || '') })"
@@ -84,12 +84,21 @@
           </ul>
         </div>
 
-        <div
-          v-if="currentField.reorderable && isMultiselect"
-          class="ml-auto mt-2 text-sm font-bold text-primary cursor-pointer dim"
-          @click="reorderMode = !reorderMode"
-        >
-          {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
+        <div class="flex gap-4 ml-auto mt-2">
+          <div
+            v-if="currentField.showSelectAll && isMultiselect && !currentField.apiUrl"
+            class="text-sm font-bold text-primary cursor-pointer dim"
+            @click="selectAll"
+          >
+            {{ __('novaMultiselect.selectAll') }}
+          </div>
+          <div
+            v-if="currentField.reorderable && isMultiselect"
+            class="text-sm font-bold text-primary cursor-pointer dim"
+            @click="reorderMode = !reorderMode"
+          >
+            {{ __(reorderMode ? 'novaMultiselect.doneReordering' : 'novaMultiselect.reorder') }}
+          </div>
         </div>
       </div>
     </template>
@@ -425,6 +434,34 @@ export default {
     onSyncedField() {
       this.options = this.currentField.options || [];
       this.setInitialValue();
+    },
+
+    selectAll() {
+      if (!this.isMultiselect || this.currentField.apiUrl) return;
+
+      let allOptions = [];
+
+      if (this.isOptionGroups) {
+        // Handle option groups - flatten all options from all groups
+        allOptions = this.computedOptions.reduce((acc, group) => {
+          return acc.concat(group.values || []);
+        }, []);
+      } else {
+        // Handle regular options
+        allOptions = this.computedOptions;
+      }
+
+      // Filter out any options that are disabled due to distinct functionality
+      if (this.field.distinct && this.distinctValues.length > 0) {
+        allOptions = allOptions.filter(option => !this.distinctValues.includes(option.value));
+      }
+
+      // Respect max limit if set
+      if (this.currentField.max && allOptions.length > this.currentField.max) {
+        allOptions = allOptions.slice(0, this.currentField.max);
+      }
+
+      this.handleChange(allOptions);
     },
   },
 };

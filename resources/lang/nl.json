@@ -7,5 +7,6 @@
   "novaMultiselect.nItemsSelected": ":count items geselecteerd",
   "novaMultiselect.reorder": "Ordenen",
   "novaMultiselect.doneReordering": "Ordenen afgerond",
+  "novaMultiselect.selectAll": "Alles selecteren",
   "novaMultiSelect.startTypingForOptions": "Begin met typen om de opties te zien"
 }
