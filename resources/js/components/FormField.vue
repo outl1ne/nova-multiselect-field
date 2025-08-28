@@ -443,12 +443,12 @@ export default {
 
       if (this.isOptionGroups) {
         // Handle option groups - flatten all options from all groups
-        allOptions = this.computedOptions.reduce((acc, group) => {
+        allOptions = this.options.reduce((acc, group) => {
           return acc.concat(group.values || []);
         }, []);
       } else {
         // Handle regular options
-        allOptions = this.computedOptions;
+        allOptions = this.options;
       }
 
       // Filter out any options that are disabled due to distinct functionality

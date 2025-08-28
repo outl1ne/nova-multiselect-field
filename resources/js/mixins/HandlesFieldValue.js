@@ -70,6 +70,7 @@ export default {
     computedOptions() {
       // Return empty array if the multiselect has not been opened yet.
       if (!this.isInitialized) return [];
+
       let options = this.options || [];
 
       if (this.isOptionGroups) {
