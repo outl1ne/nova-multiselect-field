@@ -67,6 +67,10 @@ export default {
       );
     },
 
+    isRepeater() {
+      return this.nested && this.$parent && this.$parent.field && this.$parent.field.component === 'repeater-field';
+    },
+
     computedOptions() {
       // Return empty array if the multiselect has not been opened yet.
       if (!this.isInitialized) return [];

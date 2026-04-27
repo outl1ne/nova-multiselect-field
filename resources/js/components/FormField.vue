@@ -242,7 +242,11 @@ export default {
       if (this.isMultiselect) {
         if (this.value && this.value.length) {
           this.value.forEach((v, i) => {
-            formData.append(`${attribute}[${i}]`, v.value);
+            if(this.isRepeater) {
+              formData.append(`${attribute}][${i}`, v.value);
+            } else {
+              formData.append(`${attribute}[${i}]`, v.value);
+            }
           });
         } else {
           formData.append(attribute, '');
