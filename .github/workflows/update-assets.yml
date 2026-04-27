@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-  pull_request:
 
 jobs:
   update:
@@ -14,21 +13,25 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
-      - name: Setup Node 16
-        uses: actions/setup-node@v2
+      - name: Setup Node 24
+        uses: actions/setup-node@v6
         with:
-          node-version: '16.x'
+          node-version: '24.x'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
 
       - name: Compile Asset
         run: |
+          composer install
           npm ci
           npm run prod
-        env:
-          TAILWIND_MODE: build
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_message: Update Assets
+          commit_message: Update Assets (ci)

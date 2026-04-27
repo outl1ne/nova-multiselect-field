@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.2] - 27-04-2026
+
+### Changed
+
+- Added support for Laravel Nova native repeater fields (thanks to [@jan-tricks](https://github.com/jan-tricks))
+- Updated packages
+
 ## [5.1.1] - 28-08-2025
 
 ### Changed
