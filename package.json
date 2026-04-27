@@ -26,5 +26,8 @@
     "vue": "^3.5.0",
     "vue-multiselect": "^2.1.6",
     "vuedraggable": "^4.0.1"
+  },
+  "overrides": {
+    "webpack": "~5.74.0"
   }
 }
